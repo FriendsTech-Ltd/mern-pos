@@ -1,10 +1,10 @@
 
 import React from 'react';
 import {BrowserRouter, Route, Switch,Redirect } from 'react-router-dom'
-import NavBar from './Components/NavBar'
+import NavBar from './Components/layout/NavBar'
 import Home from './Pages/Home'
-import SignIn from './Pages/signIn'
-import SignUp from './Pages/signUp'
+import SignIn from './Components/Auth/SignIn'
+import SignUp from './Components/Auth/SignUp'
 
 import './App.css';
 
@@ -23,8 +23,8 @@ function App() {
                   <Switch>
                  
                     <Route exact path = '/' component={Home}/>
-                    <Route exact  path="/signin" component={SignIn}/>
-                    <Route exact  path="/signup" component={SignUp}/>
+                    <Route exact  path="/login" component={SignIn}/>
+                    <Route exact  path="/register" component={SignUp}/>
                  
                    
                   </Switch>
