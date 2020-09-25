@@ -8,6 +8,7 @@ import errorHandler from './middleware/errorHandler';
 
 // Routes files
 import test from './routes/test';
+import userRoute from './routes/userRoute';
 
 // Load env vars
 dotenv.config({ path: './config/config.env' });
@@ -27,6 +28,7 @@ if (process.env.NODE_ENV === 'development') {
 
 // Mount routers
 app.use('/api/test', test);
+app.use('/api/user/', userRoute);
 
 const PORT = process.env.PORT || 5000;
 
