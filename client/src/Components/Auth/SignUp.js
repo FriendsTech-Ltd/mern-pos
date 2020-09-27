@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useState } from 'react';
+
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -94,11 +95,11 @@ export default function SignUp() {
                 variant="outlined"
                 required
                 fullWidth
-                name="password"
-                label="Password"
+                name="c_password"
+                label="Confirm password"
                 type="password"
                 id="password"
-                autoComplete="current-password"
+                autoComplete=""
               />
             </Grid>
 
@@ -115,6 +116,31 @@ export default function SignUp() {
               />
             </Grid>
 
+            <Grid item xs={12}>
+              <TextField
+                size="small"
+                variant="outlined"
+                required
+                fullWidth
+                name="company_type"
+                label="Company Type"
+                id="company_type"
+                autoComplete=""
+              />
+            </Grid>
+
+            <Grid item xs={12}>
+              <TextField
+                size="small"
+                variant="outlined"
+                required
+                fullWidth
+                name="description"
+                label="Company Description"
+                id="description"
+                autoComplete=""
+              />
+            </Grid>
 
             <Grid item xs={12}>
               <FormControlLabel
