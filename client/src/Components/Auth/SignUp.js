@@ -13,7 +13,7 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
-import { Paper } from '@material-ui/core';
+import { Paper, MenuItem, Select, InputLabel, FormControl, TextareaAutosize} from '@material-ui/core';
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -39,6 +39,12 @@ const useStyles = makeStyles((theme) => ({
 export default function SignUp() {
   const classes = useStyles();
 
+  const [formData,setFormData]=useState({
+    companyName:"",
+    companyWoner:"",
+
+ 
+});
   return (
     <Container component="main" maxWidth="md">
       <Paper elevation={5} >
@@ -55,13 +61,13 @@ export default function SignUp() {
             <Grid item xs={12} sm={6}>
               <TextField
                 size="small"
-                autoComplete="fname"
-                name="firstName"
+                autoComplete="companyName"
+                name="companyName"
                 variant="outlined"
                 required
                 fullWidth
-                id="firstName"
-                label="First Name"
+                id="companyName"
+                label="Company Name"
                 autoFocus
               />
             </Grid>
@@ -71,10 +77,10 @@ export default function SignUp() {
                 variant="outlined"
                 required
                 fullWidth
-                id="lastName"
-                label="Last Name"
-                name="lastName"
-                autoComplete="lname"
+                id="comapnyWoner"
+                label="Company Woner"
+                name="comapnyWoner"
+                autoComplete="comapnyWoner"
               />
             </Grid>
             <Grid item xs={12}>
@@ -89,7 +95,51 @@ export default function SignUp() {
                 autoComplete="email"
               />
             </Grid>
+          
+
+  
             <Grid item xs={12}>
+            <FormControl variant="outlined" className={classes.formControl}>
+        <InputLabel id="demo-simple-select-outlined-label">Age</InputLabel>
+        <Select
+          labelId="demo-simple-select-outlined-label"
+          id="demo-simple-select-outlined"
+          size="small"
+          label="Age"
+        >
+          <MenuItem value="">
+            <em>None</em>
+          </MenuItem>
+          <MenuItem value={10}>Ten</MenuItem>
+          <MenuItem value={20}>Twenty</MenuItem>
+          <MenuItem value={30}>Thirty</MenuItem>
+        </Select>
+      </FormControl>
+        </Grid>
+
+      
+
+
+            <Grid item xs={12}>
+            <TextareaAutosize rows={6}
+            placeholder="Minimum 3 rows" />
+            </Grid>
+
+
+            <Grid item xs={12}>
+              <TextField
+                size="small"
+                variant="outlined"
+                required
+                fullWidth
+                name="password"
+                label="password"
+                type="password"
+                id="password"
+                autoComplete=""
+              />
+            </Grid>
+        <Grid item xs={12}>
               <TextField
                 size="small"
                 variant="outlined"
@@ -103,44 +153,6 @@ export default function SignUp() {
               />
             </Grid>
 
-            <Grid item xs={12}>
-              <TextField
-                size="small"
-                variant="outlined"
-                required
-                fullWidth
-                name="company_name"
-                label="Company Name"
-                id="company_name"
-                autoComplete=""
-              />
-            </Grid>
-
-            <Grid item xs={12}>
-              <TextField
-                size="small"
-                variant="outlined"
-                required
-                fullWidth
-                name="company_type"
-                label="Company Type"
-                id="company_type"
-                autoComplete=""
-              />
-            </Grid>
-
-            <Grid item xs={12}>
-              <TextField
-                size="small"
-                variant="outlined"
-                required
-                fullWidth
-                name="description"
-                label="Company Description"
-                id="description"
-                autoComplete=""
-              />
-            </Grid>
 
             <Grid item xs={12}>
               <FormControlLabel
