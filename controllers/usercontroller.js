@@ -7,7 +7,6 @@ import sendEmail from '../utils/sendEmail';
 
 // Get token from model, create cookie and send response
 const sendTokenResponse = (user, statusCode, res) => {
-
   // Create token
   const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
     expiresIn: process.env.JWT_EXPIRE,
@@ -57,12 +56,27 @@ export const verifyUser = asyncHandler(async (req, res) => {
 
 // login user
 export const loginUser = asyncHandler(async (req, res) => {
-  res.status(200).json({ success: true, data: 'user route okay' });
+  const { email, password } = req.body;
+
+  // Check for manager
+  const user = await UserModel.findOne({ email }).select('+password');
+  if (!user) {
+    return res.status(404).json({ success: false, msg: 'User not found' });
+  }
+
+  // Check if password match
+  const isMatch = await bcrypt.compare(password, user.password);
+  if (!isMatch) {
+    return res.status(404).json({ success: false, msg: 'Invalid credentials' });
+  }
+  return sendTokenResponse(user, 200, res);
 });
 
 // get user
 export const getUser = asyncHandler(async (req, res) => {
-  res.status(200).json({ success: true, data: 'user route okay' });
+  const user = await UserModel.findById(req.user.id);
+
+  res.status(200).json({ success: true, data: user });
 });
 
 // delete User
@@ -76,7 +90,7 @@ export const updateUser = asyncHandler(async (req, res) => {
 });
 
 // change password
-export const changePasswor = asyncHandler(async (req, res) => {
+export const changePassword = asyncHandler(async (req, res) => {
   res.status(200).json({ success: true, data: 'user route okay' });
 });
 
