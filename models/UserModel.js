@@ -1,17 +1,17 @@
-const mongoose = require('mongoose');
+import mongoose from 'mongoose';
 
 const userSchema = mongoose.Schema({
-  company_name: {
+  companyName: {
     type: String,
   },
-  name: {
+  companyOwner: {
     type: String,
   },
   email: {
     type: String,
     unique: true,
   },
-  company_type: {
+  companyType: {
     type: String,
   },
   description: {
@@ -29,5 +29,5 @@ const userSchema = mongoose.Schema({
   timestamps: true,
 });
 
-const User = mongoose.model('Auth', userSchema);
-module.exports = User;
+const User = mongoose.model('user', userSchema);
+export default User;

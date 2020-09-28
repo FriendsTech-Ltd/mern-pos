@@ -9,11 +9,14 @@ import {
   changePasswor,
   forgetPassword,
   resetPassword,
+  verifyUser,
 } from '../controllers/usercontroller';
 
 const router = express.Router();
 
-router.route('/').post(registerUser).get(loginUser).get(getUser);
+router.route('/').post(registerUser).get(loginUser);
+router.route('/verify/:registerToken').post(verifyUser);
+router.route('/me').get(getUser);
 router.route('/:id').delete(deleteUser).put(updateUser);
 router.route('/change-password').put(changePasswor);
 router.route('/forget').post(forgetPassword);
