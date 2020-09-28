@@ -27,7 +27,7 @@ const protect = asyncHandler(async (req, res, next) => {
     req.user = await UserModel.findById(decoded.id);
     next();
   } catch (err) {
-    return res.status(401).json({ success: false, data: err });
+    return res.status(401).json({ success: false, msg: 'Invalid token' });
   }
 });
 
