@@ -1,19 +1,82 @@
+import bcrypt from 'bcryptjs';
+import jwt from 'jsonwebtoken';
 import asyncHandler from '../middleware/async';
-// import UserModel from '../models/UserModel';
+import UserModel from '../models/UserModel';
+
+import sendEmail from '../utils/sendEmail';
+
+// Get token from model, create cookie and send response
+const sendTokenResponse = (user, statusCode, res) => {
+  // Create token
+  const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
+    expiresIn: process.env.JWT_EXPIRE,
+  });
+
+  res
+    .status(statusCode)
+    .json({ success: true, token });
+};
 
 // register user
 export const registerUser = asyncHandler(async (req, res) => {
-  res.status(200).json({ success: true, data: 'user route okay' });
+  const user = req.body;
+  const isUser = await UserModel.findOne({ email: user.email });
+  if (isUser) {
+    return res.status(400).json({ success: false, data: isUser });
+  }
+  // Create token
+  const registerToken = jwt.sign({ user }, process.env.JWT_SECRET, {
+    expiresIn: process.env.JWT_EXPIRE,
+  });
+
+  // Create reset URL
+  const verificationURL = `${req.protocol}://${req.get('host')}/api/auth/verify/${registerToken}`;
+
+  const message = `Please click the link below to complete your signup process on POS System: \n\n ${verificationURL}`;
+
+  await sendEmail({
+    email: user.email,
+    subject: 'POS account verification',
+    message,
+  });
+
+  res.status(200).json({ success: true, data: `Please check your email ${user.email} to complete signup process in order to use the application` });
+});
+
+// Verify user
+export const verifyUser = asyncHandler(async (req, res) => {
+  const token = req.params.registerToken;
+  const decoded = jwt.verify(token, process.env.JWT_SECRET);
+
+  const salt = await bcrypt.genSalt(10);
+  decoded.user.password = await bcrypt.hash(decoded.user.password, salt);
+  const user = await UserModel.create(decoded.user);
+  sendTokenResponse(user, 201, res);
 });
 
 // login user
 export const loginUser = asyncHandler(async (req, res) => {
-  res.status(200).json({ success: true, data: 'user route okay' });
+  const { email, password } = req.body;
+
+  // Check for manager
+  const user = await UserModel.findOne({ email }).select('+password');
+  if (!user) {
+    return res.status(404).json({ success: false, msg: 'User not found' });
+  }
+
+  // Check if password match
+  const isMatch = await bcrypt.compare(password, user.password);
+  if (!isMatch) {
+    return res.status(404).json({ success: false, msg: 'Invalid credentials' });
+  }
+  return sendTokenResponse(user, 200, res);
 });
 
 // get user
 export const getUser = asyncHandler(async (req, res) => {
-  res.status(200).json({ success: true, data: 'user route okay' });
+  const user = await UserModel.findById(req.user.id);
+
+  res.status(200).json({ success: true, data: user });
 });
 
 // delete User
@@ -27,7 +90,7 @@ export const updateUser = asyncHandler(async (req, res) => {
 });
 
 // change password
-export const changePasswor = asyncHandler(async (req, res) => {
+export const changePassword = asyncHandler(async (req, res) => {
   res.status(200).json({ success: true, data: 'user route okay' });
 });
 

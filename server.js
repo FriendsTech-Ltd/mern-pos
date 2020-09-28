@@ -28,7 +28,7 @@ if (process.env.NODE_ENV === 'development') {
 
 // Mount routers
 app.use('/api/test', test);
-app.use('/api/user/', userRoute);
+app.use('/api/auth/', userRoute);
 
 const PORT = process.env.PORT || 5000;
 
