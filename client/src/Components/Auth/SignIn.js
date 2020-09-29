@@ -2,7 +2,7 @@ import React,{useState} from 'react';
 import {Link} from 'react-router-dom'
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import {Grid,Box,Container, Avatar,Typography,makeStyles, Button,CssBaseline,TextField,FormControlLabel,Checkbox,Paper} from '@material-ui/core';
-
+import Navbar from '../layout/NavBar'
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -44,7 +44,8 @@ console.log({email, password});
 const onChange=e=>{setFormData({...formData,[e.target.name]:e.target.value});}
 
   return (
-
+    <div>
+    <Navbar/>
     <Container component="main" maxWidth="xs">
      <Paper elevation={5}>
      <CssBaseline />
@@ -111,5 +112,6 @@ const onChange=e=>{setFormData({...formData,[e.target.name]:e.target.value});}
       </Box>
      </Paper>
     </Container>
+    </div>
   );
 }

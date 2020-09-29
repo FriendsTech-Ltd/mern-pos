@@ -1,9 +1,8 @@
 import React, { useState } from 'react';
 import {Link} from 'react-router-dom'
-
 import {Grid,Box,Container, Avatar,Typography,makeStyles, Button,CssBaseline,TextField,FormControlLabel,Checkbox,Paper, MenuItem, Select, InputLabel, FormControl, TextareaAutosize} from '@material-ui/core';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
-
+import Navbar from '../layout/NavBar'
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -48,6 +47,9 @@ const onSubmit=e=>{
   const onChange=e=>{setFormData({...formData,[e.target.name]:e.target.value});} 
 
 return (
+  <div>
+    <Navbar/>
+
     <Container component="main" maxWidth="md">
       <Paper elevation={5} >
       <CssBaseline />
@@ -192,5 +194,6 @@ return (
       </Box>
       </Paper>
     </Container>
+    </div>
   );
 }
