@@ -16,11 +16,15 @@ import {
 const router = express.Router();
 
 router.route('/register').post(registerUser);
-router.route('/login').get(loginUser);
-router.route('/verify/:registerToken').get(verifyUser);
+router.route('/login').post(loginUser);
+router.route('/change-password').put(protect, changePassword);
 router.route('/me').get(protect, getUser);
-router.route('/:id').delete(protect, deleteUser).put(updateUser);
-router.route('/change-password').put(changePassword);
+
+router.route('/update/:id').put(protect, updateUser);
+router.route('/delete/:id').delete(protect, deleteUser);
+
+router.route('/verify/:registerToken').get(verifyUser);
+
 router.route('/forget').post(forgetPassword);
 router.route('/reset/:token').post(resetPassword);
 
