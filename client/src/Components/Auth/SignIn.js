@@ -1,18 +1,7 @@
-import React from 'react';
-import Avatar from '@material-ui/core/Avatar';
-import Button from '@material-ui/core/Button';
-import CssBaseline from '@material-ui/core/CssBaseline';
-import TextField from '@material-ui/core/TextField';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Checkbox from '@material-ui/core/Checkbox';
-import Link from '@material-ui/core/Link';
-import Grid from '@material-ui/core/Grid';
-import Box from '@material-ui/core/Box';
+import React,{useState} from 'react';
+import {Link} from 'react-router-dom'
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
-import Typography from '@material-ui/core/Typography';
-import { makeStyles } from '@material-ui/core/styles';
-import Container from '@material-ui/core/Container';
-import { Paper } from '@material-ui/core';
+import {Grid,Box,Container, Avatar,Typography,makeStyles, Button,CssBaseline,TextField,FormControlLabel,Checkbox,Paper} from '@material-ui/core';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -39,7 +28,23 @@ const useStyles = makeStyles((theme) => ({
 export default function SignIn() {
   const classes = useStyles();
 
+  const [formData,setFormData]=useState({
+    email:"",
+    password:"",
+ 
+});
+const {email,password}=formData
+
+const onSubmit=e=>{
+e.preventDefault();
+console.log({email, password});
+}
+
+
+const onChange=e=>{setFormData({...formData,[e.target.name]:e.target.value});}
+
   return (
+
     <Container component="main" maxWidth="xs">
      <Paper elevation={5}>
      <CssBaseline />
@@ -50,31 +55,31 @@ export default function SignIn() {
         <Typography component="h1" variant="h5">
           Sign in
         </Typography>
-        <form className={classes.form} noValidate>
+        <form className={classes.form} onSubmit={e=>onSubmit(e)}>
           <TextField
             size="small"
             variant="outlined"
             margin="normal"
             required
             fullWidth
-            id="email"
             label="Email Address"
             name="email"
-            autoComplete="email"
-            autoFocus
+            value={email}
+            onChange={e=> onChange(e)}
           />
-          <TextField
+           <TextField
             size="small"
+            type="password"
             variant="outlined"
             margin="normal"
             required
             fullWidth
-            name="password"
             label="Password"
-            type="password"
-            id="password"
-            autoComplete="current-password"
+            name="password"
+            value={password}
+            onChange={e=> onChange(e)}
           />
+        
           <FormControlLabel
             control={<Checkbox value="remember" color="primary" />}
             label="Remember me"
@@ -95,7 +100,7 @@ export default function SignIn() {
               </Link>
             </Grid>
             <Grid item>
-              <Link href="#" variant="body2">
+              <Link to="/register" variant="body2">
                 {"Don't have an account? Sign Up"}
               </Link>
             </Grid>

@@ -1,19 +1,9 @@
 import React, { useState } from 'react';
+import {Link} from 'react-router-dom'
 
-import Avatar from '@material-ui/core/Avatar';
-import Button from '@material-ui/core/Button';
-import CssBaseline from '@material-ui/core/CssBaseline';
-import TextField from '@material-ui/core/TextField';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Checkbox from '@material-ui/core/Checkbox';
-import Link from '@material-ui/core/Link';
-import Grid from '@material-ui/core/Grid';
-import Box from '@material-ui/core/Box';
+import {Grid,Box,Container, Avatar,Typography,makeStyles, Button,CssBaseline,TextField,FormControlLabel,Checkbox,Paper, MenuItem, Select, InputLabel, FormControl, TextareaAutosize} from '@material-ui/core';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
-import Typography from '@material-ui/core/Typography';
-import { makeStyles } from '@material-ui/core/styles';
-import Container from '@material-ui/core/Container';
-import { Paper } from '@material-ui/core';
+
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -39,7 +29,25 @@ const useStyles = makeStyles((theme) => ({
 export default function SignUp() {
   const classes = useStyles();
 
-  return (
+  const [formData,setFormData]=useState({
+    companyName:"",
+    companyOwner:"",
+    email:"",
+    companyType:"",
+    description:"",
+    password:"",
+    confirmPassword:""
+});
+
+const { companyName, companyOwner, email, companyType, description, password, confirmPassword} = formData
+const onSubmit=e=>{
+  e.preventDefault();
+  console.log({ companyName, companyOwner, email, companyType, description, password, confirmPassword})
+  }
+  
+  const onChange=e=>{setFormData({...formData,[e.target.name]:e.target.value});} 
+
+return (
     <Container component="main" maxWidth="md">
       <Paper elevation={5} >
       <CssBaseline />
@@ -50,102 +58,115 @@ export default function SignUp() {
         <Typography component="h1" variant="h5">
           Sign up
         </Typography>
-        <form className={classes.form} noValidate>
+        <form className={classes.form} onSubmit={e=>onSubmit(e)}>
           <Grid container spacing={2}>
             <Grid item xs={12} sm={6}>
               <TextField
                 size="small"
-                autoComplete="fname"
-                name="firstName"
+                name="companyName"
                 variant="outlined"
                 required
                 fullWidth
-                id="firstName"
-                label="First Name"
+                label="Company Name"
                 autoFocus
+                value={companyName}
+                onChange={e=> onChange(e)}
               />
             </Grid>
             <Grid item xs={12} sm={6}>
               <TextField
                 size="small"
+                name="companyOwner"
                 variant="outlined"
                 required
                 fullWidth
-                id="lastName"
-                label="Last Name"
-                name="lastName"
-                autoComplete="lname"
+                label="Company Owner"
+                autoFocus
+                value={companyOwner}
+                onChange={e=> onChange(e)}
               />
             </Grid>
+
+        
             <Grid item xs={12}>
               <TextField
                 size="small"
                 variant="outlined"
                 required
                 fullWidth
-                id="email"
                 label="Email Address"
                 name="email"
-                autoComplete="email"
+                value={email}
+                onChange={e=> onChange(e)}
               />
             </Grid>
+          
+
+  
+        <Grid item xs={12}>
+        <FormControl variant="outlined" className={classes.formControl}
+        style={{width:"100%"}}
+        size="small">
+        <InputLabel id="demo-simple-select-outlined-label">Business Type</InputLabel>
+        <Select
+          labelId="demo-simple-select-outlined-label"
+          label="Business Type"
+          name="companyType"
+          onChange={e=> onChange(e)}
+          required
+          
+        >
+          <MenuItem value="">
+            <em>None</em>
+          </MenuItem>
+          <MenuItem value='electronic'>Electronic</MenuItem>
+          <MenuItem value='mobile'>Mobile</MenuItem>
+          <MenuItem value='grocery'>Grocery</MenuItem>
+          <MenuItem value='hardware'>Hardware</MenuItem>
+          <MenuItem value='pharmacy'>Pharmacy</MenuItem>
+        </Select>
+      </FormControl>
+        </Grid>
             <Grid item xs={12}>
+            <TextareaAutosize rows={6}
+             style={{width:"100%"}}
+            placeholder="Type something about your company"
+            name="description"
+            value={description}
+            onChange={e=> onChange(e)}
+            required
+             />
+            </Grid>
+              <Grid item xs={12}>
               <TextField
                 size="small"
                 variant="outlined"
                 required
                 fullWidth
-                name="c_password"
+                name="password"
+                label="Password"
+                type="password"
+                onChange={e=> onChange(e)}
+              />
+            </Grid>
+        <Grid item xs={12}>
+              <TextField
+                size="small"
+                variant="outlined"
+                required
+                fullWidth
+                name="confirmPassword"
                 label="Confirm password"
                 type="password"
-                id="password"
-                autoComplete=""
+                onChange={e=> onChange(e)}
               />
             </Grid>
 
-            <Grid item xs={12}>
-              <TextField
-                size="small"
-                variant="outlined"
-                required
-                fullWidth
-                name="company_name"
-                label="Company Name"
-                id="company_name"
-                autoComplete=""
-              />
-            </Grid>
-
-            <Grid item xs={12}>
-              <TextField
-                size="small"
-                variant="outlined"
-                required
-                fullWidth
-                name="company_type"
-                label="Company Type"
-                id="company_type"
-                autoComplete=""
-              />
-            </Grid>
-
-            <Grid item xs={12}>
-              <TextField
-                size="small"
-                variant="outlined"
-                required
-                fullWidth
-                name="description"
-                label="Company Description"
-                id="description"
-                autoComplete=""
-              />
-            </Grid>
 
             <Grid item xs={12}>
               <FormControlLabel
                 control={<Checkbox value="allowExtraEmails" color="primary" />}
-                label="I want to receive inspiration, marketing promotions and updates via email."
+                label="This demo application,so your submitted data maybe deleted at anytime"
               />
             </Grid>
           </Grid>
@@ -160,7 +181,7 @@ export default function SignUp() {
           </Button>
           <Grid container justify="flex-end">
             <Grid item>
-              <Link href="#" variant="body2">
+              <Link to="/login" variant="body2">
                 Already have an account? Sign in
               </Link>
             </Grid>
