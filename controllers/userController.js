@@ -92,12 +92,32 @@ export const deleteUser = asyncHandler(async (req, res, next) => {
 
 // update user
 export const updateUser = asyncHandler(async (req, res) => {
-  res.status(200).json({ success: true, data: 'user route okay' });
+  const updatedUser = await UserModel.findByIdAndUpdate(req.params.id, req.body, {
+    new: true,
+    runValidators: true,
+  });
+  res.status(200).json({ success: true, data: updatedUser, msg: 'User updated successfully' });
 });
 
 // change password
 export const changePassword = asyncHandler(async (req, res) => {
-  res.status(200).json({ success: true, data: 'user route okay' });
+  const { oldPassword, newPassword } = req.body;
+  console.log(req.user)
+  const { _id } = req.user;
+
+  const match = await bcrypt.compare(oldPassword, req.user.password);
+
+  if (!match) {
+    return res.status(400).json({ success: false, msg: 'Old password does not match' });
+  }
+
+  const hash = await bcrypt.hash(newPassword, 11);
+
+  await UserModel.findOneAndUpdate(
+    { _id: req.user._id },
+    { $set: { password: hash } },
+  );
+  return res.status(200).json({ success: true, msg: 'Password changed successfully' });
 });
 
 // forget password
