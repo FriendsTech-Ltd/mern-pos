@@ -6,7 +6,6 @@ import {
     UPDATE_USER, 
     CHANGE_PASSWORD,
     LOGOUT,
-    EDIT_FORM
 
 } from '../type'
 
@@ -45,11 +44,6 @@ export default (state,action)=>{
                 user: action.payload.user,
             
                    }
-        case EDIT_FORM:
-                return{
-                ...state,
-                editForm:action.payload    
-                }
 
         default:
             return state
