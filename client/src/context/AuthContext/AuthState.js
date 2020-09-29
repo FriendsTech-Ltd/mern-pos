@@ -4,56 +4,72 @@ import AuthContext from '../AuthContext/AuthContext';
 import AuthReducer from '../AuthContext/AuthReducer';
 import setAuthToken from '../../utils/setAuthToken'
 import {
-     SUCCESS_REGISTER,
-     SUCCESS_LOGIN,
-     LOAD_USER,
-     DELETE_USER,
-     UPDATE_USER, 
-     CHANGE_PASSWORD,
-     LOGOUT
-    
+  SUCCESS_REGISTER,
+  SUCCESS_LOGIN,
+  LOAD_USER,
+  DELETE_USER,
+  UPDATE_USER, 
+  CHANGE_PASSWORD,
+  LOGOUT,
+  REGISTER_VERIFICATION
 } from '../type'
 
 const AuthState=(props)=> {
-    const initialState={
-       isAuthenticated: false,
-       user: {},
-       editForm:{},   
-    }
+const initialState={
+  isAuthenticated: false,
+  user: {},
+  editForm:{},
+  message: null,
+}
 
 const [state,dispatch]=useReducer(AuthReducer,initialState)
 
 //  register user
 const register = async user => {
-    const config={
-        header:{ 'Content-Type':'application/json' }
-    }
-try{
-    const res=await axios.post('/api/register',user,config)
-        dispatch({
-        type:SUCCESS_REGISTER,
-        payload:res.data.data
-        })
-}catch (err){  
-        console.log(err)
-       }
+  const config={
+    header:{ 'Content-Type':'application/json' }
+  }
+  try{
+  const res = await axios.post('/api/auth/register', user, config)
+    dispatch({
+    type: REGISTER_VERIFICATION,
+    payload: res.data.data
+    })
+  }catch (err) {  
+    console.log(err)
+  }
+}
+
+//  register user
+const verifyUser = async token => {
+  const config={
+    header:{ 'Content-Type':'application/json' }
+  }
+  try{
+  const res=await axios.post('/api/auth/register', token, config)
+    dispatch({
+    type: SUCCESS_REGISTER,
+    payload:res.data.data
+    });
+    loadUser();
+  }catch (err) {  
+    console.log(err)
+  }
 }
 
 
 //Login   
 const login = async data=>{
-    const config={
-        header:{ 'Content-Type':'application/json' }
-    }
+  const config = {
+      header:{ 'Content-Type':'application/json' }
+  }
 try{
-    const res=await axios.get('/api/login',data,config)
-    dispatch({
-    type:SUCCESS_LOGIN,
-    payload:res.data,
-    })          
+  const res = await axios.post('/api/auth/login', data, config)
+  dispatch({ type: SUCCESS_LOGIN, payload: res.data });
+  loadUser();    
 
 }catch (err){ 
-console.log(err)
+  console.log(err)
 }
 
 }
@@ -68,7 +84,7 @@ const loadUser = async () => {
           payload: res.data
         })
       } catch (err) {
-         console.log(err)
+        console.log(err)
     }
   }
 }
@@ -102,7 +118,7 @@ try {
         payload:res.data.data
     }) 
 } catch (err) {
-   console.log(err)
+  console.log(err)
 }
 }
 
@@ -134,7 +150,7 @@ const logout=()=>{
 
     return (
         <AuthContext.Provider value={{
-            isAuthenticate: state.isAuthenticate,
+            isAuthenticated: state.isAuthenticated,
             user: state.user,
             editForm: state.editForm,
             register,
@@ -143,9 +159,10 @@ const logout=()=>{
             updateUser,
             deleteUser,
             changePassword,
-            logout    
+            logout,
+            verifyUser,
     }}>
-       {props.children}
+      {props.children}
     </AuthContext.Provider >
     )
 }

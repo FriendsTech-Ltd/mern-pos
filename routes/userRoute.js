@@ -16,7 +16,7 @@ import {
 const router = express.Router();
 
 router.route('/register').post(registerUser);
-router.route('/login').get(loginUser);
+router.route('/login').post(loginUser);
 router.route('/change-password').put(protect, changePassword);
 router.route('/me').get(protect, getUser);
 
