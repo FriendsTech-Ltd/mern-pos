@@ -86,7 +86,11 @@ export const deleteUser = asyncHandler(async (req, res) => {
 
 // update user
 export const updateUser = asyncHandler(async (req, res) => {
-  res.status(200).json({ success: true, data: 'user route okay' });
+  const updatedUser = await UserModel.findByIdAndUpdate(req.params.id, req.body, {
+    new: true,
+    runValidators: true,
+  });
+  res.status(200).json({ success: true, data: updatedUser, msg: 'User updated successfully' });
 });
 
 // change password
