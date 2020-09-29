@@ -2,7 +2,7 @@ import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import asyncHandler from '../middleware/async';
 import UserModel from '../models/UserModel';
-
+import { NotFound, BadRequest } from '../utils/error';
 import sendEmail from '../utils/sendEmail';
 
 // Get token from model, create cookie and send response
@@ -22,7 +22,7 @@ export const registerUser = asyncHandler(async (req, res) => {
   const user = req.body;
   const isUser = await UserModel.findOne({ email: user.email });
   if (isUser) {
-    return res.status(400).json({ success: false, data: isUser });
+    throw new BadRequest('Email already Exits');
   }
   // Create token
   const registerToken = jwt.sign({ user }, process.env.JWT_SECRET, {
@@ -32,7 +32,7 @@ export const registerUser = asyncHandler(async (req, res) => {
   // Create reset URL
   const verificationURL = `${req.protocol}://${req.get('host')}/api/auth/verify/${registerToken}`;
 
-  const message = `Please click the link below to complete your signup process on POS System: \n\n ${verificationURL}`;
+  const message = `Please click the link below to complete your signup process on POS System: \n\n ${verificationURL} `;
 
   await sendEmail({
     email: user.email,
@@ -61,13 +61,11 @@ export const loginUser = asyncHandler(async (req, res) => {
   // Check for manager
   const user = await UserModel.findOne({ email }).select('+password');
   if (!user) {
-    return res.status(404).json({ success: false, msg: 'User not found' });
+    throw new NotFound(`User not found by the :${email}`);
   }
-
-  // Check if password match
   const isMatch = await bcrypt.compare(password, user.password);
   if (!isMatch) {
-    return res.status(404).json({ success: false, msg: 'Invalid credentials' });
+    throw new BadRequest('Invalid credentials');
   }
   return sendTokenResponse(user, 200, res);
 });
@@ -75,13 +73,21 @@ export const loginUser = asyncHandler(async (req, res) => {
 // get user
 export const getUser = asyncHandler(async (req, res) => {
   const user = await UserModel.findById(req.user.id);
-
   res.status(200).json({ success: true, data: user });
 });
 
 // delete User
-export const deleteUser = asyncHandler(async (req, res) => {
-  res.status(200).json({ success: true, data: 'user route okay' });
+export const deleteUser = asyncHandler(async (req, res, next) => {
+  const { id } = req.params;
+  const user = await UserModel.findById(id);
+  if (!user) {
+    throw new NotFound(`User not found by the is:${id}`);
+  }
+  const result = await UserModel.deleteOne({ _id: id });
+  if (result instanceof Error) {
+    return next(result, req, res);
+  }
+  return res.status(200).json({ success: true, msg: 'Delete success', data: user });
 });
 
 // update user
