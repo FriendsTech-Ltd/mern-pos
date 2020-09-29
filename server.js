@@ -4,10 +4,9 @@ import morgan from 'morgan';
 import path from 'path';
 
 import connectDB from './config/db';
-import errorHandler from './middleware/errorHandler';
+import { handleErrors } from './middleware/handleError';
 
 // Routes files
-import test from './routes/test';
 import userRoute from './routes/userRoute';
 
 // Load env vars
@@ -27,7 +26,6 @@ if (process.env.NODE_ENV === 'development') {
 }
 
 // Mount routers
-app.use('/api/test', test);
 app.use('/api/auth/', userRoute);
 
 const PORT = process.env.PORT || 5000;
@@ -41,7 +39,7 @@ if (process.env.NODE_ENV === 'production') {
 }
 
 // Error handler
-app.use(errorHandler);
+app.use(handleErrors);
 
 const server = app.listen(PORT, console.log(`Server running in ${process.env.NODE_ENV} on port ${PORT}`));
 

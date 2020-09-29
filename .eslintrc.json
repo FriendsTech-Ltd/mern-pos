@@ -19,6 +19,9 @@
         "linebreak-style":"off",
         "no-underscore-dangle":"off",
         "func-names":"off",
-        "consistent-return":"off"
+        "consistent-return":"off",
+        "max-classes-per-file":"off",
+        "class-methods-use-this":"off",
+        "import/prefer-default-export":"off"
     }
 }
