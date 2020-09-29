@@ -1,6 +1,8 @@
 import React,{ useContext, useState, useEffect } from 'react';
 import { withRouter, Link } from 'react-router-dom'
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
+import {Grid,Box,Container, Avatar,Typography,makeStyles, Button,CssBaseline,TextField,FormControlLabel,Checkbox,Paper} from '@material-ui/core';
+import Navbar from '../layout/NavBar'
 import {
   Grid,
   Box,
@@ -16,7 +18,6 @@ import {
   Paper} from '@material-ui/core';
 
 import AuthContext from '../../context/AuthContext/AuthContext';
-
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -68,6 +69,8 @@ const onSubmit = e =>{
 const onChange = e => { setFormData({ ...formData,[e.target.name]:e.target.value }); }
 
   return (
+    <div>
+    <Navbar/>
     <Container component="main" maxWidth="xs">
       <Paper elevation={5}>
       <CssBaseline />
@@ -134,6 +137,7 @@ const onChange = e => { setFormData({ ...formData,[e.target.name]:e.target.value
       </Box>
       </Paper>
     </Container>
+    </div>
   );
 }
 export default withRouter(SignIn);
