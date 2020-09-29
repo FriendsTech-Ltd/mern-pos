@@ -6,11 +6,17 @@ import {
     UPDATE_USER, 
     CHANGE_PASSWORD,
     LOGOUT,
+    REGISTER_VERIFICATION
 
 } from '../type'
 
 export default (state,action)=>{
     switch(action.type){
+        case REGISTER_VERIFICATION:
+            return {
+                ...state,
+                message: action.payload
+            }
         case SUCCESS_LOGIN:
             localStorage.setItem('token',action.payload.token)
             return{
@@ -20,10 +26,11 @@ export default (state,action)=>{
         case LOAD_USER:
             return{
                 ...state,
+                isAuthenticated: true,
                 user: action.payload.data,
             }
         case SUCCESS_REGISTER:
-            localStorage.setItem('token',action.payload.token)
+            localStorage.setItem('token', action.payload.token)
             return{
                 ...state,
                 isAuthenticate:true,

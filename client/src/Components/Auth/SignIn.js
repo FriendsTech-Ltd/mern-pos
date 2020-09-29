@@ -1,7 +1,21 @@
-import React,{useState} from 'react';
-import {Link} from 'react-router-dom'
+import React,{ useContext, useState, useEffect } from 'react';
+import { withRouter, Link } from 'react-router-dom'
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
-import {Grid,Box,Container, Avatar,Typography,makeStyles, Button,CssBaseline,TextField,FormControlLabel,Checkbox,Paper} from '@material-ui/core';
+import {
+  Grid,
+  Box,
+  Container,
+  Avatar,
+  Typography,
+  makeStyles,
+  Button,
+  CssBaseline,
+  TextField,
+  FormControlLabel,
+  Checkbox,
+  Paper} from '@material-ui/core';
+
+import AuthContext from '../../context/AuthContext/AuthContext';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -25,29 +39,38 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function SignIn() {
+const SignIn = (props) =>  {
+  const authContext = useContext(AuthContext);
+  const { login, loadUser, isAuthenticated, } = authContext;
+
   const classes = useStyles();
 
   const [formData,setFormData]=useState({
     email:"",
     password:"",
- 
-});
+  });
 const {email,password}=formData
 
-const onSubmit=e=>{
-e.preventDefault();
-console.log({email, password});
+useEffect(() => {
+  loadUser();
+  console.log(isAuthenticated)
+  if(isAuthenticated){
+    props.history.push('/dashboard');
+  }
+  // eslint-disable-next-line
+},[isAuthenticated])
+
+const onSubmit = e =>{
+  e.preventDefault();
+  login({email, password});
 }
 
-
-const onChange=e=>{setFormData({...formData,[e.target.name]:e.target.value});}
+const onChange = e => { setFormData({ ...formData,[e.target.name]:e.target.value }); }
 
   return (
-
     <Container component="main" maxWidth="xs">
-     <Paper elevation={5}>
-     <CssBaseline />
+      <Paper elevation={5}>
+      <CssBaseline />
       <div className={classes.paper}>
         <Avatar className={classes.avatar}>
           <LockOutlinedIcon />
@@ -109,7 +132,8 @@ const onChange=e=>{setFormData({...formData,[e.target.name]:e.target.value});}
       </div>
       <Box mt={8}>
       </Box>
-     </Paper>
+      </Paper>
     </Container>
   );
 }
+export default withRouter(SignIn);

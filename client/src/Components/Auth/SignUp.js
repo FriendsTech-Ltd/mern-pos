@@ -1,8 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import {Link} from 'react-router-dom'
 
 import {Grid,Box,Container, Avatar,Typography,makeStyles, Button,CssBaseline,TextField,FormControlLabel,Checkbox,Paper, MenuItem, Select, InputLabel, FormControl, TextareaAutosize} from '@material-ui/core';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
+
+import AuthContext from '../../context/AuthContext/AuthContext'
 
 
 const useStyles = makeStyles((theme) => ({
@@ -26,7 +28,10 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function SignUp() {
+export default function SignUp(props) {
+  const authContext = useContext(AuthContext);
+  const { register, loadUser, message } = authContext;
+
   const classes = useStyles();
 
   const [formData,setFormData]=useState({
@@ -39,10 +44,20 @@ export default function SignUp() {
     confirmPassword:""
 });
 
-const { companyName, companyOwner, email, companyType, description, password, confirmPassword} = formData
-const onSubmit=e=>{
+const { companyName, companyOwner, email, companyType, description, password, confirmPassword} = formData;
+
+// useEffect(() => {
+//   loadUser()
+//   str = message.indexOf('complete')
+//   if(str > -1){
+//     props.history.push('/info');
+//   }
+//   // eslint-disable-next-line
+// },[])
+
+const onSubmit = e => {
   e.preventDefault();
-  console.log({ companyName, companyOwner, email, companyType, description, password, confirmPassword})
+  register({ companyName, companyOwner, email, companyType, description, password, confirmPassword})
   }
   
   const onChange=e=>{setFormData({...formData,[e.target.name]:e.target.value});} 
