@@ -16,6 +16,8 @@ import {
   Checkbox,
   Paper} from '@material-ui/core';
 
+import Notification from '../common/Notification';
+
 import AuthContext from '../../context/AuthContext/AuthContext';
 
 const useStyles = makeStyles((theme) => ({
@@ -41,7 +43,7 @@ const useStyles = makeStyles((theme) => ({
 
 const SignIn = (props) =>  {
   const authContext = useContext(AuthContext);
-  const { login, loadUser, isAuthenticated, } = authContext;
+  const { login, loadUser, isAuthenticated, serverMessage} = authContext;
 
   const classes = useStyles();
 
@@ -53,7 +55,6 @@ const {email,password}=formData
 
 useEffect(() => {
   loadUser();
-  console.log(isAuthenticated)
   if(isAuthenticated){
     props.history.push('/dashboard');
   }
@@ -71,6 +72,7 @@ const onChange = e => { setFormData({ ...formData,[e.target.name]:e.target.value
     <div>
     <Navbar/>
     <Container component="main" maxWidth="xs">
+      { serverMessage && <Notification severity='error' message={serverMessage}/> }
       <Paper elevation={5}>
       <CssBaseline />
       <div className={classes.paper}>
@@ -80,7 +82,7 @@ const onChange = e => { setFormData({ ...formData,[e.target.name]:e.target.value
         <Typography component="h1" variant="h5">
           Sign in
         </Typography>
-        <form className={classes.form} onSubmit={e=>onSubmit(e)}>
+        <form className={classes.form} onSubmit={e => onSubmit(e)}>
           <TextField
             size="small"
             variant="outlined"
@@ -120,7 +122,7 @@ const onChange = e => { setFormData({ ...formData,[e.target.name]:e.target.value
           </Button>
           <Grid container>
             <Grid item xs>
-              <Link href="#" variant="body2">
+              <Link href="!#" variant="body2">
                 Forgot password?
               </Link>
             </Grid>

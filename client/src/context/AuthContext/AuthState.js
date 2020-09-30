@@ -11,7 +11,9 @@ import {
   UPDATE_USER, 
   CHANGE_PASSWORD,
   LOGOUT,
-  REGISTER_VERIFICATION
+  REGISTER_VERIFICATION,
+  CLEAR_ERROR,
+  ERROR,
 } from '../type'
 
 const AuthState=(props)=> {
@@ -19,7 +21,8 @@ const initialState={
   isAuthenticated: false,
   user: {},
   editForm:{},
-  message: null,
+  serverMessage: null,
+  success: false,
 }
 
 const [state,dispatch]=useReducer(AuthReducer,initialState)
@@ -33,10 +36,11 @@ const register = async user => {
   const res = await axios.post('/api/auth/register', user, config)
     dispatch({
     type: REGISTER_VERIFICATION,
-    payload: res.data.data
+    payload: res.data
     })
   }catch (err) {  
-    console.log(err)
+    dispatch({ type: ERROR, payload: err.response.data })
+    clearError();
   }
 }
 
@@ -67,9 +71,9 @@ try{
   const res = await axios.post('/api/auth/login', data, config)
   dispatch({ type: SUCCESS_LOGIN, payload: res.data });
   loadUser();    
-
-}catch (err){ 
-  console.log(err)
+}catch (err){
+  dispatch({ type: ERROR, payload: err.response.data })
+  clearError();
 }
 
 }
@@ -112,14 +116,14 @@ const config={
     }
 }
 const res=await axios.put(`/api/auth/${user._id}`,user,config)
-try {  
-    dispatch({
-        type:UPDATE_USER,
-        payload:res.data.data
-    }) 
-} catch (err) {
-  console.log(err)
-}
+  try {  
+      dispatch({
+          type:UPDATE_USER,
+          payload:res.data.data
+      }) 
+  } catch (err) {
+    console.log(err)
+  }
 }
 
 // change password 
@@ -148,11 +152,21 @@ const logout=()=>{
 }
 
 
+  const clearError = () =>{
+    setTimeout(() => { 
+      dispatch({
+        type:CLEAR_ERROR,
+      })
+    }, 6000);
+  }
+
     return (
         <AuthContext.Provider value={{
             isAuthenticated: state.isAuthenticated,
             user: state.user,
             editForm: state.editForm,
+            serverMessage: state.serverMessage,
+            success: state.success,
             register,
             login,
             loadUser,
