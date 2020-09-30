@@ -1,4 +1,3 @@
-
 export const SUCCESS_REGISTER = 'SUCCESS_REGISTER'
 export const REGISTER_VERIFICATION = 'REGISTER_VERIFICATION'
 export const SUCCESS_LOGIN = 'SUCCESS_LOGIN'
@@ -9,5 +8,6 @@ export const UPDATE_USER = 'UPDATE_USER'
 export const CHANGE_PASSWORD = 'CHANGE_PASSWORD'
 export const LOGOUT = 'LOGOUT'
 
-// export const SEND_FORGET_REQUEST = 'SEND_FORGET_REQUEST'
-// export const RESET_REQUEST = 'RESET_REQUEST'
+export const CLEAR_ERROR = 'CLEAR_ERROR'
+export const ERROR = 'ERROR'
+

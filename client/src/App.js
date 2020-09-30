@@ -1,11 +1,11 @@
 
 import React from 'react';
 import {BrowserRouter, Route, Switch } from 'react-router-dom'
-import NavBar from './Components/layout/NavBar'
 import Home from './Pages/Home'
 import SignIn from './Components/Auth/SignIn'
 import SignUp from './Components/Auth/SignUp'
 import Dashboard from './Components/Dashboard/Dashboard'
+import Info from './Pages/Info';
 
 import AuthState from './context/AuthContext/AuthState'
 
@@ -21,6 +21,7 @@ function App() {
             <Route exact  path="/dashboard" component={Dashboard}/>
             <Route exact  path="/login" component={SignIn}/>
             <Route exact  path="/register" component={SignUp}/>
+            <Route exact  path="/info" component={Info}/>
           </Switch>
         </div>
       </BrowserRouter>

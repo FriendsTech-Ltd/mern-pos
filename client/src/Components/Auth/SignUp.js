@@ -1,8 +1,28 @@
 import React, { useState, useContext, useEffect } from 'react';
-import {Link} from 'react-router-dom'
-import {Grid,Box,Container, Avatar,Typography,makeStyles, Button,CssBaseline,TextField,FormControlLabel,Checkbox,Paper, MenuItem, Select, InputLabel, FormControl, TextareaAutosize} from '@material-ui/core';
+import { withRouter, Link } from 'react-router-dom'
+import {
+  Grid,
+  Box,
+  Container,
+  Avatar,
+  Typography,
+  makeStyles,
+  Button,
+  CssBaseline,
+  TextField,
+  FormControlLabel,
+  Checkbox,
+  Paper,
+  MenuItem,
+  Select,
+  InputLabel,
+  FormControl,
+  TextareaAutosize
+} from '@material-ui/core';
+
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Navbar from '../layout/NavBar'
+import Notification from '../common/Notification'
 
 import AuthContext from '../../context/AuthContext/AuthContext'
 
@@ -27,13 +47,13 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function SignUp(props) {
+const  SignUp = (props) => {
   const authContext = useContext(AuthContext);
-  const { register, loadUser, message } = authContext;
+  const { register, serverMessage, success } = authContext;
 
   const classes = useStyles();
 
-  const [formData,setFormData]=useState({
+  const [formData, setFormData]=useState({
     companyName:"",
     companyOwner:"",
     email:"",
@@ -42,6 +62,7 @@ export default function SignUp(props) {
     password:"",
     confirmPassword:""
 });
+
 
 const { companyName, companyOwner, email, companyType, description, password, confirmPassword} = formData;
 
@@ -54,9 +75,24 @@ const { companyName, companyOwner, email, companyType, description, password, co
 //   // eslint-disable-next-line
 // },[])
 
+useEffect(() => {
+  if(success){
+    props.history.push('/info');
+  }
+  // eslint-disable-next-line
+},[success])
+
 const onSubmit = e => {
   e.preventDefault();
-  register({ companyName, companyOwner, email, companyType, description, password, confirmPassword})
+
+  register({ companyName,
+    companyOwner,
+    email,
+    companyType,
+    description,
+    password,
+    
+  });
   }
   
   const onChange=e=>{setFormData({...formData,[e.target.name]:e.target.value});} 
@@ -66,6 +102,7 @@ return (
     <Navbar/>
 
     <Container component="main" maxWidth="md">
+    {serverMessage && <Notification severity='error' message={serverMessage}/> }
       <Paper elevation={5} >
       <CssBaseline />
       <div className={classes.paper}>
@@ -133,9 +170,9 @@ return (
           required
           
         >
-          <MenuItem value="">
+          {/* <MenuItem value="">
             <em>None</em>
-          </MenuItem>
+          </MenuItem> */}
           <MenuItem value='electronic'>Electronic</MenuItem>
           <MenuItem value='mobile'>Mobile</MenuItem>
           <MenuItem value='grocery'>Grocery</MenuItem>
@@ -212,3 +249,5 @@ return (
     </div>
   );
 }
+
+export default withRouter(SignUp)

@@ -6,53 +6,65 @@ import {
     UPDATE_USER, 
     CHANGE_PASSWORD,
     LOGOUT,
-    REGISTER_VERIFICATION
-
+    REGISTER_VERIFICATION,
+    CLEAR_ERROR,
+    ERROR,
 } from '../type'
 
 export default (state,action)=>{
-    switch(action.type){
-        case REGISTER_VERIFICATION:
-            return {
-                ...state,
-                message: action.payload
-            }
-        case SUCCESS_LOGIN:
-            localStorage.setItem('token',action.payload.token)
+  switch(action.type){
+    case ERROR:
+      return {
+        ...state,
+        serverMessage: action.payload.msg
+      }
+      case CLEAR_ERROR:
+          return {
+              ...state,
+              serverMessage: action.payload
+          }
+      case REGISTER_VERIFICATION:
+          return {
+              ...state,
+              serverMessage: action.payload.data,
+              success: action.payload.success
+          }
+      case SUCCESS_LOGIN:
+          localStorage.setItem('token',action.payload.token)
+          return{
+              ...state,
+              isAuthenticate:true,
+          }
+      case LOAD_USER:
+          return{
+              ...state,
+              isAuthenticated: true,
+              user: action.payload.data,
+          }
+      case SUCCESS_REGISTER:
+          localStorage.setItem('token', action.payload.token)
+          return{
+              ...state,
+              isAuthenticate:true,
+          }  
+          
+      case LOGOUT:
+      case CHANGE_PASSWORD:
+      case DELETE_USER:
+          localStorage.removeItem('token')
             return{
-                ...state,
-                isAuthenticate:true,
+              isAuthentication: false,
+              user:{},
             }
-        case LOAD_USER:
-            return{
-                ...state,
-                isAuthenticated: true,
-                user: action.payload.data,
-            }
-        case SUCCESS_REGISTER:
-            localStorage.setItem('token', action.payload.token)
-            return{
-                ...state,
-                isAuthenticate:true,
-            }  
-            
-        case LOGOUT:
-        case CHANGE_PASSWORD:
-        case DELETE_USER:
-            localStorage.removeItem('token')
+        
+      case  UPDATE_USER:
               return{
-                isAuthentication: false,
-                user:{},
-              }
-         
-        case  UPDATE_USER:
-                return{
-                ...state,
-                user: action.payload.user,
-            
-                   }
+              ...state,
+              user: action.payload.user,
+          
+                  }
 
-        default:
-            return state
+      default:
+          return state
     }
 }
