@@ -1,5 +1,7 @@
 import express from 'express';
 import protect from '../middleware/auth';
+import validators from '../models/validation/index';
+import { handleValidations } from '../middleware/handleValidations';
 
 import {
   registerUser,
@@ -15,8 +17,8 @@ import {
 
 const router = express.Router();
 
-router.route('/register').post(registerUser);
-router.route('/login').post(loginUser);
+router.route('/register').post(handleValidations(validators.userValidation), registerUser);
+router.route('/login').post(handleValidations(validators.loginValidation), loginUser);
 router.route('/change-password').put(protect, changePassword);
 router.route('/me').get(protect, getUser);
 

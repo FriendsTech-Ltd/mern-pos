@@ -72,7 +72,7 @@ export const loginUser = asyncHandler(async (req, res) => {
 
 // get user
 export const getUser = asyncHandler(async (req, res) => {
-  const user = await UserModel.findById(req.user.id);
+  const user = await UserModel.findById(req.user.id).select('-password');
   res.status(200).json({ success: true, data: user });
 });
 
