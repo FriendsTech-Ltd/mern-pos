@@ -1,47 +1,55 @@
 import React from 'react'
+import {Link} from 'react-router-dom'
 import { makeStyles } from '@material-ui/core/styles';
-import Card from '@material-ui/core/Card';
 import Paper from '@material-ui/core/Paper';
 import Button from '@material-ui/core/Button';
-import { Grid } from '@material-ui/core';
+import AddIcon from '@material-ui/icons/Add';
+import { Grid} from '@material-ui/core';
 const useStyles = makeStyles((theme) => ({
     root: {
       flexGrow: 1,
     },
-    paper: {
-      padding: theme.spacing(2),
-      textAlign: 'center',
-      color: theme.palette.text.secondary,
+
+    tittle: {
+      height: 60,
+      padding:0,
+      margin:0
     },
+    addButton:{
+      paddingTop:10,
+      marginRight:8,
+      direction: 'rtl',
+    },
+    link:{
+      
+    },
+    content:{
+       margin:10,
+       flexGrow: 1,
+    height: '77vh',
+    overflow: 'auto',
+    },
+    linkStyle:{
+      textDecoration: 'none',
+      color: 'white'
+    }
   }))
  const ProductList = () => {
     const classes = useStyles()
     return (
         <div>
-              <Paper> 
-           <Grid container spacing={3}>
-           <Grid item xs={6} sm={3}>
-         
-        </Grid>
-        <Grid item xs={6} sm={3}>
-         
-        </Grid>
-        <Grid item xs={6} sm={3}>
-          
-        </Grid>
-        <Grid item xs={6} sm={3}>
-            <Button variant="contained" color="primary" href="#contained-buttons">
-        Add New
-      </Button>
-        </Grid>
-           </Grid>
-           </Paper> 
-
-       
+        <Paper variant="outlined" square className={classes.tittle}>  
+          <Grid className={classes.addButton}>
+            <Link to ='/dashboard/add-product' className={classes.linkStyle}>
+                 <Button variant="contained" color="primary">
+                 New Product<AddIcon/>
+                </Button>
+          </Link>
+          </Grid>
+           </Paper > 
+           <Paper variant="outlined" elevation={5} className={classes.content}>
            <h1>All product here</h1>
-        
-          
-           
+           </Paper> 
         </div>
     )
 }

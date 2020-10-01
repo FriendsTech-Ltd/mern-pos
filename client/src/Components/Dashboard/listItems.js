@@ -7,22 +7,27 @@ import ListSubheader from '@material-ui/core/ListSubheader';
 import DashboardIcon from '@material-ui/icons/Dashboard';
 import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
 import PeopleIcon from '@material-ui/icons/People';
+import ReceiptIcon from '@material-ui/icons/Receipt';
 import PersonIcon from '@material-ui/icons/Person';
 import BarChartIcon from '@material-ui/icons/BarChart';
 import LayersIcon from '@material-ui/icons/Layers';
 import AssignmentIcon from '@material-ui/icons/Assignment';
+const linkStyle = {
+  textDecoration: 'none',
+  color: 'black'
+}
 
 export const mainListItems = (
   <div>
-    <Link to ='/dashboard'>
+    <Link to ='/dashboard' style={linkStyle}>
     <ListItem button>
       <ListItemIcon>
         <DashboardIcon />
       </ListItemIcon>
-      <ListItemText primary="Dashboard" />
+      <ListItemText primary="Dashboard"/>
     </ListItem>
     </Link>
-    <Link to ='/dashboard/product'>
+    <Link to ='/dashboard/product' style={linkStyle}>
     <ListItem button>
       <ListItemIcon>
         <ShoppingCartIcon />
@@ -30,7 +35,7 @@ export const mainListItems = (
       <ListItemText primary="Product" />
     </ListItem>
     </Link>
-    <Link to ='/dashboard/customer'>
+    <Link to ='/dashboard/customer' style={linkStyle}>
     <ListItem button>
       <ListItemIcon>
         <PersonIcon />
@@ -40,7 +45,7 @@ export const mainListItems = (
     </Link>
     <ListItem button>
       <ListItemIcon>
-        <ShoppingCartIcon />
+        <ReceiptIcon />
       </ListItemIcon>
       <ListItemText primary="Invoice" />
     </ListItem>
