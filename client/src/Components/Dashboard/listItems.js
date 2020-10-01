@@ -7,6 +7,7 @@ import ListSubheader from '@material-ui/core/ListSubheader';
 import DashboardIcon from '@material-ui/icons/Dashboard';
 import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
 import PeopleIcon from '@material-ui/icons/People';
+import PersonIcon from '@material-ui/icons/Person';
 import BarChartIcon from '@material-ui/icons/BarChart';
 import LayersIcon from '@material-ui/icons/Layers';
 import AssignmentIcon from '@material-ui/icons/Assignment';
@@ -21,12 +22,20 @@ export const mainListItems = (
       <ListItemText primary="Dashboard" />
     </ListItem>
     </Link>
-    <Link to ='dashboard/product'>
+    <Link to ='/dashboard/product'>
     <ListItem button>
       <ListItemIcon>
         <ShoppingCartIcon />
       </ListItemIcon>
       <ListItemText primary="Product" />
+    </ListItem>
+    </Link>
+    <Link to ='/dashboard/customer'>
+    <ListItem button>
+      <ListItemIcon>
+        <PersonIcon />
+      </ListItemIcon>
+      <ListItemText primary="Customer" />
     </ListItem>
     </Link>
     <ListItem button>
@@ -35,12 +44,7 @@ export const mainListItems = (
       </ListItemIcon>
       <ListItemText primary="Invoice" />
     </ListItem>
-    <ListItem button>
-      <ListItemIcon>
-        <PeopleIcon />
-      </ListItemIcon>
-      <ListItemText primary="Customers" />
-    </ListItem>
+  
     <ListItem button>
       <ListItemIcon>
         <BarChartIcon />

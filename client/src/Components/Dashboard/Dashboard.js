@@ -1,9 +1,9 @@
 import React from 'react';
-import { BrowserRouter } from 'react-router-dom'
 import clsx from 'clsx';
 import { makeStyles } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Drawer from '@material-ui/core/Drawer';
+import Box from '@material-ui/core/Box';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import List from '@material-ui/core/List';
@@ -119,8 +119,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function Dashboard(props) {
-  
-  const { url } = props.match;
+  const url = props.match
   
   const classes = useStyles();
   const [open, setOpen] = React.useState(true);
@@ -157,7 +156,6 @@ export default function Dashboard(props) {
     </Menu>
   );
   return (
-  <BrowserRouter>
     <div className={classes.root}>
       <CssBaseline />
       <AppBar position="absolute" className={clsx(classes.appBar, open && classes.appBarShift)}>
@@ -212,11 +210,10 @@ export default function Dashboard(props) {
       <main className={classes.content}>
         <div className={classes.appBarSpacer} />
         <Container maxWidth="lg" className={classes.container}>
-        <DashboardRoutes url = {url}/>
+        <DashboardRoutes url = {url} />
         </Container>
       </main>
       
     </div>
-    </BrowserRouter>
   );
 }
