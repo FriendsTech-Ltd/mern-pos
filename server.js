@@ -8,7 +8,7 @@ import { handleErrors } from './middleware/handleError';
 
 // Routes files
 import userRoute from './routes/userRoute';
-
+import productRoute from './routes/productRoute';
 // Load env vars
 dotenv.config({ path: './config/config.env' });
 
@@ -19,7 +19,8 @@ const app = express();
 
 // Body parse
 app.use(express.json());
-
+app.use('/public', express.static('public'));
+express.urlencoded({ extended: true });
 // Dev logging middleware
 if (process.env.NODE_ENV === 'development') {
   app.use(morgan('combined'));
@@ -27,6 +28,7 @@ if (process.env.NODE_ENV === 'development') {
 
 // Mount routers
 app.use('/api/auth/', userRoute);
+app.use('/api/product/', productRoute);
 
 const PORT = process.env.PORT || 5000;
 
