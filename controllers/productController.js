@@ -1,4 +1,5 @@
-import UserModel from '../models/UserModel';
+// import UserModel from '../models/UserModel';
+import fs from 'fs';
 import asyncHandler from '../middleware/async';
 
 import ProductModel from '../models/ProductModel';
@@ -20,6 +21,7 @@ export const getProducts = asyncHandler(async (req, res, next) => {
 // @access  Private
 export const addProduct = asyncHandler(async (req, res, next) => {
   req.body.user = req.user.id;
+  req.body.image = req.file.path;
   const product = await ProductModel.create(req.body);
 
   if (product instanceof Error) return next(product, req, res);
@@ -37,16 +39,21 @@ export const updateProduct = asyncHandler(async (req, res, next) => {
   });
 
   if (updateProduct instanceof Error) return next(updateProduct, req, res);
-  res.status(200).json({ success: true, data: updatedProduct, msg: 'Product updated successfully' });
+  res.status(200).json({ success: true, product: updatedProduct, msg: 'Product updated successfully' });
 });
 
 // @desc    Delete Product
 // @route   DELETE /api/product/:id
 // @access  Private
 export const deleteProduct = asyncHandler(async (req, res, next) => {
-  const product = await ProductModel.findByIdAndDelete(req.params.id);
-  if (product instanceof Error) {
-    return next(product, req, res);
-  }
-  return res.status(200).json({ success: true, msg: 'Product deleted successfully', product });
+  const productImage = await ProductModel.findOne({ _id: req.params.id }).select('+image');
+  fs.unlink(`${productImage}`, async (err) => {
+    if (err instanceof Error) return next(err, req, res);
+    const result = await
+    ProductModel.findByIdAndRemove(req.params.id);
+    if (result instanceof Error) {
+      return next(result, req, res);
+    }
+    return res.status(200).json({ success: true, msg: 'Product deleted successfully', product: result });
+  });
 });
