@@ -19,7 +19,8 @@ const app = express();
 
 // Body parse
 app.use(express.json());
-
+app.use('/public', express.static('public'));
+express.urlencoded({ extended: true });
 // Dev logging middleware
 if (process.env.NODE_ENV === 'development') {
   app.use(morgan('combined'));

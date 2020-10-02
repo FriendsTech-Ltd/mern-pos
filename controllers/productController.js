@@ -46,8 +46,12 @@ export const updateProduct = asyncHandler(async (req, res, next) => {
 // @route   DELETE /api/product/:id
 // @access  Private
 export const deleteProduct = asyncHandler(async (req, res, next) => {
-  const productImage = await ProductModel.findOne({ _id: req.params.id }).select('+image');
-  fs.unlink(`${productImage}`, async (err) => {
+  const productImage = await ProductModel.findOne({ _id: req.params.id }).select('image');
+
+  if (!productImage) {
+    throw new NotFound(`User not found by the is:${req.params.id}`);
+  }
+  fs.unlink(`${productImage.image}`, async (err) => {
     if (err instanceof Error) return next(err, req, res);
     const result = await
     ProductModel.findByIdAndRemove(req.params.id);
