@@ -1,10 +1,14 @@
 import React from 'react'
 import { Switch ,Route } from 'react-router-dom';
 import DashboardInfo from '../Components/Dashboard/DashboardInfo';
+import Profile from '../Components/Auth/Profile'
+import EditProfile from '../Components/Auth/EditProfile'
 import ProductList from '../Components/Product/ProductList';
-import AddProduct from '../Components/Product/AddProduct'
+import AddProduct from '../Components/Product/AddProduct';
 import CustomerList from '../Components/Customer/CustomerList';
-import AddCustomer from '../Components/Customer/AddCustomer'
+import AddCustomer from '../Components/Customer/AddCustomer';
+
+
 const DashboardRoutes = () => {
     return (
         <Switch>
@@ -12,6 +16,16 @@ const DashboardRoutes = () => {
           exact
           path="/dashboard"
           component={DashboardInfo}
+        />
+         <Route
+          exact
+          path="/dashboard/me"
+          component={Profile}
+        />
+         <Route
+          exact
+          path="/dashboard/edit-profile"
+          component={EditProfile}
         />
           <Route
           exact

@@ -1,4 +1,5 @@
 import React,{useContext} from 'react';
+import { Link } from 'react-router-dom'
 import clsx from 'clsx';
 import { makeStyles } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -18,6 +19,9 @@ import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import { mainListItems, secondaryListItems } from './listItems';
+import Breadcrumbs from '@material-ui/core/Breadcrumbs';
+import { Route, MemoryRouter } from 'react-router';
+import { Link as RouterLink } from 'react-router-dom';
 import DashboardRoutes from '../../Routing/DashboardRoutes'
 import AuthContext from '../../context/AuthContext/AuthContext'
 
@@ -106,7 +110,15 @@ const useStyles = makeStyles((theme) => ({
   fixedHeight: {
     height: 240,
   },
+  linkStyle:{
+    textDecoration: 'none',
+    color: 'black'
+  },
+  breadcrumbs:{
+    marginRight:'60%'
+  }
 }));
+const LinkRouter = (props) => <Link {...props} component={RouterLink} />;
 
 export default function Dashboard(props) {
   const url = props.match
@@ -141,7 +153,9 @@ export default function Dashboard(props) {
       open={isMenuOpen}
       onClose={handleMenuClose}
     >
+      <Link to='/dashboard/me' className={classes.linkStyle}>
       <MenuItem>Profile</MenuItem>
+      </Link>
       <MenuItem>My account</MenuItem>
       <MenuItem onClick={logout}>Log out</MenuItem>
     </Menu>
@@ -163,6 +177,33 @@ export default function Dashboard(props) {
           <Typography component="h1" variant="h6" color="inherit" noWrap className={classes.title}>
             Dashboard
           </Typography>
+          {/* Breadcrumb */}
+          <Route>
+          {({ location }) => {
+            const pathnames = location.pathname.split('/').filter((x) => x);
+
+            return (
+              <Breadcrumbs aria-label="breadcrumb" className={classes.breadcrumbs}>
+              
+                {pathnames.map((value, index) => {
+                  const last = index === pathnames.length - 1;
+                  const to = `${pathnames.slice(0, index + 1).join('/')}`;
+
+                  return last ? (
+                    <Typography color="textPrimary" key={to}>
+                      {to}
+                    </Typography>
+                  ) : (
+                    <LinkRouter color="inherit" to={to} key={to}>
+                   
+                    </LinkRouter>
+                  );
+                })}
+              </Breadcrumbs>
+            );
+          }}
+        </Route>
+        {/* end */}
           <IconButton color="inherit">
             <Badge badgeContent={4} color="secondary">
               <NotificationsIcon />
