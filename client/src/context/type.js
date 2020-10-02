@@ -10,4 +10,10 @@ export const LOGOUT = 'LOGOUT'
 
 export const CLEAR_ERROR = 'CLEAR_ERROR'
 export const ERROR = 'ERROR'
-
+export const EDIT_FORM = 'EDIT_FORM'
+export const CLEAR_EDIT_FORM = 'CLEAR_EDIT_FORM'
+,
+export const GET_PRODUCT= 'GET_PRODUCT'
+export const UPLOAD_PRODUCT= 'UPLOAD_PRODUCT'
+export const UPDATE_PRODUCT= 'UPDATE_PRODUCT'
+export const DELETE_PRODUCT= 'DELETE_PRODUCT'
