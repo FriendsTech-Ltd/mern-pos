@@ -22,8 +22,8 @@ function App() {
             <Route exact  path="/login" component={SignIn}/>
             <Route exact  path="/register" component={SignUp}/>
             <Route exact  path="/info" component={Info}/>
-            <Route exact  path="/:dashboard" component={Dashboard}/>
-            <Route exact  path="/dashboard/:comp" component={Dashboard}/>
+            <PrivateRoute exact  path="/:dashboard" component={Dashboard}/>
+            <PrivateRoute exact  path="/dashboard/:comp" component={Dashboard}/>
             
           </Switch>
           <Footer/>
