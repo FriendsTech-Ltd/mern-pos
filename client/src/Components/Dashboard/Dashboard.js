@@ -1,4 +1,5 @@
 import React,{useContext} from 'react';
+import { Link } from 'react-router-dom'
 import clsx from 'clsx';
 import { makeStyles } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -106,6 +107,10 @@ const useStyles = makeStyles((theme) => ({
   fixedHeight: {
     height: 240,
   },
+  linkStyle:{
+    textDecoration: 'none',
+    color: 'black'
+  }
 }));
 
 export default function Dashboard(props) {
@@ -141,7 +146,9 @@ export default function Dashboard(props) {
       open={isMenuOpen}
       onClose={handleMenuClose}
     >
+      <Link to='/dashboard/me' className={classes.linkStyle}>
       <MenuItem>Profile</MenuItem>
+      </Link>
       <MenuItem>My account</MenuItem>
       <MenuItem onClick={logout}>Log out</MenuItem>
     </Menu>
