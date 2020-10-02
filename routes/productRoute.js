@@ -13,7 +13,9 @@ import {
 
 const router = express.Router();
 
-router.route('/').post(protect, uploadImage.single('image'), handleValidations(validators.productValidation), addProduct).get(protect, getProducts);
+router.route('/')
+  .post(protect, uploadImage.single('image'), handleValidations(validators.productValidation), addProduct)
+  .get(protect, getProducts);
 router.route('/:id').put(protect, updateProduct).delete(protect, deleteProduct);
 
 export default router;

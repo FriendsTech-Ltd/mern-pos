@@ -9,11 +9,11 @@ import { NotFound, BadRequest } from '../utils/error';
 // @route   PUT /api/product/:id
 // @access  Private
 export const getProducts = asyncHandler(async (req, res, next) => {
-  const product = await ProductModel.findById(req.user.id);
+  const products = await ProductModel.find({ user: req.user.id });
 
-  if (product instanceof Error) return next(product, req, res);
+  if (products instanceof Error) return next(products, req, res);
 
-  res.status(200).json({ success: true, product, msg: 'All product fetched' });
+  res.status(200).json({ success: true, products, msg: 'All product fetched' });
 });
 
 // @desc    Add Product

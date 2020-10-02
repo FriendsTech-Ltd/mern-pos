@@ -2,7 +2,6 @@ import Joi from 'joi';
 
 const schema = Joi.object().keys(
   {
-    user: Joi.required(),
     name: Joi.string().required(),
     price: Joi.number().required(),
     sellingPrice: Joi.number().required(),
