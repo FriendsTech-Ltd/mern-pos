@@ -7,7 +7,10 @@ import SignIn from './Components/Auth/SignIn'
 import SignUp from './Components/Auth/SignUp'
 import Dashboard from './Components/Dashboard/Dashboard'
 import Info from './Pages/Info';
-import AuthState from './context/AuthContext/AuthState'
+
+import AuthState from './context/AuthContext/AuthState';
+import ProductState from './context/ProductContext/ProductState';
+
 import PrivateRoute from './Routing/PrivateRoute'
 
 import './App.css';
@@ -15,20 +18,22 @@ import './App.css';
 function App() {
   return (
     <AuthState>
-      <BrowserRouter>
-        <div className='App'>
-          <Switch>
-            <Route exact path = '/' component={Home}/>
-            <Route exact  path="/login" component={SignIn}/>
-            <Route exact  path="/register" component={SignUp}/>
-            <Route exact  path="/info" component={Info}/>
-            <PrivateRoute exact  path="/:dashboard" component={Dashboard}/>
-            <PrivateRoute exact  path="/dashboard/:comp" component={Dashboard}/>
-            
-          </Switch>
-          <Footer/>
-        </div>
-      </BrowserRouter>
+      <ProductState>
+        <BrowserRouter>
+          <div className='App'>
+            <Switch>
+              <Route exact path = '/' component={Home}/>
+              <Route exact  path="/login" component={SignIn}/>
+              <Route exact  path="/register" component={SignUp}/>
+              <Route exact  path="/info" component={Info}/>
+              <PrivateRoute exact  path="/:dashboard" component={Dashboard}/>
+              <PrivateRoute exact  path="/dashboard/:comp" component={Dashboard}/>
+              
+            </Switch>
+            <Footer/>
+          </div>
+        </BrowserRouter>
+      </ProductState>
     </AuthState>
   );
 }

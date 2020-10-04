@@ -7,6 +7,7 @@ import {
     CLEAR_EDIT_FORM,
     CLEAR_ERROR,
     ERROR,
+    CLEAR_SUCCESS,
 } from '../type'
 
 export default (state,action)=>{

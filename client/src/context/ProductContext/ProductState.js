@@ -1,17 +1,18 @@
 import React,{useReducer} from 'react';
 import axios from 'axios';
-import ProductContext from '../ProductContext/ProductReducer';
+import ProductContext from '../ProductContext/ProductContext';
 import ProductReducer from '../ProductContext/ProductReducer';
 
 import {
- GET_PRODUCT,
- UPDATE_PRODUCT,
- UPDATE_PRODUCT,
- DELETE_PRODUCT,
- ERROR,
- CLEAR_ERROR,
- EDIT_FORM,
- CLEAR_EDIT_FORM
+  GET_PRODUCT,
+  UPDATE_PRODUCT,
+  UPLOAD_PRODUCT,
+  DELETE_PRODUCT,
+  ERROR,
+  CLEAR_ERROR,
+
+  EDIT_FORM,
+  CLEAR_EDIT_FORM
 } from '../type'
 
 const ProductState=(props)=> {
@@ -22,17 +23,17 @@ const initialState={
   success: false,
 }
 
-const [state,dispatch]=useReducer(AuthReducer,initialState)
+const [state,dispatch]=useReducer(ProductReducer,initialState)
 
 //  get all product by user
-const getProduct = async () => {
+const getProducts = async () => {
 try{
-  const res = await axios.post('/api/product')
+  const res = await axios.get('/api/product')
     dispatch({ type: GET_PRODUCT, payload: res.data })
 }catch (err) {  
     dispatch({ type: ERROR, payload: err.response.data })
     clearError();
-    }}
+  }}
 
  //upload product
 const uploadProduct= async data=>{
@@ -40,7 +41,7 @@ const uploadProduct= async data=>{
     Object.keys(data).forEach(key => formData.append(key, data[key]));
     const config = { headers: { 'Content-type': 'multipart/form-data' }};
 try{
-    const res= await Axios.post('/api/product',formData,config)
+    const res= await axios.post('/api/product',formData,config)
     dispatch({ type:UPLOAD_PRODUCT, payload:res.data });
 }catch (err){  
     dispatch({ type: ERROR, payload: err.response.data })
@@ -52,25 +53,24 @@ try{
 // delete product
 const deleteProduct = async (id)=>{
 try{
-    const res=await Axios.delete(`/api/product/${id}`)
+    const res=await axios.delete(`/api/product/${id}`)
     dispatch({ type:DELETE_PRODUCT, payload:res.data });
 }catch (err){  
     dispatch({ type: ERROR, payload: err.response.data })
     clearError();
-    }}
+  }}
 
 
 //update product
- const updateProduct=async(product)=>{
+const updateProduct=async(product)=>{
     const config={ header:{'Content-Type':'application/json'}}
-    const res=await Axios.put(`/api/product/${product._id}`,product,config)
+    const res=await axios.put(`/api/product/${product._id}`,product,config)
 try {
     dispatch({ type:UPDATE_PRODUCT, payload:res.data });
     } catch (err) {
         dispatch({ type: ERROR, payload: err.response.data })
         clearError();
     }
-   
   }
 
   //edit product
@@ -93,14 +93,15 @@ const clearEditForm=()=>{
 
     return (
         <ProductContext.Provider value={{
-          Products: state.products,
+          products: state.products,
           editForm: state.editForm,
           serverMessage: state.serverMessage,
-          getProduct,
+          getProducts,
           uploadProduct,
           updateProduct,
           editFormFun,
-          clearEditForm
+          clearEditForm,
+          deleteProduct
     }}>
       {props.children}
     </ProductContext.Provider >
