@@ -169,6 +169,7 @@ const useStyles = makeStyles((theme) => ({
               <FilteringState columnExtensions={filteringStateColumnExtensions}/>
               <IntegratedFiltering />
               <Table />
+              <VirtualTable/>
               
               <TableColumnResizing defaultColumnWidths={defaultColumnWidths} />
               <TableHeaderRow />
