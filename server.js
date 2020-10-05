@@ -11,6 +11,8 @@ import { handleErrors } from './middleware/handleError';
 import userRoute from './routes/userRoute';
 import productRoute from './routes/productRoute';
 import customerRoute from './routes/customerRoute';
+import invoiceRoute from './routes/invoiceRoute';
+
 // Load env vars
 dotenv.config({ path: './config/config.env' });
 
@@ -33,6 +35,7 @@ if (process.env.NODE_ENV === 'development') {
 app.use('/api/auth/', userRoute);
 app.use('/api/product/', productRoute);
 app.use('/api/customer/', customerRoute);
+app.use('/api/invoice/', invoiceRoute);
 
 const PORT = process.env.PORT || 5000;
 

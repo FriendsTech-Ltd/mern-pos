@@ -3,7 +3,7 @@ import Joi from 'joi';
 const schema = Joi.object().keys(
   {
     name: Joi.string().min(4).required(),
-    phone: Joi.string().min(4).required(),
+    phone: Joi.number().min(11).required(),
     address: Joi.string().required(),
 
   },
