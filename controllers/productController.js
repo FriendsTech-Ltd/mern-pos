@@ -22,6 +22,7 @@ export const getProducts = asyncHandler(async (req, res, next) => {
 export const addProduct = asyncHandler(async (req, res, next) => {
   req.body.user = req.user.id;
   req.body.image = req.file.path;
+
   const product = await ProductModel.create(req.body);
 
   if (product instanceof Error) return next(product, req, res);

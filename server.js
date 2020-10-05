@@ -1,6 +1,7 @@
 import express from 'express';
 import dotenv from 'dotenv';
 import morgan from 'morgan';
+import cors from 'cors';
 import path from 'path';
 
 import connectDB from './config/db';
@@ -19,6 +20,7 @@ const app = express();
 
 // Body parse
 app.use(express.json());
+app.use(cors());
 app.use('/public', express.static('public'));
 express.urlencoded({ extended: true });
 // Dev logging middleware
