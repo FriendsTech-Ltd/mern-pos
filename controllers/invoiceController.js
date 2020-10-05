@@ -32,16 +32,27 @@ export const createInvoice = asyncHandler(async (req, res, next) => {
     products: [],
   };
 
-  products.map(async (product) => {
+  // products.map(async (product) => {
+  //   const result = await ProductModel.findById(product._id);
+  //   console.log(result);
+  //   inv.products.push({
+  //     name: result.name,
+  //     price: result.price,
+  //     sellingPrice: result.sellingPrice,
+  //     quantity: product.quantity,
+  //   });
+  // });
+
+  await Promise.all(products.map(async (product) => {
     const result = await ProductModel.findById(product._id);
     console.log(result);
-    inv.push({
-      name: 'hello',
+    inv.products.push({
+      name: result.name,
       price: result.price,
       sellingPrice: result.sellingPrice,
       quantity: product.quantity,
     });
-  });
+  }));
 
   console.log(inv);
 
