@@ -4,13 +4,18 @@ import validators from '../models/validation/index';
 import { handleValidations } from '../middleware/handleValidations';
 
 import {
-  createInvoice
+  createInvoice,
+  deleteInvoice,
+  getInvoices,
 
 } from '../controllers/invoiceController';
 
 const router = express.Router();
 
 router.route('/')
-  .post(protect, createInvoice);
+  .post(protect, handleValidations(validators.invoiceValidation), createInvoice)
+  .get(protect, getInvoices);
+
+router.route('/:id').delete(protect, deleteInvoice);
 
 export default router;

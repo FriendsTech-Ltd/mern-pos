@@ -83,10 +83,8 @@ export const deleteUser = asyncHandler(async (req, res, next) => {
   if (!user) {
     throw new NotFound(`User not found by the is:${id}`);
   }
-  const result = await UserModel.deleteOne({ _id: id });
-  if (result instanceof Error) {
-    return next(result, req, res);
-  }
+  const result = await UserModel.findByIdAndDelete(id);
+  if (!result) throw new NotFound('No user found');
   return res.status(200).json({ success: true, msg: 'Delete success', data: user });
 });
 

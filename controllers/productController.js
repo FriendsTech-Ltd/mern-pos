@@ -1,17 +1,16 @@
-// import UserModel from '../models/UserModel';
 import fs from 'fs';
 import asyncHandler from '../middleware/async';
 
 import ProductModel from '../models/ProductModel';
-import { NotFound, BadRequest } from '../utils/error';
+import { NotFound } from '../utils/error';
 
 // @desc    Get All Product
 // @route   PUT /api/product/:id
 // @access  Private
-export const getProducts = asyncHandler(async (req, res, next) => {
+export const getProducts = asyncHandler(async (req, res) => {
   const products = await ProductModel.find({ user: req.user.id });
 
-  if (products instanceof Error) return next(products, req, res);
+  if (!products.length) throw new NotFound('Invoice not found');
 
   res.status(200).json({ success: true, products, msg: 'All product fetched' });
 });
@@ -33,13 +32,14 @@ export const addProduct = asyncHandler(async (req, res, next) => {
 // @desc    Update Product
 // @route   PUT /api/product/:id
 // @access  Private
-export const updateProduct = asyncHandler(async (req, res, next) => {
+export const updateProduct = asyncHandler(async (req, res) => {
   const updatedProduct = await ProductModel.findByIdAndUpdate(req.params.id, req.body, {
     new: true,
     runValidators: true,
   });
 
-  if (updateProduct instanceof Error) return next(updateProduct, req, res);
+  if (!updateProduct) throw new NotFound('Product not found');
+
   res.status(200).json({ success: true, product: updatedProduct, msg: 'Product updated successfully' });
 });
 
@@ -54,11 +54,8 @@ export const deleteProduct = asyncHandler(async (req, res, next) => {
   }
   fs.unlink(`${productImage.image}`, async (err) => {
     if (err instanceof Error) return next(err, req, res);
-    const result = await
-    ProductModel.findByIdAndRemove(req.params.id);
-    if (result instanceof Error) {
-      return next(result, req, res);
-    }
+
+    const result = await ProductModel.findByIdAndRemove(req.params.id);
     return res.status(200).json({ success: true, msg: 'Product deleted successfully', product: result });
   });
 });
