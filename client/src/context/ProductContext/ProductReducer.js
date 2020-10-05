@@ -60,7 +60,6 @@ export default (state,action)=>{
                 return{
                 ...state,
                 success:false,
-                error:false,
                 serverMessage:null,
                         }
             case ERROR:

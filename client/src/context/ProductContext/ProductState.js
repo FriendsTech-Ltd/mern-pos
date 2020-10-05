@@ -10,7 +10,7 @@ import {
   DELETE_PRODUCT,
   ERROR,
   CLEAR_ERROR,
-
+  CLEAR_SUCCESS,
   EDIT_FORM,
   CLEAR_EDIT_FORM
 } from '../type'
@@ -30,6 +30,7 @@ const getProducts = async () => {
 try{
   const res = await axios.get('/api/product')
     dispatch({ type: GET_PRODUCT, payload: res.data })
+    clearSuccess()
 }catch (err) {  
     dispatch({ type: ERROR, payload: err.response.data })
     clearError();
@@ -43,6 +44,7 @@ const uploadProduct= async data=>{
 try{
     const res= await axios.post('/api/product',formData,config)
     dispatch({ type:UPLOAD_PRODUCT, payload:res.data });
+    clearSuccess()
 }catch (err){  
     dispatch({ type: ERROR, payload: err.response.data })
     clearError();
@@ -87,6 +89,14 @@ const clearEditForm=()=>{
     setTimeout(() => { 
       dispatch({
         type:CLEAR_ERROR,
+      })
+    }, 5000);
+  }
+
+  const clearSuccess = () =>{
+    setTimeout(() => { 
+      dispatch({
+        type:CLEAR_SUCCESS,
       })
     }, 5000);
   }

@@ -19,7 +19,6 @@ import {
 
 import { makeStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
-// import { Grid as MeterialGrid } from '@material-ui/core/Grid';
 import { Button} from '@material-ui/core';
 import Alert from '@material-ui/lab/Alert'
 
@@ -76,7 +75,7 @@ const useStyles = makeStyles((theme) => ({
       getProducts();
       // eslint-disable-next-line
     }, []);
-    console.log(products);
+  
 
 
     const handleEdit = (_id) => {
@@ -146,12 +145,7 @@ const useStyles = makeStyles((theme) => ({
 
     return (
         <div>
-
-      {!products.length ? (<div className={classes.spinner}>
-        <CircularProgress size={80} />
-        </div>)
-         : (<div>
-          <Paper variant="outlined" square className={classes.tittle}>  
+             <Paper variant="outlined" square className={classes.tittle}>  
           <div className={classes.addButton}>
             <Link to ='/dashboard/add-product' className={classes.linkStyle}>
                  <Button variant="contained" color="primary">
@@ -160,6 +154,12 @@ const useStyles = makeStyles((theme) => ({
           </Link>
           </div>
            </Paper > 
+
+      {!products.length ? (<div className={classes.spinner}>
+        <CircularProgress size={80} />
+        </div>)
+         : (<div>
+       
            <Paper variant="outlined" elevation={5} className={classes.content}>
            <h1>All product here</h1>
             <Grid
