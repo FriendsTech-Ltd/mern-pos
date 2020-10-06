@@ -30,6 +30,7 @@ function App() {
               <Route exact  path="/info" component={Info}/>
               <PrivateRoute exact  path="/dashboard" component={Dashboard}/>
               <PrivateRoute exact  path="/dashboard/:comp" component={Dashboard}/>
+              <PrivateRoute exact  path="/dashboard/:comp/:cop" component={Dashboard}/>
               
             </Switch>
             <Footer/>

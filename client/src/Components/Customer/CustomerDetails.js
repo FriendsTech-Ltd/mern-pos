@@ -39,11 +39,11 @@ const useStyles = makeStyles((theme) => ({
         margin:8,
         flexGrow: 1,
     },
-    addButton:{
-      paddingTop:10,
-      marginRight:8,
-      direction: 'rtl',
+    titleContent: {
+     padding: 10,
+     textAlign: 'center',
     },
+
     link:{
       
     },
@@ -51,7 +51,7 @@ const useStyles = makeStyles((theme) => ({
        margin:8,
        flexGrow: 1,
        textAlign: 'center',
-    height: '77vh',
+
     overflow: 'auto',
     },
     linkStyle:{
@@ -101,7 +101,7 @@ const useStyles = makeStyles((theme) => ({
         sl: index+1,
         _id: i._id,
         createdAt:(moment( i.createdAt).format("MMMM Do YYYY")),
-        viewDetails:( <Link to='/dashboard'><Button onClick={()=>getInvoice(i._id)} variant="contained" size="small" color="primary">
+        viewDetails:( <Link to='/dashboard/customer/invoice'><Button onClick={()=>getInvoice(i._id)} variant="contained" size="small" color="primary">
         View
       </Button> </Link>),
         action: (<div>
@@ -114,28 +114,23 @@ const useStyles = makeStyles((theme) => ({
   
     const [defaultColumnWidths] = useState([
       { columnName: 'sl', width: 100 },
-      { columnName: '_id', width: 200  },
-      { columnName: 'createdAt', width: 200  },
-      { columnName: 'viewDetails', width: 200  },
-      { columnName: 'action', width: 200 },
+      { columnName: '_id', width: 300  },
+      { columnName: 'createdAt', width: 300  },
+      { columnName: 'viewDetails', width: 250  },
+      { columnName: 'action', width: 100 },
     ]);
 
 
     return (
         <div>
              <Paper variant="outlined" square className={classes.tittle}>  
-          <div className={classes.addButton}>
+          <div className={classes.titleContent}>
               <h1>customer details </h1>
                <p>Name: {customer.name}</p>
                <p>Phone: {customer.phone}</p>
                {/* <p>Email: {customer.email}</p> */}
                <p>Address: {customer.address}</p>
-               {/* <p>Due: {}</p> */}
-            {/* <Link to ='/dashboard/add-customer' className={classes.linkStyle}>
-                 <Button variant="contained" color="primary">
-                 New Customer<AddIcon/>
-                </Button>
-          </Link> */}
+       
           </div>
            </Paper > 
 
@@ -153,7 +148,7 @@ const useStyles = makeStyles((theme) => ({
               <FilteringState columnExtensions={filteringStateColumnExtensions}/>
               <IntegratedFiltering />
               <Table />
-              <VirtualTable height="auto"/>
+              <VirtualTable height="500px"/>
               
               <TableColumnResizing defaultColumnWidths={defaultColumnWidths} />
               <TableHeaderRow />

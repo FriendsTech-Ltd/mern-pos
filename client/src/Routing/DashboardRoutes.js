@@ -8,7 +8,7 @@ import AddProduct from '../Components/Product/AddProduct';
 import CustomerList from '../Components/Customer/CustomerList';
 import AddCustomer from '../Components/Customer/AddCustomer';
 import CustomerDetails from '../Components/Customer/CustomerDetails'
-
+import Invoice from '../Components/Invoice/Invoice'
 const DashboardRoutes = () => {
     return (
         <Switch>
@@ -51,6 +51,11 @@ const DashboardRoutes = () => {
           exact
           path="/dashboard/:id"
           component={CustomerDetails}
+        />
+          <Route
+          exact
+          path="/dashboard/customer/invoice"
+          component={Invoice}
         />
 
         </Switch>
