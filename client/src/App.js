@@ -10,6 +10,7 @@ import Info from './Pages/Info';
 
 import AuthState from './context/AuthContext/AuthState';
 import ProductState from './context/ProductContext/ProductState';
+import CustomerState from './context/CustomerContext/CustomerState'
 
 import PrivateRoute from './Routing/PrivateRoute'
 
@@ -19,6 +20,7 @@ function App() {
   return (
     <AuthState>
       <ProductState>
+        <CustomerState>
         <BrowserRouter>
           <div className='App'>
             <Switch>
@@ -33,6 +35,7 @@ function App() {
             <Footer/>
           </div>
         </BrowserRouter>
+        </CustomerState>
       </ProductState>
     </AuthState>
   );

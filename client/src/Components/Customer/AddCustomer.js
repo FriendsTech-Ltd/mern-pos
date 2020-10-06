@@ -1,10 +1,165 @@
-import React from 'react'
+import React, { useState, useContext} from 'react';
+import { withRouter, Link } from 'react-router-dom'
+import {
+  Grid,
+  Box,
+  Container,
+  Typography,
+  makeStyles,
+  Button,
+  CssBaseline,
+  TextField,
+  Paper,
 
-const AddCustomer = () => {
-    return (
-        <div>
-            <h1>Add customer</h1>
-        </div>
-    )
+  TextareaAutosize
+} from '@material-ui/core';
+
+import Notification from '../common/Notification'
+
+import customerContext from '../../context/CustomerContext/CustomerContext'
+
+const useStyles = makeStyles((theme) => ({
+  paper: {
+    marginTop: theme.spacing(8),
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    padding: '15px'
+  },
+
+  form: {
+    width: '100%', // Fix IE 11 issue.
+    marginTop: theme.spacing(3),
+  },
+  submit: {
+    margin: theme.spacing(3, 0, 2),
+  },
+}));
+
+const  AddCustomer = (props) => {
+
+  const { createCustomer, serverMessage, success } = useContext(customerContext)
+
+  const classes = useStyles();
+
+  const [formData, setFormData]=useState({
+    name:"",
+    phone:"",
+    email:"",
+    address:"",
+});
+
+const onChange=e=>{setFormData({...formData,[e.target.name]:e.target.value});} 
+
+const { name,phone, email, address } = formData;
+
+
+// useEffect(() => {
+//   if(success){
+//     props.history.push('/product');
+//   }
+//   // eslint-disable-next-line
+// },[success])
+
+const onSubmit = e => {
+  e.preventDefault();
+
+  createCustomer({ 
+  name,
+  phone,
+  address,
+  });
+  
+  }
+  
+return (
+  <div>
+
+    <Container component="main" maxWidth="md">
+    {serverMessage && <Notification severity='error' message={serverMessage}/> }
+      <Paper elevation={5} >
+      <CssBaseline />
+      <div className={classes.paper}>
+    
+        <Typography component="h1" variant="h5">
+          Add Customer
+        </Typography>
+        <form className={classes.form} onSubmit={e=>onSubmit(e)}>
+          <Grid container spacing={2}>
+  
+
+           <Grid item xs={12}>
+              <TextField
+                size="small"
+                variant="outlined"
+                required
+                fullWidth
+                label="Customer Name"
+                name="name"
+                value={name}
+                onChange={e=> onChange(e)}
+              />
+            </Grid>
+
+            <Grid item xs={12}>
+              <TextField
+                size="small"
+                type="number"
+                variant="outlined"
+                required
+                fullWidth
+                label="Phone"
+                name="phone"
+                value={phone}
+                onChange={e=> onChange(e)}
+              />
+            </Grid>
+
+            <Grid item xs={12}>
+              <TextField
+                size="small"
+                type="email"
+                variant="outlined"
+                fullWidth
+                label="Email"
+                name="email"
+                value={email}
+                onChange={e=> onChange(e)}
+              />
+            </Grid>
+
+
+            <Grid item xs={12}>
+            <TextareaAutosize rows={6}
+             style={{width:"100%"}}
+            placeholder="Customer Address details"
+            name="address"
+            value={address}
+            onChange={e=> onChange(e)}
+            required
+             />
+            </Grid>
+
+  
+          </Grid>
+          <Button
+            type="submit"
+            fullWidth
+            variant="contained"
+            color="primary"
+            className={classes.submit}
+          >
+         Add Customer
+          </Button>
+      
+        </form>
+      </div>
+      <Box mt={5}>
+      </Box>
+      </Paper>
+    </Container>
+    </div>
+  );
 }
-export default AddCustomer;
+
+export default withRouter(AddCustomer)
