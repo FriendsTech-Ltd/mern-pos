@@ -19,6 +19,7 @@ const customerSchema = mongoose.Schema({
   },
   due: {
     type: Number,
+    default: 0,
   },
 
   totalSell: [
