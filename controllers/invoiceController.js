@@ -9,7 +9,9 @@ import { NotFound } from '../utils/error';
 // @route   PUT /api/product/:id
 // @access  Private
 export const getInvoices = asyncHandler(async (req, res) => {
-  const invoices = await InvoiceModel.find({ user: req.user.id });
+  const invoices = await InvoiceModel.find({ user: req.user.id })
+    .populate({ path: 'customer', model: 'customer', select: 'name due' });
+  // .populate({ path: 'customer', model: 'customer' }).select('customer.name');
 
   if (!invoices.length) throw new NotFound('No invoice found');
 

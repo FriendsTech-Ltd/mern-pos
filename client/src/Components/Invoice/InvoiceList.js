@@ -28,7 +28,7 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import EditIcon from '@material-ui/icons/Edit';
 import IconButton from '@material-ui/core/IconButton';
 
-import CustomerContext from '../../context/CustomerContext/CustomerContext'
+import InvoiceContext from '../../context/InvoiceContext/InvoiceContext'
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -63,16 +63,17 @@ const useStyles = makeStyles((theme) => ({
       textAlign: 'center',
       marginTop:'17%'
     
-    }
+    },
+
   }))
  const InvoiceList = () => {
-  // const CustomerContext = useContext(CustomerContext);
-  const { invoices, getInvoice } = useContext(CustomerContext);
+
+  const { invoices, getInvoices } = useContext(InvoiceContext);
 
     const classes = useStyles()
 
     useEffect(() => {
-      getCustomers();
+        getInvoices();
       // eslint-disable-next-line
     }, []);
   
@@ -93,22 +94,26 @@ const useStyles = makeStyles((theme) => ({
     const [columns] = useState([
       { name: 'sl', title: 'Sl' },
       { name: '_id', title: 'Invoice Id' },
+      { name: 'name', title: 'Customer Name' },
+      { name: 'due', title: 'Due' },
+      { name: 'createdAt', title: 'Date Added' },
       { name: 'view', title: 'View' },
+
       { name: 'action', title: 'Action', columnFilteringEnabled: false },
     ]);
   
     const data = invoices.map((invoice,index) => {
       return {
         sl: index+1,
-        _id: i._id,
-        view:( <Link to={`/dashboard/${invoice._id}`}><Button variant="invoiceontained" size="small" invoiceolor="primary">
+        _id: invoice._id,
+        name:invoice.customer.name,
+        due:invoice.customer.due,
+        createdAt:invoice.createdAt,
+        view:( <Link to={`/dashboard/${invoice._id}`}className={classes.linkStyle}><Button variant="contained" size="small" color="primary">
           View
         </Button> </Link>),
   
         action: (<div>
-          <IconButton onClick={() => handleEdit(invoice._id)} aria-label="edit">
-            <EditIcon />
-          </IconButton>
           <IconButton onClick={() => handleDelete(invoice._id)} aria-label="delete">
             <DeleteIcon />
           </IconButton>
@@ -117,10 +122,13 @@ const useStyles = makeStyles((theme) => ({
     })
   
     const [defaultColumnWidths] = useState([
-      { columnName: 'sl', width: 50 },
-      { columnName: '_id', width: 150  },
-      { columnName: 'view', width: 70  },
-      { columnName: 'action', width: 120 },
+      { columnName: 'sl', width: 100 },
+      { columnName: '_id', width: 200  },
+      { columnName: 'name', width: 200  },
+      { columnName: 'due', width: 100  },
+      { columnName: 'createdAt', width: 200  },
+      { columnName: 'view', width: 150  },
+      { columnName: 'action', width: 100 },
     ]);
 
 
@@ -128,7 +136,7 @@ const useStyles = makeStyles((theme) => ({
         <div>
              <Paper variant="outlined" square className={classes.tittle}>  
           <div className={classes.addButton}>
-            <Link to ='/dashboard/create-invoice' className={classes.linkStyle}>
+            <Link to ='/dashboard/invoice/create-invoice' className={classes.linkStyle}>
                  <Button variant="contained" color="primary">
                 Create Invoice<AddIcon/>
                 </Button>
