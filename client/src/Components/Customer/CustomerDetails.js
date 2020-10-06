@@ -36,9 +36,8 @@ const useStyles = makeStyles((theme) => ({
     },
 
     tittle: {
-      height: 60,
-      padding:0,
-      margin:0
+        margin:8,
+        flexGrow: 1,
     },
     addButton:{
       paddingTop:10,
@@ -65,22 +64,21 @@ const useStyles = makeStyles((theme) => ({
     
     }
   }))
- const CustomerList = () => {
+ const CustomerDetails = (props) => {
   // const CustomerContext = useContext(CustomerContext);
-  const { customers, getCustomers } = useContext(CustomerContext);
+  const { customer, getCustomer, getInvoice } = useContext(CustomerContext);
+   const totalSell = customer.totalSell || []
 
+   console.log(totalSell)
     const classes = useStyles()
 
     useEffect(() => {
-      getCustomers();
+      getCustomer(props.match.params.id);
       // eslint-disable-next-line
     }, []);
   
 
 
-    const handleEdit = (_id) => {
-      console.log(_id)
-    }
   
     const handleDelete= (_id) => {
       console.log(_id)
@@ -92,34 +90,22 @@ const useStyles = makeStyles((theme) => ({
   
     const [columns] = useState([
       { name: 'sl', title: 'Sl' },
-      { name: 'name', title: 'Product name' },
-      { name: 'phone', title: 'Phone' },
-      { name: 'email', title: 'Email' },
-      { name: 'address', title: 'Address' },
-      { name: 'due', title: 'Due' },
+      { name: '_id', title: 'invoice Id' },
       { name: 'createdAt', title: 'Date Added' },
-      { name: 'view', title: 'View' },
+      { name: 'viewDetails', title: 'View details' },
       { name: 'action', title: 'Action', columnFilteringEnabled: false },
     ]);
   
-    const data = customers.map((c,index) => {
+    const data = totalSell.map((i,index) => {
       return {
         sl: index+1,
-        name: c.name,
-        phone: c.phone,
-        email:(c.email? c.email : <Alert severity="warning">Not Email</Alert> ),
-        address: c.address,
-        due: (c.due > 1? c.email : <Alert severity="info">No Due</Alert> ),
-        createdAt:(moment( c.createdAt).format("MMMM Do YYYY")),
-        view:( <Link to={`/dashboard/${c._id}`}><Button variant="contained" size="small" color="primary">
-          View
-        </Button> </Link>),
-  
+        _id: i._id,
+        createdAt:(moment( i.createdAt).format("MMMM Do YYYY")),
+        viewDetails:( <Link to='/dashboard'><Button onClick={()=>getInvoice(i._id)} variant="contained" size="small" color="primary">
+        View
+      </Button> </Link>),
         action: (<div>
-          <IconButton onClick={() => handleEdit(c._id)} aria-label="edit">
-            <EditIcon />
-          </IconButton>
-          <IconButton onClick={() => handleDelete(c._id)} aria-label="delete">
+          <IconButton onClick={() => handleDelete(i._id)} aria-label="delete">
             <DeleteIcon />
           </IconButton>
         </div>)
@@ -127,46 +113,39 @@ const useStyles = makeStyles((theme) => ({
     })
   
     const [defaultColumnWidths] = useState([
-      { columnName: 'sl', width: 50 },
-      { columnName: 'name', width: 150  },
-      { columnName: 'phone', width: 100 },
-      { columnName: 'email', width: 150 },
-      { columnName: 'address', width: 160 },
-      { columnName: 'due', width: 160  },
-      { columnName: 'createdAt', width: 150  },
-      { columnName: 'view', width: 70  },
-      { columnName: 'action', width: 120 },
+      { columnName: 'sl', width: 100 },
+      { columnName: '_id', width: 200  },
+      { columnName: 'createdAt', width: 200  },
+      { columnName: 'viewDetails', width: 200  },
+      { columnName: 'action', width: 200 },
     ]);
-    // const [defaultColumnWidths] = useState([
-    //   { columnName: 'sl', width: '10%' },
-    //   { columnName: 'name', width: '10%'  },
-    //   { columnName: 'phone', width: '10%' },
-    //   { columnName: 'email', width: '15%' },
-    //   { columnName: 'address', width: '20%' },
-    //   { columnName: 'due', width: '10%' },
-    //   { columnName: 'createdAt', width: '10%'  },
-    //   { columnName: 'action', width: '15%' },
-    // ]);
+
 
     return (
         <div>
              <Paper variant="outlined" square className={classes.tittle}>  
           <div className={classes.addButton}>
-            <Link to ='/dashboard/add-customer' className={classes.linkStyle}>
+              <h1>customer details </h1>
+               <p>Name: {customer.name}</p>
+               <p>Phone: {customer.phone}</p>
+               {/* <p>Email: {customer.email}</p> */}
+               <p>Address: {customer.address}</p>
+               {/* <p>Due: {}</p> */}
+            {/* <Link to ='/dashboard/add-customer' className={classes.linkStyle}>
                  <Button variant="contained" color="primary">
                  New Customer<AddIcon/>
                 </Button>
-          </Link>
+          </Link> */}
           </div>
            </Paper > 
 
-      {!customers.length ? (<div className={classes.spinner}>
+      {!totalSell.length ? (<div className={classes.spinner}>
         <CircularProgress size={80} />
         </div>)
          : (<div>
        
            <Paper variant="outlined" elevation={5} className={classes.content}>
-           <h1>All customer here</h1>
+           <h1>customer invoice</h1>
             <Grid
               rows={data}
               columns={columns}
@@ -190,4 +169,4 @@ const useStyles = makeStyles((theme) => ({
         </div>
     )
 }
-export default CustomerList;
+export default CustomerDetails;

@@ -14,6 +14,17 @@ export const getCustomers = asyncHandler(async (req, res) => {
   res.status(200).json({ success: true, customer, msg: 'All customer fetched' });
 });
 
+// @desc    Get Customer
+// @route   GET /api/customer/
+// @access  Private
+export const getCustomer = asyncHandler(async (req, res) => {
+  const customer = await CustomerModel.findOne({ user: req.user.id, _id: req.params.id }).populate({ path: 'totalSell', model: 'invoice' });
+
+  if (!customer) throw new NotFound('No customer found');
+
+  res.status(200).json({ success: true, customer, msg: 'Single customer fetched' });
+});
+
 // @desc    Add Customer
 // @route   POST /api/customer/
 // @access  Private

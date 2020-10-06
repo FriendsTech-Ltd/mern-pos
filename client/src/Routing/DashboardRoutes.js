@@ -7,7 +7,7 @@ import ProductList from '../Components/Product/ProductList';
 import AddProduct from '../Components/Product/AddProduct';
 import CustomerList from '../Components/Customer/CustomerList';
 import AddCustomer from '../Components/Customer/AddCustomer';
-
+import CustomerDetails from '../Components/Customer/CustomerDetails'
 
 const DashboardRoutes = () => {
     return (
@@ -46,6 +46,11 @@ const DashboardRoutes = () => {
           exact
           path="/dashboard/add-customer"
           component={AddCustomer}
+        />
+          <Route
+          exact
+          path="/dashboard/:id"
+          component={CustomerDetails}
         />
 
         </Switch>
