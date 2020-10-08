@@ -275,6 +275,7 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Button from '@material-ui/core/Button';
+import InvoiceCustomer from './InvoiceCustomer'
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
@@ -476,7 +477,7 @@ const Listbox = styled('ul')`
             <NoSsr>
             <div >
               <div {...getRootProps()} className={classes.searchIcon}>
-                {/* <Label {...getInputLabelProps()}>Customized hook</Label> */}
+            
                 <AddBoxIcon className={classes.iconSize}/> 
               <InputWrapper ref={setAnchorEl} className={focused ? 'focused' : ''}>
                   {value.map((option, index) => (
@@ -531,14 +532,10 @@ const Listbox = styled('ul')`
 
       </Grid>
       <Grid item xs={5}>
-        <Paper elevation={5} className={classes.customerSearch}>customer search here</Paper>
-
-        <Paper elevation={5}className={classes.customerDetails}>
-           <p>Name: 'Emon'</p> 
-           <p>Phone: '123957457'</p>
-           <p> address:'yrfgs'</p>
-           <p>due: '34' </p>
-        </Paper>
+        <div>
+        <InvoiceCustomer/> 
+        </div>
+       
         <Paper elevation={5} className={classes.accountDetails}>
           <p>Sub Total: '100'</p>
           <p>Discount: '10%</p>
