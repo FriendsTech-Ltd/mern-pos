@@ -19,6 +19,7 @@ const ProductState=(props)=> {
 const initialState={
   products: [],
   editForm:{},
+  invoiceProducts:[],
   serverMessage: null,
   success: false,
 }
@@ -99,6 +100,10 @@ const clearEditForm=()=>{
         type:CLEAR_SUCCESS,
       })
     }, 5000);
+  }
+
+  const getInvoiceProducts = () =>{
+    
   }
 
     return (
