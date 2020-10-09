@@ -50,6 +50,9 @@ const useStyles = makeStyles((theme) => ({
   tabs: {
     borderRight: `1px solid ${theme.palette.divider}`,
   },
+  title:{
+   
+  }
 }));
 
 export default function VerticalTabs() {
@@ -62,8 +65,8 @@ export default function VerticalTabs() {
 
   return (
       <div>
-  <Grid item xs={12}>
-    <Typography variant="h4" gutterBottom align="center" >
+  <Grid item xs={12} align="center">
+    <Typography variant="h4" gutterBottom align="center" className={classes.title}>
       Why Point Of sales
       </Typography>
         </Grid>

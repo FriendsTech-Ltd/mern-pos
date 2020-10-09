@@ -24,13 +24,17 @@ const useStyles = makeStyles((theme) => ({
   secondaryTail: {
     backgroundColor: theme.palette.secondary.main,
   },
+  FeatureLayout:{
+   
+  }
+  
 }));
 
 export default function CustomizedTimeline() {
   const classes = useStyles();
 
   return (
-      <div>
+      <div className={classes.FeatureLayout}>
     <Grid item xs={12}>
     <Typography variant="h4" gutterBottom align="center" >
       Feature

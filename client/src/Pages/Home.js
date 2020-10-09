@@ -17,9 +17,11 @@ const useStyles = makeStyles((theme) => ({
     marginRight: theme.spacing(2),
   },
   heroContent: {
-    backgroundColor: theme.palette.background.paper,
+    backgroundImage: `url("https://cdn.wallpapersafari.com/16/15/LrxlKZ.jpg")`,
+    // backgroundColor: theme.palette.background.paper,
     padding: theme.spacing(8, 0, 6),
-    height:550
+    height:570,
+    
   },
   heroButtons: {
     marginTop: theme.spacing(4),
@@ -40,7 +42,13 @@ const useStyles = makeStyles((theme) => ({
     flexGrow: 1,
   },
   feature:{
-    
+    paddingRight:200,
+    paddingLeft:200
+  },
+  whyPos:{
+    marginTop:20,
+    paddingRight:200,
+    paddingLeft:200
   }
 
 }));
@@ -87,12 +95,13 @@ export default function Album() {
         </div>
 
 
-        <Container className={classes.cardGrid} maxWidth="md">
-        
-          <Grid container spacing={4}>
+        <div className={classes.whyPos} maxWidth="md">
+          <Grid>
          <WhyPos/>
           </Grid>
-        </Container>
+        </div>
+
+
         <Container className={classes.cardGrid} maxWidth="md">
     
           <Grid container spacing={4}>
