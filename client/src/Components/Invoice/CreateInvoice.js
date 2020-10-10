@@ -10,7 +10,6 @@ import NoSsr from '@material-ui/core/NoSsr';
 import CheckIcon from '@material-ui/icons/Check';
 import CloseIcon from '@material-ui/icons/Close';
 import styled from 'styled-components';
-import Autocomplete from '@material-ui/lab/Autocomplete';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
@@ -20,6 +19,9 @@ import TableRow from '@material-ui/core/TableRow';
 import Button from '@material-ui/core/Button';
 import InvoiceCustomer from './InvoiceCustomer'
 import ProductContext from '../../context/ProductContext/ProductContext'
+import InvoiceContext from '../../context/InvoiceContext/InvoiceContext'
+import CustomerContext from '../../context/CustomerContext/CustomerContext'
+
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
@@ -192,6 +194,8 @@ const Listbox = styled('ul')`
  const CreateInvoice = () => {
   const classes = useStyles();
   const {getProducts,products} = useContext(ProductContext)
+  const {getInvoiceProducts,card,invoiceCustomer,increment,decrement} = useContext(InvoiceContext)
+  const {getCustomers,customers} = useContext(CustomerContext)
 
   const {
     getRootProps,
@@ -206,82 +210,28 @@ const Listbox = styled('ul')`
     setAnchorEl,
   } = useAutocomplete({
     id: 'customized-hook-demo',
-    // defaultValue: [products[1]],
     multiple: true,
     options: products,
     getOptionLabel: (option) => option.name,
   });
 
+
+
+
 useEffect(()=>{
-
+  getProducts()
+  getCustomers()
+  getInvoiceProducts(value)
 },[value])
-  const [card,setCard]=useState(value)
-  console.log(card)
-  // let formData= {
-  //   customer: '12334',
-  //   products: value
-  // }
-  // console.log(formData.products)
 
-// console.log( getRootProps,
-//   getInputLabelProps,
-//   getInputProps,
-//   getTagProps,
-//   getListboxProps,
-//   getOptionProps,
-//   groupedOptions,
-//   value,
-//   focused,
-//   setAnchorEl,)
-//   const [card,setCard]=useState([value])
-// console.log(value)
-// console.log(formData.products)
+const obj ={
+  customer: invoiceCustomer ? invoiceCustomer._id : null,
+  products:card
+}
+const onCreateinvoice=()=>{
+console.log(obj)
+}
 
-  // useEffect(()=>{
-   
-  // },[value])
-
-  const increment=(id)=>{
-    let tempCart = card;
-    const selectedProduct = tempCart.find(item =>  item._id === id);
-    const index = tempCart.indexOf(selectedProduct);
-    const product = tempCart[index];
-    product.quantity = product.quantity + 1;
-    // formData.products=tempCart
-    setCard(tempCart)
-   }
-   const decrement=(id)=>{
-    let tempCart = card
-    const selectedProduct = tempCart.find(item =>  item._id === id);
-    const index = tempCart.indexOf(selectedProduct);
-    const product = tempCart[index];
-    product.quantity = product.quantity - 1;
-    // formData.products=tempCart
-    setCard(tempCart)
-   }
-
-//  const increment=(id)=>{
-//   let tempCart = formData.products;
-//   const selectedProduct = tempCart.find(item =>  item._id === id);
-//   const index = tempCart.indexOf(selectedProduct);
-//   const product = tempCart[index];
-//   product.quantity = product.quantity + 1;
-//   formData.products=tempCart
-//   // setCard(tempCart)
-//  }
-//  const decrement=(id)=>{
-//   let tempCart = formData.products;
-//   const selectedProduct = tempCart.find(item =>  item._id === id);
-//   const index = tempCart.indexOf(selectedProduct);
-//   const product = tempCart[index];
-//   product.quantity = product.quantity - 1;
-//   formData.products=tempCart
-//   // setCard(tempCart)
-//  }
-
- useEffect(()=>{
-  // getProducts()
-},[])
   return (
     <div className={classes.root}>
     <Grid container >
@@ -331,7 +281,7 @@ useEffect(()=>{
               </TableRow>
           </TableHead>
           <TableBody>
-              {value.map((product,index) => (
+              {card.map((product,index) => (
               <TableRow key={index}>
                 <TableCell component="th" scope="row">
                   {index+1}
@@ -340,11 +290,11 @@ useEffect(()=>{
                 <TableCell align="right">{product.sellingPrice}</TableCell>
                 <TableCell align="right">
                 <div>
-                <button
-                onClick={()=>decrement(product._id)}>-</button>
+
+                {product.quantity  > 1 ? ( <button onClick={()=>decrement(product._id)}>-</button>) : (<button disable>-</button>) }
                     <span>{ product.quantity}</span>
-                    <button 
-                    onClick={()=>increment(product._id)}>+</button>
+                <button onClick={()=>increment(product._id)}>+</button>
+               
                 </div>
                  </TableCell>
                 <TableCell align="right">{product.sellingPrice*product.quantity}</TableCell>
@@ -358,7 +308,7 @@ useEffect(()=>{
       </Grid>
       <Grid item xs={5}>
         <div>
-        <InvoiceCustomer/> 
+        <InvoiceCustomer customers={customers}/> 
         </div>
        
         <Paper elevation={5} className={classes.accountDetails}>
@@ -370,7 +320,7 @@ useEffect(()=>{
           <p>Grand Total: '100'</p>
         </Paper>
         <div className={classes.accountDetails}>
-        <Button variant="contained" color="primary" disableElevation>
+        <Button variant="contained" color="primary" onClick={()=>onCreateinvoice()} disableElevation>
       Create Invoice
     </Button>
         </div>
@@ -381,17 +331,5 @@ useEffect(()=>{
   </div>
   )
 }
-// // Top 100 films as rated by IMDb users. http://www.imdb.com/chart/top
-const top100Films = [
-  { name: 'product1', sellingPrice: 10, _id: '1', quantity:1},
-  { name: 'product2', sellingPrice: 20, _id: '2',quantity:1},
-  { name: 'product3', sellingPrice: 30, _id: '3',quantity:1},
-  { name: 'product4', sellingPrice: 40, _id: '4',quantity:1},
-  { name: 'product5', sellingPrice: 40, _id: '5',quantity:1},
-  { name: 'product6', sellingPrice: 40, _id: '6',quantity:1},
-  { name: 'product7', sellingPrice: 40, _id: '7',quantity:1},
-  { name: 'product8', sellingPrice: 40, _id: '8',quantity:1},
-
-];
 export default CreateInvoice;
 

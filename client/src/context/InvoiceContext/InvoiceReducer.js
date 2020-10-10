@@ -5,7 +5,11 @@ import {
     DELETE_INVOICE,
     CLEAR_SUCCESS,
     CLEAR_ERROR,
-    ERROR
+    ERROR,
+    GET_INVOICE_PRODUCT,
+    GET_INVOICE_CUSTOMER,
+    INCREMENT,
+    DECREMENT,
 } from '../type'
 
 export default (state,action)=>{
@@ -61,6 +65,29 @@ export default (state,action)=>{
         success: false,
         serverMessage: null
       }
+      case  GET_INVOICE_PRODUCT:
+        return{
+        ...state,
+        card:action.payload
+                 
+        }
+    case  GET_INVOICE_CUSTOMER:
+          return{
+          ...state,
+          invoiceCustomer:action.payload
+                   
+          }
+      case  INCREMENT:
+            return{
+              ...state,
+              card:action.payload               
+          }
+      case  DECREMENT:
+          return{
+          ...state,
+          card:action.payload
+                            
+          }
     default:
       return state
   }

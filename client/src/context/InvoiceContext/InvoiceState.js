@@ -10,7 +10,11 @@ import {
   CREATE_INVOICE,
   ERROR,
   CLEAR_SUCCESS,
-  CLEAR_ERROR
+  CLEAR_ERROR,
+  GET_INVOICE_PRODUCT,
+  GET_INVOICE_CUSTOMER,
+  DECREMENT,
+  INCREMENT,
 } from '../type'
 
 const InvoiceState = (props) => {
@@ -19,6 +23,8 @@ const initialState={
   invoice:{},
   serverMessage: null,
   success: false,
+  card:[],
+  invoiceCustomer:{}
 }
 
 const [state,dispatch]=useReducer(InvoiceReducer,initialState)
@@ -85,15 +91,56 @@ try{
     }, 5000);
   }
 
+  const getInvoiceProducts = (value) =>{
+    dispatch({ type:GET_INVOICE_PRODUCT, payload:value }) ;
+  }
+
+  const getInvoiceCustomer = (value) =>{
+    dispatch({ type:GET_INVOICE_CUSTOMER, payload:value }) ;
+  }
+
+
+  const increment=(id)=>{
+    let tempCart = state.card;
+    const selectedProduct = tempCart.find(item =>  item._id === id);
+    const index = tempCart.indexOf(selectedProduct);
+    const product = tempCart[index];
+    product.quantity = product.quantity + 1;
+    dispatch({
+      type: INCREMENT,
+      payload: tempCart
+    })
+   }
+
+   const decrement=(id)=>{
+    let tempCart = state.card
+    const selectedProduct = tempCart.find(item =>  item._id === id);
+    const index = tempCart.indexOf(selectedProduct);
+    const product = tempCart[index];
+    product.quantity = product.quantity - 1;
+    dispatch({
+      type: DECREMENT,
+      payload: tempCart
+    })
+    
+   }
+
+
     return (
         <InvoiceContext.Provider value={{
           invoice: state.invoice,
           invoices: state.invoices,
           serverMessage: state.serverMessage,
+          card:state.card,
+          invoiceCustomer:state.invoiceCustomer,
           createInvoice,
           getInvoices,
           deleteInvoice,
-          getInvoice
+          getInvoice,
+          getInvoiceProducts,
+          getInvoiceCustomer,
+          decrement,
+          increment
     }}>
       {props.children}
     </InvoiceContext.Provider >

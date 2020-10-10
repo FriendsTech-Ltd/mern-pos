@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useContext,useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
@@ -10,6 +10,7 @@ import CheckIcon from '@material-ui/icons/Check';
 import CloseIcon from '@material-ui/icons/Close';
 import styled from 'styled-components';
 import Autocomplete from '@material-ui/lab/Autocomplete';
+import InvoiceContext from '../../context/InvoiceContext/InvoiceContext'
 const useStyles = makeStyles((theme) => ({
     root: {
       flexGrow: 1,
@@ -153,8 +154,9 @@ const Listbox = styled('ul')`
 `;
 
  
- const InvoiceCustomer = () => {
+ const InvoiceCustomer = ({customers}) => {
     const classes = useStyles();
+    const {getInvoiceCustomer} = useContext(InvoiceContext)
     const {
         getRootProps,
         getInputLabelProps,
@@ -165,9 +167,14 @@ const Listbox = styled('ul')`
         value
       } = useAutocomplete({
         id: 'use-autocomplete-demo',
-        options: top100Films,
+        options: customers,
         getOptionLabel: (option) => option.name,
       })
+
+
+      useEffect(()=>{
+        getInvoiceCustomer(value)
+      },[value])
     return (
         <div>
    <Paper elevation={5} className={classes.customerSearch}>
@@ -199,11 +206,5 @@ const Listbox = styled('ul')`
     )
 }
 
-const top100Films = [
-    { _id: 'isdbf87', name: 'The Shawshank Redemption', phone: 234, address: 'Bangladesh', due: 456 },
-    { _id: 'ert34', name: 'The Shawshank ', phone: 234, address: 'Bangladesh', due: 2345 },
-    { _id: '345er', name: 'The ', phone: 1994, address: 'Bangladesh', due: 57 },
-    { _id: 'ert34', name: 'The  Redemption', phone: 3445, address: 'Bangladesh', due: 234 },
-    { _id: 'treetrd', name: 'Shawshank Redemption', phone: 3455, address: 'Bangladesh', due: 654 }
-]
+
 export default InvoiceCustomer
