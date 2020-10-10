@@ -12,13 +12,15 @@ import {
   CLEAR_ERROR,
   CLEAR_SUCCESS,
   EDIT_FORM,
-  CLEAR_EDIT_FORM
+  CLEAR_EDIT_FORM,
+
 } from '../type'
 
 const ProductState=(props)=> {
 const initialState={
   products: [],
   editForm:{},
+  invoiceProducts:[],
   serverMessage: null,
   success: false,
 }
@@ -101,6 +103,8 @@ const clearEditForm=()=>{
     }, 5000);
   }
 
+
+
     return (
         <ProductContext.Provider value={{
           products: state.products,
@@ -111,7 +115,8 @@ const clearEditForm=()=>{
           updateProduct,
           editFormFun,
           clearEditForm,
-          deleteProduct
+          deleteProduct,
+       
     }}>
       {props.children}
     </ProductContext.Provider >

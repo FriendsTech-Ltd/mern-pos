@@ -7,6 +7,9 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import Navbar from '../Components/layout/NavBar'
+import Feature from './Feture'
+import WhyPos from './WhyPos'
+import Qa from './QA'
 
 
 const useStyles = makeStyles((theme) => ({
@@ -14,8 +17,11 @@ const useStyles = makeStyles((theme) => ({
     marginRight: theme.spacing(2),
   },
   heroContent: {
-    backgroundColor: theme.palette.background.paper,
+    backgroundImage: `url("https://cdn.wallpapersafari.com/16/15/LrxlKZ.jpg")`,
+    // backgroundColor: theme.palette.background.paper,
     padding: theme.spacing(8, 0, 6),
+    height:570,
+    
   },
   heroButtons: {
     marginTop: theme.spacing(4),
@@ -35,6 +41,15 @@ const useStyles = makeStyles((theme) => ({
   cardContent: {
     flexGrow: 1,
   },
+  feature:{
+    paddingRight:200,
+    paddingLeft:200
+  },
+  whyPos:{
+    marginTop:20,
+    paddingRight:200,
+    paddingLeft:200
+  }
 
 }));
 
@@ -72,10 +87,25 @@ export default function Album() {
             </div>
           </Container>
         </div>
+
+        <div className={classes.feature} maxWidth="md">
+          <Grid>
+                <Feature/>
+          </Grid>
+        </div>
+
+
+        <div className={classes.whyPos} maxWidth="md">
+          <Grid>
+         <WhyPos/>
+          </Grid>
+        </div>
+
+
         <Container className={classes.cardGrid} maxWidth="md">
-          {/* End hero unit */}
+    
           <Grid container spacing={4}>
-         
+         <Qa/>
           </Grid>
         </Container>
       </main>

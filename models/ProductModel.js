@@ -30,6 +30,10 @@ const productSchema = mongoose.Schema({
   description: {
     type: String,
   },
+  quantity: {
+    type: Number,
+    default: 1,
+  },
 
 },
 {

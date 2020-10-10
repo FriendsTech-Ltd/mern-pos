@@ -43,12 +43,14 @@ export const mainListItems = (
       <ListItemText primary="Customer" />
     </ListItem>
     </Link>
+    <Link to ='/dashboard/invoice/invoice-list' style={linkStyle}>
     <ListItem button>
       <ListItemIcon>
         <ReceiptIcon />
       </ListItemIcon>
       <ListItemText primary="Invoice" />
     </ListItem>
+    </Link>
   
     <ListItem button>
       <ListItemIcon>

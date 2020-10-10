@@ -7,8 +7,10 @@ import ProductList from '../Components/Product/ProductList';
 import AddProduct from '../Components/Product/AddProduct';
 import CustomerList from '../Components/Customer/CustomerList';
 import AddCustomer from '../Components/Customer/AddCustomer';
-
-
+import CustomerDetails from '../Components/Customer/CustomerDetails';
+import Invoice from '../Components/Invoice/Invoice';
+import InvoiceList from '../Components/Invoice/InvoiceList';
+import CreateInvoice from '../Components/Invoice/CreateInvoice'
 const DashboardRoutes = () => {
     return (
         <Switch>
@@ -46,6 +48,26 @@ const DashboardRoutes = () => {
           exact
           path="/dashboard/add-customer"
           component={AddCustomer}
+        />
+          <Route
+          exact
+          path="/dashboard/:id"
+          component={CustomerDetails}
+        />
+          <Route
+          exact
+          path="/dashboard/customer/invoice"
+          component={Invoice}
+        />
+          <Route
+          exact
+          path="/dashboard/invoice/create-invoice"
+          component={CreateInvoice}
+        />
+          <Route
+          exact
+          path="/dashboard/invoice/invoice-list"
+          component={InvoiceList}
         />
 
         </Switch>

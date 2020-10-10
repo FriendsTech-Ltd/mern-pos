@@ -5,6 +5,7 @@ import { handleValidations } from '../middleware/handleValidations';
 
 import {
   getCustomers,
+  getCustomer,
   addCustomer,
   deleteCustomer,
   updateCustomer,
@@ -16,6 +17,7 @@ const router = express.Router();
 router.route('/')
   .post(protect, handleValidations(validators.customerValidation), addCustomer)
   .get(protect, getCustomers);
+router.route('/details/:id').get(protect, getCustomer);
 router.route('/:id').put(protect, updateCustomer).delete(protect, deleteCustomer);
 
 export default router;

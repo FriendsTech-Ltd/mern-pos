@@ -28,7 +28,7 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import EditIcon from '@material-ui/icons/Edit';
 import IconButton from '@material-ui/core/IconButton';
 
-import CustomerContext from '../../context/CustomerContext/CustomerContext'
+import InvoiceContext from '../../context/InvoiceContext/InvoiceContext'
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -63,16 +63,17 @@ const useStyles = makeStyles((theme) => ({
       textAlign: 'center',
       marginTop:'17%'
     
-    }
+    },
+
   }))
- const CustomerList = () => {
-  // const CustomerContext = useContext(CustomerContext);
-  const { customers, getCustomers } = useContext(CustomerContext);
+ const InvoiceList = () => {
+
+  const { invoices, getInvoices } = useContext(InvoiceContext);
 
     const classes = useStyles()
 
     useEffect(() => {
-      getCustomers();
+        getInvoices();
       // eslint-disable-next-line
     }, []);
   
@@ -92,34 +93,28 @@ const useStyles = makeStyles((theme) => ({
   
     const [columns] = useState([
       { name: 'sl', title: 'Sl' },
-      { name: 'name', title: 'Product name' },
-      { name: 'phone', title: 'Phone' },
-      { name: 'email', title: 'Email' },
-      { name: 'address', title: 'Address' },
+      { name: '_id', title: 'Invoice Id' },
+      { name: 'name', title: 'Customer Name' },
       { name: 'due', title: 'Due' },
       { name: 'createdAt', title: 'Date Added' },
       { name: 'view', title: 'View' },
+
       { name: 'action', title: 'Action', columnFilteringEnabled: false },
     ]);
   
-    const data = customers.map((c,index) => {
+    const data = invoices.map((invoice,index) => {
       return {
         sl: index+1,
-        name: c.name,
-        phone: c.phone,
-        email:(c.email? c.email : <Alert severity="warning">Not Email</Alert> ),
-        address: c.address,
-        due: (c.due > 1? c.email : <Alert severity="info">No Due</Alert> ),
-        createdAt:(moment( c.createdAt).format("MMMM Do YYYY")),
-        view:( <Link to={`/dashboard/${c._id}`}><Button variant="contained" size="small" color="primary">
+        _id: invoice._id,
+        name:invoice.customer.name,
+        due:invoice.customer.due,
+        createdAt:invoice.createdAt,
+        view:( <Link to={`/dashboard/${invoice._id}`}className={classes.linkStyle}><Button variant="contained" size="small" color="primary">
           View
         </Button> </Link>),
   
         action: (<div>
-          <IconButton onClick={() => handleEdit(c._id)} aria-label="edit">
-            <EditIcon />
-          </IconButton>
-          <IconButton onClick={() => handleDelete(c._id)} aria-label="delete">
+          <IconButton onClick={() => handleDelete(invoice._id)} aria-label="delete">
             <DeleteIcon />
           </IconButton>
         </div>)
@@ -127,46 +122,35 @@ const useStyles = makeStyles((theme) => ({
     })
   
     const [defaultColumnWidths] = useState([
-      { columnName: 'sl', width: 50 },
-      { columnName: 'name', width: 150  },
-      { columnName: 'phone', width: 100 },
-      { columnName: 'email', width: 150 },
-      { columnName: 'address', width: 160 },
-      { columnName: 'due', width: 160  },
-      { columnName: 'createdAt', width: 150  },
-      { columnName: 'view', width: 70  },
-      { columnName: 'action', width: 120 },
+      { columnName: 'sl', width: 100 },
+      { columnName: '_id', width: 200  },
+      { columnName: 'name', width: 200  },
+      { columnName: 'due', width: 100  },
+      { columnName: 'createdAt', width: 200  },
+      { columnName: 'view', width: 150  },
+      { columnName: 'action', width: 100 },
     ]);
-    // const [defaultColumnWidths] = useState([
-    //   { columnName: 'sl', width: '10%' },
-    //   { columnName: 'name', width: '10%'  },
-    //   { columnName: 'phone', width: '10%' },
-    //   { columnName: 'email', width: '15%' },
-    //   { columnName: 'address', width: '20%' },
-    //   { columnName: 'due', width: '10%' },
-    //   { columnName: 'createdAt', width: '10%'  },
-    //   { columnName: 'action', width: '15%' },
-    // ]);
+
 
     return (
         <div>
              <Paper variant="outlined" square className={classes.tittle}>  
           <div className={classes.addButton}>
-            <Link to ='/dashboard/add-customer' className={classes.linkStyle}>
+            <Link to ='/dashboard/invoice/create-invoice' className={classes.linkStyle}>
                  <Button variant="contained" color="primary">
-                 New Customer<AddIcon/>
+                Create Invoice<AddIcon/>
                 </Button>
           </Link>
           </div>
            </Paper > 
 
-      {!customers.length ? (<div className={classes.spinner}>
+      {!invoices.length ? (<div className={classes.spinner}>
         <CircularProgress size={80} />
         </div>)
          : (<div>
        
            <Paper variant="outlined" elevation={5} className={classes.content}>
-           <h1>All customer here</h1>
+           <h1>All Invoice here</h1>
             <Grid
               rows={data}
               columns={columns}
@@ -190,4 +174,4 @@ const useStyles = makeStyles((theme) => ({
         </div>
     )
 }
-export default CustomerList;
+export default InvoiceList;
