@@ -212,20 +212,27 @@ const Listbox = styled('ul')`
     getOptionLabel: (option) => option.name,
   });
 
-  const formData= {
-    customer: '12334',
-    products: value
-  }
-console.log( getRootProps,
-  getInputLabelProps,
-  getInputProps,
-  getTagProps,
-  getListboxProps,
-  getOptionProps,
-  groupedOptions,
-  value,
-  focused,
-  setAnchorEl,)
+useEffect(()=>{
+
+},[value])
+  const [card,setCard]=useState(value)
+  console.log(card)
+  // let formData= {
+  //   customer: '12334',
+  //   products: value
+  // }
+  // console.log(formData.products)
+
+// console.log( getRootProps,
+//   getInputLabelProps,
+//   getInputProps,
+//   getTagProps,
+//   getListboxProps,
+//   getOptionProps,
+//   groupedOptions,
+//   value,
+//   focused,
+//   setAnchorEl,)
 //   const [card,setCard]=useState([value])
 // console.log(value)
 // console.log(formData.products)
@@ -234,25 +241,43 @@ console.log( getRootProps,
    
   // },[value])
 
+  const increment=(id)=>{
+    let tempCart = card;
+    const selectedProduct = tempCart.find(item =>  item._id === id);
+    const index = tempCart.indexOf(selectedProduct);
+    const product = tempCart[index];
+    product.quantity = product.quantity + 1;
+    // formData.products=tempCart
+    setCard(tempCart)
+   }
+   const decrement=(id)=>{
+    let tempCart = card
+    const selectedProduct = tempCart.find(item =>  item._id === id);
+    const index = tempCart.indexOf(selectedProduct);
+    const product = tempCart[index];
+    product.quantity = product.quantity - 1;
+    // formData.products=tempCart
+    setCard(tempCart)
+   }
 
- const increment=(id)=>{
-  let tempCart = formData.products;
-  const selectedProduct = tempCart.find(item =>  item._id === id);
-  const index = tempCart.indexOf(selectedProduct);
-  const product = tempCart[index];
-  product.quantity = product.quantity + 1;
-  formData.products=tempCart
-  // setCard(tempCart)
- }
- const decrement=(id)=>{
-  let tempCart = formData.products;
-  const selectedProduct = tempCart.find(item =>  item._id === id);
-  const index = tempCart.indexOf(selectedProduct);
-  const product = tempCart[index];
-  product.quantity = product.quantity - 1;
-  formData.products=tempCart
-  // setCard(tempCart)
- }
+//  const increment=(id)=>{
+//   let tempCart = formData.products;
+//   const selectedProduct = tempCart.find(item =>  item._id === id);
+//   const index = tempCart.indexOf(selectedProduct);
+//   const product = tempCart[index];
+//   product.quantity = product.quantity + 1;
+//   formData.products=tempCart
+//   // setCard(tempCart)
+//  }
+//  const decrement=(id)=>{
+//   let tempCart = formData.products;
+//   const selectedProduct = tempCart.find(item =>  item._id === id);
+//   const index = tempCart.indexOf(selectedProduct);
+//   const product = tempCart[index];
+//   product.quantity = product.quantity - 1;
+//   formData.products=tempCart
+//   // setCard(tempCart)
+//  }
 
  useEffect(()=>{
   // getProducts()
@@ -306,7 +331,7 @@ console.log( getRootProps,
               </TableRow>
           </TableHead>
           <TableBody>
-              {formData.products.map((product,index) => (
+              {value.map((product,index) => (
               <TableRow key={index}>
                 <TableCell component="th" scope="row">
                   {index+1}
