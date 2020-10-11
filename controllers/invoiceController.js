@@ -24,18 +24,33 @@ export const getInvoices = asyncHandler(async (req, res) => {
 export const createInvoice = asyncHandler(async (req, res, next) => {
   req.body.user = req.user.id;
 
-  const { products, customerId } = req.body;
+  const {
+    products,
+    customerId,
+    payAmount,
+    totalProductAmount,
+    discount,
+  } = req.body;
 
-  const inv = {
+  const newInvoice = {
     user: req.user.id,
     customer: customerId,
     products: [],
+    totalAmountAfterDiscount: totalProductAmount,
+    discount,
+    payAmount,
   };
+
+  const dueAmount = totalProductAmount - payAmount;
+
+  if (dueAmount < totalProductAmount) {
+    newInvoice.due = dueAmount;
+  }
 
   await Promise.all(products.map(async (product) => {
     const result = await ProductModel.findById(product._id);
     // if (!result) throw new NotFound('No product found');
-    inv.products.push({
+    newInvoice.products.push({
       name: result.name,
       price: result.price,
       sellingPrice: result.sellingPrice,
@@ -48,16 +63,19 @@ export const createInvoice = asyncHandler(async (req, res, next) => {
     await result.save();
   }));
 
-  const invoice = await InvoiceModel.create(inv);
+  const invoice = await InvoiceModel.create(newInvoice);
   if (invoice instanceof Error) return next(invoice, req, res);
 
   const customer = await CustomerModel.findByIdAndUpdate(customerId,
-    { $push: { totalSell: invoice._id } });
+    {
+      $push: { totalSell: invoice._id },
+      $inc: { due: dueAmount, allTimeSellAmount: totalProductAmount },
+    });
   if (customer instanceof Error) return next(customer, req, res);
 
   res.status(201).json({
     success: true,
-    inv,
+    invoice,
     msg: 'Invoice created successfully',
   });
 });

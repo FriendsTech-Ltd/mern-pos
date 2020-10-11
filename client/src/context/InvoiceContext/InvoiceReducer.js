@@ -33,7 +33,7 @@ export default (state,action)=>{
     case CREATE_INVOICE:
       return {
         ...state,
-        invoices: [...state.invoices, action.payload.customer],
+        invoices: [...state.invoices, action.payload.invoice],
         success: action.payload.success,
         serverMessage: action.payload.msg,
       }

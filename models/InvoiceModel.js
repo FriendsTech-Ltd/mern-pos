@@ -9,6 +9,22 @@ const invoiceSchema = mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Customer',
   },
+  due: {
+    type: Number,
+    default: 0,
+  },
+  discount: {
+    type: Number,
+    default: 0,
+  },
+  totalAmountAfterDiscount: {
+    type: Number,
+    default: 0,
+  },
+  payAmount: {
+    type: Number,
+    default: 0,
+  },
   products: [{
     name: {
       type: String,
