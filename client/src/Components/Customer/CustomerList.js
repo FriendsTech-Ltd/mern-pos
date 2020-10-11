@@ -2,7 +2,6 @@ import React, { useContext, useEffect, useState } from 'react'
 import CircularProgress from '@material-ui/core/CircularProgress';
 import moment from 'moment'
 import {Link} from 'react-router-dom'
-
 import {
   FilteringState,
   IntegratedFiltering,
@@ -109,9 +108,9 @@ const useStyles = makeStyles((theme) => ({
         phone: c.phone,
         email:(c.email? c.email : <Alert severity="warning">Not Email</Alert> ),
         address: c.address,
-        due: (c.due > 1? c.email : <Alert severity="info">No Due</Alert> ),
+        due: (c.due > 0? <Alert severity="error">{c.due}</Alert> : <Alert severity="info">No Due</Alert> ),
         createdAt:(moment( c.createdAt).format("MMMM Do YYYY")),
-        view:( <Link to={`/dashboard/${c._id}`}><Button variant="contained" size="small" color="primary">
+        view:( <Link className={classes.linkStyle} to={`/dashboard/${c._id}`}><Button variant="contained" size="small" color="primary">
           View
         </Button> </Link>),
   
@@ -137,16 +136,7 @@ const useStyles = makeStyles((theme) => ({
       { columnName: 'view', width: 70  },
       { columnName: 'action', width: 120 },
     ]);
-    // const [defaultColumnWidths] = useState([
-    //   { columnName: 'sl', width: '10%' },
-    //   { columnName: 'name', width: '10%'  },
-    //   { columnName: 'phone', width: '10%' },
-    //   { columnName: 'email', width: '15%' },
-    //   { columnName: 'address', width: '20%' },
-    //   { columnName: 'due', width: '10%' },
-    //   { columnName: 'createdAt', width: '10%'  },
-    //   { columnName: 'action', width: '15%' },
-    // ]);
+
 
     return (
         <div>
