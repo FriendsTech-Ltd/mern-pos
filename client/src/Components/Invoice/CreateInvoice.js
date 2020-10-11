@@ -16,7 +16,7 @@ import TableCell from '@material-ui/core/TableCell';
 import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
-import Button from '@material-ui/core/Button';
+import { TextField, Button } from '@material-ui/core';
 import InvoiceCustomer from './InvoiceCustomer'
 import ProductContext from '../../context/ProductContext/ProductContext'
 import InvoiceContext from '../../context/InvoiceContext/InvoiceContext'
@@ -70,6 +70,9 @@ const useStyles = makeStyles((theme) => ({
     // textAlign: 'center',
     // color: theme.palette.text.secondary,
   },
+  payButton:{
+    flexGrow: 1,
+  }
 }));
 const Label = styled('label')`
   padding: 0 0 4px;
@@ -194,7 +197,7 @@ const Listbox = styled('ul')`
  const CreateInvoice = () => {
   const classes = useStyles();
   const {getProducts,products} = useContext(ProductContext)
-  const {getInvoiceProducts,card,invoiceCustomer,increment,decrement} = useContext(InvoiceContext)
+  const {getInvoiceProducts,card,invoiceCustomer,increment,decrement,createInvoice} = useContext(InvoiceContext)
   const {getCustomers,customers} = useContext(CustomerContext)
 
   const {
@@ -224,12 +227,35 @@ useEffect(()=>{
   getInvoiceProducts(value)
 },[value])
 
-const obj ={
-  customer: invoiceCustomer ? invoiceCustomer._id : null,
-  products:card
+
+const BlanceArray = card.map(function(product) {
+  return product.sellingPrice*product.quantity;
+});
+
+const totalPrice = BlanceArray.reduce(function(accumulator, currentValue) {
+  return accumulator + currentValue;;
+}, 0);
+
+
+const [discount,setDiscount]=useState(0)
+const [pay,setPay]=useState(0)
+const [due,setDue]=useState(0)
+
+const grandTotal = (totalPrice - (discount/100)*totalPrice)
+
+const payCalculate=(e)=>{
+  setDue(grandTotal-pay)
 }
-const onCreateinvoice=()=>{
-console.log(obj)
+const invoiceObj ={
+  customerId: invoiceCustomer ? invoiceCustomer._id : null,
+  products:card,
+  payAmount:Number(pay),
+}
+const onCreateInvoice=()=>{
+if(!invoiceObj.customer || !invoiceObj.products.length || !invoiceObj.payAmount ){
+ return alert('please fill all field')
+}
+createInvoice(invoiceObj)
 }
 
   return (
@@ -312,15 +338,43 @@ console.log(obj)
         </div>
        
         <Paper elevation={5} className={classes.accountDetails}>
-          <p>Sub Total: '100'</p>
-          <p>Discount: '10%</p>
-          <p>Commission: '1%'</p>
+              <p>Sub Total:{totalPrice}</p>
+          <p>
+          {discount > 0 ? ( <button onClick={()=>setDiscount(discount-1)}>-</button>) : (<button disable>-</button>) }
+                   Discount <span>{ discount}</span>
+                <button onClick={()=>setDiscount(discount+1)}>+</button>
+          </p>
+          
         </Paper>
         <Paper elevation={5} className={classes.accountDetails}>
-          <p>Grand Total: '100'</p>
+          <p>Grand Total: {grandTotal}</p>
+          <Grid container spacing={3}>
+        
+        <Grid item xs={8}>
+          <TextField
+            size="small"
+            variant="outlined"
+            type="number"
+            required
+            label="Pay amount"
+            name="pay"
+            onChange={(e) => setPay(e.target.value)}
+          />
+     
+        </Grid>
+        <Grid item xs={4}>
+         <Button  variant="outlined" color="primary" onClick={()=>payCalculate()}>Set pay</Button>
+        </Grid>
+      </Grid>
+  
+          <p>Due: {due}</p>
         </Paper>
+      
+
+    
+     
         <div className={classes.accountDetails}>
-        <Button variant="contained" color="primary" onClick={()=>onCreateinvoice()} disableElevation>
+        <Button variant="contained" color="primary" onClick={()=>onCreateInvoice()} disableElevation>
       Create Invoice
     </Button>
         </div>
