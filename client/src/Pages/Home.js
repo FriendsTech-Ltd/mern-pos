@@ -1,16 +1,12 @@
 import React from 'react';
-import Button from '@material-ui/core/Button';
-
-import CssBaseline from '@material-ui/core/CssBaseline';
-import Grid from '@material-ui/core/Grid';
-import Typography from '@material-ui/core/Typography';
+import { Link } from 'react-router-dom'
+import {Grid,CssBaseline, Button,Typography,Container} from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-import Container from '@material-ui/core/Container';
 import Navbar from '../Components/layout/NavBar'
 import Feature from './Feture'
 import WhyPos from './WhyPos'
-import Qa from './QA'
-
+import Qa from './QA';
+import AboutDeveloper from './AboutDeveloper'
 
 const useStyles = makeStyles((theme) => ({
   icon: {
@@ -19,9 +15,13 @@ const useStyles = makeStyles((theme) => ({
   heroContent: {
     backgroundImage: `url("https://cdn.wallpapersafari.com/16/15/LrxlKZ.jpg")`,
     // backgroundColor: theme.palette.background.paper,
-    padding: theme.spacing(8, 0, 6),
+    padding: theme.spacing(9, 0, 6),
     height:570,
     
+  },
+  linkStyle:{
+    textDecoration: 'none',
+    color: 'white'
   },
   heroButtons: {
     marginTop: theme.spacing(4),
@@ -43,7 +43,8 @@ const useStyles = makeStyles((theme) => ({
   },
   feature:{
     paddingRight:200,
-    paddingLeft:200
+    paddingLeft:200,
+    backgroundColor:'#badeee'
   },
   whyPos:{
     marginTop:20,
@@ -68,20 +69,24 @@ export default function Album() {
             <Typography component="h1" variant="h2" align="center" color="textPrimary" gutterBottom>
               POIN OF SALE
             </Typography>
-            <Typography variant="h5" align="center" color="textSecondary" paragraph>
+            <Typography variant="h5" align="center" color="textPrimary" paragraph>
             Turn your Retail Small Business into a Customer Focused, Profit Generating Machine
             </Typography>
             <div className={classes.heroButtons}>
               <Grid container spacing={2} justify="center">
                 <Grid item>
+                  <Link to='/register'className={classes.linkStyle}>
                   <Button variant="contained" color="primary">
                    START 14 DATYS TRIAL
                   </Button>
+                  </Link>
                 </Grid>
                 <Grid item>
-                  <Button variant="outlined" color="primary">
+                <Link to='/login' className={classes.linkStyle}>
+                  <Button variant="contained" color="primary">
                     DEMO
                   </Button>
+                  </Link>
                 </Grid>
               </Grid>
             </div>
@@ -108,6 +113,11 @@ export default function Album() {
          <Qa/>
           </Grid>
         </Container>
+        <div className={classes.whyPos} maxWidth="md">
+          <Grid>
+         <AboutDeveloper/>
+          </Grid>
+        </div>
       </main>
    
      
