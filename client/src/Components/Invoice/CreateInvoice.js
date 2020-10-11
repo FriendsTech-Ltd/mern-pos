@@ -238,24 +238,28 @@ const totalPrice = BlanceArray.reduce(function(accumulator, currentValue) {
 
 
 const [discount,setDiscount]=useState(0)
-const [pay,setPay]=useState(0)
+const [payAmount,setPay]=useState(0)
 const [due,setDue]=useState(0)
 
-const grandTotal = (totalPrice - (discount/100)*totalPrice)
+const totalProductAmount = (totalPrice - (discount/100)*totalPrice)
 
 const payCalculate=(e)=>{
-  setDue(grandTotal-pay)
+  setDue(totalProductAmount-payAmount)
 }
 const invoiceObj ={
   customerId: invoiceCustomer ? invoiceCustomer._id : null,
-  products:card,
-  payAmount:Number(pay),
+  products:card.map(product => {
+    return {_id: product._id, quantity: product.quantity }
+  }),
+  payAmount:Number(payAmount),
+  discount,
+  totalProductAmount,
 }
 const onCreateInvoice=()=>{
-if(!invoiceObj.customer || !invoiceObj.products.length || !invoiceObj.payAmount ){
- return alert('please fill all field')
+if (!invoiceObj.customerId || !invoiceObj.products.length) {
+  return alert('please fill all field')
 }
-createInvoice(invoiceObj)
+  createInvoice(invoiceObj);
 }
 
   return (
@@ -347,7 +351,7 @@ createInvoice(invoiceObj)
           
         </Paper>
         <Paper elevation={5} className={classes.accountDetails}>
-          <p>Grand Total: {grandTotal}</p>
+          <p>Grand Total: {totalProductAmount}</p>
           <Grid container spacing={3}>
         
         <Grid item xs={8}>
