@@ -21,7 +21,10 @@ const customerSchema = mongoose.Schema({
     type: Number,
     default: 0,
   },
-
+  allTimeSellAmount: {
+    type: Number,
+    default: 0,
+  },
   totalSell: [
     {
       type: mongoose.Schema.Types.ObjectId,
