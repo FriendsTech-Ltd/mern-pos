@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useState } from 'react'
 import CircularProgress from '@material-ui/core/CircularProgress';
 import moment from 'moment'
 import { makeStyles } from '@material-ui/core/styles';
+import { Typography, Grid} from '@material-ui/core';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
@@ -10,43 +11,51 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import {Link} from 'react-router-dom'
-
 import { Button} from '@material-ui/core';
 import AddIcon from '@material-ui/icons/Add';
 
 
 import CustomerContext from '../../context/CustomerContext/CustomerContext'
-
+import AuthContext from '../../context/AuthContext/AuthContext'
 const useStyles = makeStyles((theme) => ({
     root: {
       flexGrow: 1,
     },
+main:{
+  padding:15,
+  
+},
+  header:{
+  textAlign:'center',
+  height:45,
+  padding:8
+},
+  tittle: {
+  height: 60,
+  padding:0,
+  margin:0
+},
+details:{
+  textAlign:'center',
+  padding:8
+},
+  account:{
+  padding:15,
+  direction: 'rtl',
+},
+linkStyle:{
+  textDecoration: 'none',
+  color: 'white'
+},
+spinner: {
+  textAlign: 'center',
+  marginTop:'17%'
 
-    tittle: {
-      height: 60,
-      padding:0,
-      margin:0
-    },
-    content:{
-       margin:8,
-       flexGrow: 1,
-       textAlign: 'center',
-    height: '77vh',
-    overflow: 'auto',
-    },
-    linkStyle:{
-      textDecoration: 'none',
-      color: 'white'
-    },
-    spinner: {
-      textAlign: 'center',
-      marginTop:'17%'
-    
-    },
-    table: {
-        minWidth: 650,
-      },
-  }))
+},
+table: {
+    minWidth: 650,
+  },
+}))
 
 
   
@@ -63,9 +72,20 @@ const useStyles = makeStyles((theme) => ({
   ];
   
  const Invoice = () => {
-  const { invoice } = useContext(CustomerContext);
+  const { invoice,customer} = useContext(CustomerContext);
+  const {user} = useContext(AuthContext)
+
   const invoiceItem = invoice[0].products || []
 
+  const invoiceAccount = invoice[0]
+
+  const BlanceArray = invoiceItem.map(function(product) {
+    return product.sellingPrice*product.quantity;
+  });
+  
+  const totalPrice = BlanceArray.reduce(function(accumulator, currentValue) {
+    return accumulator + currentValue;;
+  }, 0)
 
 
     const classes = useStyles()
@@ -73,7 +93,7 @@ const useStyles = makeStyles((theme) => ({
 
     return (
         <div>
-             <Paper variant="outlined" square className={classes.tittle}>  
+             <Paper variant="outlined" square className={classes.title}>  
           <div className={classes.addButton}>
             <Link to ='/dashboard/create-invoice' className={classes.linkStyle}>
                  <Button variant="contained" color="primary">
@@ -86,16 +106,50 @@ const useStyles = makeStyles((theme) => ({
       {!invoiceItem.length ? (<div className={classes.spinner}>
         <CircularProgress size={80} />
         </div>)
-         : (<div>
-       
-           <Paper variant="outlined" elevation={5} className={classes.content}>
-           <h1>All product here</h1>
+         : (<div className={classes.main}>
+           <Paper variant="outlined" square className={classes.header}>
+            <Grid container spacing={3}>
+                <Grid item xs={4}>
+                <Typography>Invoice Id: {invoiceAccount._id} </Typography>
+            
+                </Grid>
+                <Grid item xs={4}>
+                <Typography>Date: {moment( invoiceAccount.createdAt).format("Do MMMM YYYY, h:mm:ss a")}</Typography>
+                </Grid>
+                <Grid item xs={4}>
+                <Typography>Status: Delivered</Typography>
+                </Grid>
+            </Grid>
+           </Paper>
+           <Paper variant="outlined" square className={classes.details}>
+            <Grid container spacing={3}>
+                <Grid item xs={6}>
+                <Typography>From: </Typography>
+                <Typography>{user.companyName} </Typography>
+                <Typography>Address:..................</Typography>
+                <Typography>Owner:  {user.companyOwner} </Typography>
+               <Typography>Email: {user.email}</Typography> 
+                <Typography>Phone: .............. </Typography>
+                </Grid>
+  
+                <Grid item xs={6}>
+                <Typography>To: </Typography>
+                <Typography>Customer Name :{customer.name} </Typography>
+                <Typography>Address:{customer.address} </Typography>
+                <Typography>Email: </Typography> 
+                <Typography>Phone:{customer.phone} </Typography>
+                {customer.due > 0 ? (<Typography color='error'>Due: ৳{customer.due} </Typography>) : (<Typography color='primary'>No Due </Typography>)}
+                
+                </Grid>
+            </Grid>
+           </Paper>
            <TableContainer component={Paper}>
       <Table className={classes.table} aria-label="simple table">
         <TableHead>
           <TableRow>
             <TableCell>Sl</TableCell>
             <TableCell align="right">Product Name</TableCell>
+            <TableCell align="right">Unit</TableCell>
             <TableCell align="right">Price</TableCell>
             <TableCell align="right">Quantity</TableCell>
             <TableCell align="right">Total Price</TableCell>
@@ -108,7 +162,8 @@ const useStyles = makeStyles((theme) => ({
                 {index+1}
               </TableCell>
               <TableCell align="right">{product.name}</TableCell>
-              <TableCell align="right">{product.sellingPrice}</TableCell>
+              <TableCell align="right">{product.quantity}</TableCell>
+              <TableCell align="right">৳{product.sellingPrice}</TableCell>
               <TableCell align="right">{product.quantity}</TableCell>
               <TableCell align="right">{product.sellingPrice*product.quantity}</TableCell>
             </TableRow>
@@ -116,8 +171,12 @@ const useStyles = makeStyles((theme) => ({
         </TableBody>
       </Table>
     </TableContainer>
-         
-          </Paper> 
+    <Paper variant="outlined" elevation={3} className={classes.account} >
+          <Typography>Sub total : ৳{totalPrice}</Typography>
+          <Typography>Total amount after {invoiceAccount.discount}% discount : ৳{invoiceAccount.totalAmountAfterDiscount}</Typography>
+          <Typography>Pay amount : ৳{invoiceAccount.payAmount} </Typography>
+          {invoiceAccount.due > 0 ? (<Typography color='error'>Due: ৳{invoiceAccount.due} </Typography>) : (<Typography color='primary'>Paid</Typography>)}
+    </Paper>
           </div>
 
          )
