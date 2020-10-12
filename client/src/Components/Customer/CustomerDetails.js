@@ -21,41 +21,49 @@ import { makeStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
 import { Button,TextField, Typography} from '@material-ui/core';
 import Alert from '@material-ui/lab/Alert'
-
-import AddIcon from '@material-ui/icons/Add';
-
 import DeleteIcon from '@material-ui/icons/Delete';
 import EditIcon from '@material-ui/icons/Edit';
+import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
 import IconButton from '@material-ui/core/IconButton';
 
 import CustomerContext from '../../context/CustomerContext/CustomerContext'
 
 const useStyles = makeStyles((theme) => ({
-    root: {
+  root: {
       flexGrow: 1,
+      margin:5
     },
-
-    tittle: {
+  tittle: {
        display:'flex',
-       padding: 5,
+       padding: 3,
     },
-    heading:{
+  heading:{
       textAlign:"center",
     },
-    details: {
+  details: {
+      textAlign:'justify',
       textAlign:"center",
       width: '60%'
     },
-    account:{
-   
+  account:{
+     padding:5,
+     width: '30%'
+    },
+  backButton:{
+      padding:5,
+    },
+  addButton:{
+      padding:5,
+      marginLeft: 'auto',
+      },
+  content:{
+   display:'flex',
+   padding:5
+    },
+    table:{
+
     },
 
-    content:{
-       margin:8,
-       flexGrow: 1,
-       textAlign: 'center',
-       overflow: 'auto',
-    },
     linkStyle:{
       textDecoration: 'none',
       color: 'white'
@@ -67,10 +75,9 @@ const useStyles = makeStyles((theme) => ({
     }
   }))
  const CustomerDetails = (props) => {
-  const { customer, getCustomer, getInvoice } = useContext(CustomerContext);
+  const { getCustomer, customer,getInvoice } = useContext(CustomerContext);
    const totalSell = customer.totalSell || []
 
-   console.log(totalSell)
     const classes = useStyles()
 
     useEffect(() => {
@@ -84,7 +91,10 @@ const useStyles = makeStyles((theme) => ({
     const handleDelete= (_id) => {
       console.log(_id)
     }
-  
+    const [payDue,setPayDue]=useState(0)
+    const onPay=(e)=>{
+      setPayDue(e.target.value)
+    }
     const [filteringStateColumnExtensions] = useState([
       { columnName: 'action', filteringEnabled: false },
       { columnName: 'viewDetails', filteringEnabled: false },
@@ -127,41 +137,66 @@ const useStyles = makeStyles((theme) => ({
 
 
     return (
-      <div>
+      <div className={classes.root}>
+          <Paper variant="outlined" square  className={classes.tittle}> 
+                  <div className={classes.backButton}>
+                  <Link to ='/dashboard/customer' className={classes.linkStyle}>
+                      <Button variant="contained" color="primary">
+                    <ArrowBackIosIcon/>Back
+                      </Button>
+                </Link>
+                </div> 
+                <div className={classes.addButton} >
+                  <Link to ='/dashboard/customer' className={classes.linkStyle}>
+                      <Button variant="contained" color="primary">
+                      <EditIcon/>Edit Customer
+                      </Button>
+                </Link>
+                </div>
+    </Paper > 
     
-      {!totalSell.length ? (<div className={classes.spinner}>
+      {!customer? (<div className={classes.spinner}>
         <CircularProgress size={80} />
         </div>)
          : (<div>
          <Paper variant="outlined" square className={classes.heading}>
-         <h3>Customer details and all Invoice</h3>
+         <h4>Customer details and all Invoice</h4>
       </Paper>
-      <Paper variant="outlined" square className={classes.tittle}>
+      <Paper variant="outlined" square className={classes.content}>
      
         <div className={classes.details}>
-                    <p>Name: {customer.name}</p>
-                    <p>Phone: {customer.phone}</p>
-                    <p>Address: {customer.address}</p>
+                    <Typography>Name: {customer.name}</Typography>
+                    <Typography>Phone: {customer.phone}</Typography>
+                    <Typography>Address: {customer.address}</Typography>
           </div>
         <div className={classes.account}>
-        <Typography color='error'>Due: ৳{customer.due}</Typography>
         <Typography color='primary'>All Time Sell: ৳{customer.allTimeSellAmount}</Typography>
-      
-        <TextField
-          size="small"
-          variant="outlined"
-          type="number"
-          required
-          label="Pay amount"
-          name="pay"
-         />
-        <Button  variant="outlined" color="primary" >Pay due</Button>
+        {customer.due > 0 ? <Typography color='error'>Due: ৳{customer.due}</Typography> : <Typography color='primary'>No due</Typography>}
+        
+    
+        {customer.due > 0 ? (<div>
+            <TextField
+            size="small"
+            variant="outlined"
+            type="number"
+            required
+            label="Pay amount"
+            name="pay"
+            />
+          <Button  variant="outlined" onClick={(e)=>onPay(e)}color="primary" >Pay due</Button>
+ </div>
+        ) : (
+          null
+
+        )
+        }
+     
       
           </div>
         
-      </Paper >
-           <Paper variant="outlined" elevation={5} className={classes.content}>
-          
+      </Paper>
+
+           <Paper variant="outlined" elevation={5} className={classes.table}>
             <Grid
               rows={data}
               columns={columns}

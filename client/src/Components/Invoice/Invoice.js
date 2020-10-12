@@ -12,7 +12,7 @@ import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import {Link} from 'react-router-dom'
 import { Button} from '@material-ui/core';
-import AddIcon from '@material-ui/icons/Add';
+import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
 
 
 import CustomerContext from '../../context/CustomerContext/CustomerContext'
@@ -34,6 +34,9 @@ main:{
   height: 60,
   padding:0,
   margin:0
+},
+backButton:{
+  padding:5,
 },
 details:{
   textAlign:'center',
@@ -93,15 +96,15 @@ table: {
 
     return (
         <div>
-             <Paper variant="outlined" square className={classes.title}>  
-          <div className={classes.addButton}>
-            <Link to ='/dashboard/create-invoice' className={classes.linkStyle}>
-                 <Button variant="contained" color="primary">
-                 Create Invoice<AddIcon/>
-                </Button>
-          </Link>
-          </div>
-           </Paper > 
+  <Paper variant="outlined" square  className={classes.tittle}> 
+                  <div className={classes.backButton}>
+                  <Link to ='/dashboard' className={classes.linkStyle}>
+                      <Button variant="contained" color="primary">
+                    <ArrowBackIosIcon/>Back
+                      </Button>
+                </Link>
+                </div> 
+    </Paper > 
 
       {!invoiceItem.length ? (<div className={classes.spinner}>
         <CircularProgress size={80} />

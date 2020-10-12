@@ -4,6 +4,9 @@ import { makeStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
 // /* eslint-disable no-use-before-define */
+import { ButtonGroup, Typography} from '@material-ui/core';
+import AddIcon from '@material-ui/icons/Add';
+import RemoveIcon from '@material-ui/icons/Remove';
 import AddBoxIcon from '@material-ui/icons/AddBox';
 import useAutocomplete from '@material-ui/lab/useAutocomplete';
 import NoSsr from '@material-ui/core/NoSsr';
@@ -47,7 +50,6 @@ const useStyles = makeStyles((theme) => ({
     fontSize:35
   },
   productTable:{
-
     margin: theme.spacing(1),
   },
   customerSearch:{
@@ -59,12 +61,21 @@ const useStyles = makeStyles((theme) => ({
     padding:8
 
   },
+  discountBar:{
+    display:'flex',
+    paddingLeft:5
+  },
+  discount:{
+   
+    marginLeft:'16%'
+  },
   accountDetails:{
     margin: theme.spacing(1),
     padding:8,
     textAlign: 'center',
 
   },
+
   paper: {
     // padding: theme.spacing(2),
     // textAlign: 'center',
@@ -317,7 +328,7 @@ if (!invoiceObj.customerId || !invoiceObj.products.length) {
                   {index+1}
                 </TableCell>
                 <TableCell align="right">{product.name}</TableCell>
-                <TableCell align="right">{product.sellingPrice}</TableCell>
+                <TableCell align="right">৳{product.sellingPrice}</TableCell>
                 <TableCell align="right">
                 <div>
 
@@ -327,7 +338,7 @@ if (!invoiceObj.customerId || !invoiceObj.products.length) {
                
                 </div>
                  </TableCell>
-                <TableCell align="right">{product.sellingPrice*product.quantity}</TableCell>
+                <TableCell align="right">৳{product.sellingPrice*product.quantity}</TableCell>
               </TableRow>
             ))}
           </TableBody>
@@ -342,16 +353,48 @@ if (!invoiceObj.customerId || !invoiceObj.products.length) {
         </div>
        
         <Paper elevation={5} className={classes.accountDetails}>
-              <p>Sub Total:{totalPrice}</p>
-          <p>
-          {discount > 0 ? ( <button onClick={()=>setDiscount(discount-1)}>-</button>) : (<button disable>-</button>) }
-                   Discount <span>{ discount}</span>
-                <button onClick={()=>setDiscount(discount+1)}>+</button>
-          </p>
+              <Typography>Sub Total: ৳{totalPrice}</Typography>
+              <Grid className={classes.discountBar}>
+                <Grid>
+                <ButtonGroup>
+                {discount > 0 ? (
+                  <Button
+                  side='small'
+                  aria-label="increase"
+                  onClick={() => {
+                    setDiscount(discount-1);
+                  }}
+                >
+                  <RemoveIcon fontSize="small" />
+                </Button>
+                ) : (
+                  <Button aria-label="increase" side='small'>
+                  <RemoveIcon fontSize="small" />
+                </Button>
+                )}
+                <Button
+                  aria-label="increase"
+                  side='small'
+                  onClick={() => {
+                    setDiscount(discount+1);
+                  }}
+                >
+                  <AddIcon fontSize="small" />
+                </Button>
+
+              </ButtonGroup>
+                </Grid>
+                <Grid className={classes.discount}>
+                <Typography>Discount:{discount}%</Typography>
+                </Grid>
+              </Grid>
+           
+            
+           
           
         </Paper>
         <Paper elevation={5} className={classes.accountDetails}>
-          <p>Grand Total: {totalProductAmount}</p>
+          <p>Grand Total: ৳{totalProductAmount}</p>
           <Grid container spacing={3}>
         
         <Grid item xs={8}>
@@ -371,7 +414,7 @@ if (!invoiceObj.customerId || !invoiceObj.products.length) {
         </Grid>
       </Grid>
   
-          <p>Due: {due}</p>
+          <p>Due: ৳{due}</p>
         </Paper>
       
 
