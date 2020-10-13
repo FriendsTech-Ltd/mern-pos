@@ -33,9 +33,8 @@ const useStyles = makeStyles((theme) => ({
       flexGrow: 1,
       margin:5
     },
-  tittle: {
+  buttonBar: {
        display:'flex',
-       padding: 3,
     },
   heading:{
       textAlign:"center",
@@ -138,7 +137,7 @@ const useStyles = makeStyles((theme) => ({
 
     return (
       <div className={classes.root}>
-          <Paper variant="outlined" square  className={classes.tittle}> 
+          <Paper variant="outlined" square  className={classes.buttonBar}> 
                   <div className={classes.backButton}>
                   <Link to ='/dashboard/customer' className={classes.linkStyle}>
                       <Button variant="contained" color="primary">
@@ -147,7 +146,7 @@ const useStyles = makeStyles((theme) => ({
                 </Link>
                 </div> 
                 <div className={classes.addButton} >
-                  <Link to ='/dashboard/customer' className={classes.linkStyle}>
+                  <Link to ='/dashboard' className={classes.linkStyle}>
                       <Button variant="contained" color="primary">
                       <EditIcon/>Edit Customer
                       </Button>

@@ -16,10 +16,8 @@ import {
   Grid,
 } from '@devexpress/dx-react-grid-material-ui';
 
-
-import { makeStyles } from '@material-ui/core/styles';
-import Paper from '@material-ui/core/Paper';
-import { Button} from '@material-ui/core';
+import { Button,Paper,makeStyles} from '@material-ui/core';
+import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
 import Alert from '@material-ui/lab/Alert'
 
 import AddIcon from '@material-ui/icons/Add';
@@ -34,20 +32,20 @@ const useStyles = makeStyles((theme) => ({
     root: {
       flexGrow: 1,
     },
-
     tittle: {
       height: 60,
       padding:0,
-      margin:0
+      margin:0,
+      display:'flex'
     },
-    addButton:{
-      paddingTop:10,
-      marginRight:8,
-      direction: 'rtl',
+  addButton:{
+    padding:5,
+    marginLeft: 'auto',
     },
-    link:{
-      
+  backButton:{
+      padding:5,
     },
+
     content:{
        margin:8,
        flexGrow: 1,
@@ -145,14 +143,21 @@ const useStyles = makeStyles((theme) => ({
 
     return (
         <div>
-             <Paper variant="outlined" square className={classes.tittle}>  
-          <div className={classes.addButton}>
-            <Link to ='/dashboard/add-product' className={classes.linkStyle}>
-                 <Button variant="contained" color="primary">
-                 New Product<AddIcon/>
-                </Button>
-          </Link>
-          </div>
+          <Paper variant="outlined" square  className={classes.tittle}> 
+                  <div className={classes.backButton}>
+                  <Link to ='/dashboard' className={classes.linkStyle}>
+                      <Button variant="contained" color="primary">
+                    <ArrowBackIosIcon/>Back
+                      </Button>
+                </Link>
+                </div> 
+                <div className={classes.addButton} >
+                  <Link to ='/dashboard/add-product' className={classes.linkStyle}>
+                      <Button variant="contained" color="primary">
+                      <AddIcon/>Add Product
+                      </Button>
+                </Link>
+                </div>
            </Paper > 
 
       {!products.length ? (<div className={classes.spinner}>

@@ -4,14 +4,11 @@ import {
   Grid,
   Box,
   Container,
-  Avatar,
   Typography,
   makeStyles,
   Button,
   CssBaseline,
   TextField,
-  FormControlLabel,
-  Checkbox,
   Paper,
   MenuItem,
   Select,
@@ -20,12 +17,26 @@ import {
   TextareaAutosize
 } from '@material-ui/core';
 
-import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
+import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
 import Notification from '../common/Notification'
 
 import ProductContext from '../../context/ProductContext/ProductContext'
 
 const useStyles = makeStyles((theme) => ({
+tittle: {
+    height: 60,
+    padding:0,
+    margin:0,
+    display:'flex'
+  },
+
+backButton:{
+    padding:5,
+  },
+linkStyle:{
+    textDecoration: 'none',
+    color: 'white'
+  },
   paper: {
     marginTop: theme.spacing(8),
     display: 'flex',
@@ -33,17 +44,7 @@ const useStyles = makeStyles((theme) => ({
     alignItems: 'center',
     padding: '15px'
   },
-  avatar: {
-    margin: theme.spacing(1),
-    backgroundColor: theme.palette.secondary.main,
-  },
-  form: {
-    width: '100%', // Fix IE 11 issue.
-    marginTop: theme.spacing(3),
-  },
-  submit: {
-    margin: theme.spacing(3, 0, 2),
-  },
+ 
 }));
 
 const  AddProduct = (props) => {
@@ -94,7 +95,16 @@ const onSubmit = e => {
 
 return (
   <div>
-
+     <Paper variant="outlined" square  className={classes.tittle}> 
+                  <div className={classes.backButton}>
+                  <Link to ='/dashboard/product' className={classes.linkStyle}>
+                      <Button variant="contained" color="primary">
+                    <ArrowBackIosIcon/>Back
+                      </Button>
+                </Link>
+                </div> 
+             
+           </Paper >
     <Container component="main" maxWidth="md">
     {serverMessage && <Notification severity='error' message={serverMessage}/> }
       <Paper elevation={5} >
@@ -233,4 +243,4 @@ return (
   );
 }
 
-export default withRouter(AddProduct)
+export default withRouter(AddProduct);

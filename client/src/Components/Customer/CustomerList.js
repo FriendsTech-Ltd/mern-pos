@@ -34,7 +34,7 @@ const useStyles = makeStyles((theme) => ({
       flexGrow: 1,
     },
 
-  tittle: {
+  buttonBar: {
       height: 60,
       padding:0,
       margin:0,
@@ -142,7 +142,7 @@ const useStyles = makeStyles((theme) => ({
 
     return (
         <div>
-             <Paper variant="outlined" square  className={classes.tittle}> 
+             <Paper variant="outlined" square  className={classes.buttonBar}> 
                   <div className={classes.backButton}>
                   <Link to ='/dashboard' className={classes.linkStyle}>
                       <Button variant="contained" color="primary">

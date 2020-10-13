@@ -17,6 +17,9 @@ import Notification from '../common/Notification'
 import CustomerContext from '../../context/CustomerContext/CustomerContext'
 
 const useStyles = makeStyles((theme) => ({
+  buttonBar:{
+   margin:0
+  },
   paper: {
     marginTop: theme.spacing(8),
     display: 'flex',
@@ -53,12 +56,8 @@ const  AddCustomer = (props) => {
     address:"",
 });
 
-const onChange=e=>{setFormData({...formData,[e.target.name]:e.target.value});} 
-
+const onChange=e=>{setFormData({...formData,[e.target.name]:e.target.value});}
 const { name,phone, email, address } = formData;
-
-
-
 const onSubmit = e => {
   e.preventDefault();
   createCustomer({ 
@@ -76,7 +75,7 @@ const onSubmit = e => {
   
 return (
   <div>
-  <Paper variant="outlined" square  className={classes.tittle}> 
+  <Paper variant="outlined" square  className={classes.buttonBar}> 
                   <div className={classes.backButton}>
                   <Link to ='/dashboard/customer' className={classes.linkStyle}>
                       <Button variant="contained" color="primary">
@@ -139,7 +138,6 @@ return (
               />
             </Grid>
 
-
             <Grid item xs={12}>
             <TextareaAutosize rows={6}
              style={{width:"100%"}}
@@ -150,8 +148,6 @@ return (
             required
              />
             </Grid>
-
-  
           </Grid>
           <Button
             type="submit"

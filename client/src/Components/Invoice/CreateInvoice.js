@@ -1,10 +1,21 @@
 
 import React, { useState,useContext,useEffect } from 'react';
-import { makeStyles } from '@material-ui/core/styles';
-import Paper from '@material-ui/core/Paper';
-import Grid from '@material-ui/core/Grid';
+import {Link} from 'react-router-dom';
 // /* eslint-disable no-use-before-define */
-import { ButtonGroup, Typography} from '@material-ui/core';
+import { makeStyles,
+  ButtonGroup,
+  TextField, 
+  Button, 
+  Typography,
+  Grid,
+  Paper,
+  Table,
+  TableRow,
+  TableBody,
+  TableHead,
+  TableContainer,
+  TableCell,
+} from '@material-ui/core';
 import AddIcon from '@material-ui/icons/Add';
 import RemoveIcon from '@material-ui/icons/Remove';
 import AddBoxIcon from '@material-ui/icons/AddBox';
@@ -13,13 +24,7 @@ import NoSsr from '@material-ui/core/NoSsr';
 import CheckIcon from '@material-ui/icons/Check';
 import CloseIcon from '@material-ui/icons/Close';
 import styled from 'styled-components';
-import Table from '@material-ui/core/Table';
-import TableBody from '@material-ui/core/TableBody';
-import TableCell from '@material-ui/core/TableCell';
-import TableContainer from '@material-ui/core/TableContainer';
-import TableHead from '@material-ui/core/TableHead';
-import TableRow from '@material-ui/core/TableRow';
-import { TextField, Button } from '@material-ui/core';
+import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
 import InvoiceCustomer from './InvoiceCustomer'
 import ProductContext from '../../context/ProductContext/ProductContext'
 import InvoiceContext from '../../context/InvoiceContext/InvoiceContext'
@@ -29,14 +34,20 @@ const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
     padding:5,
-  
-    // width: theme.spacing(16),
-    // height: theme.spacing(16),
-
   },
-  tittle:{
-    textAlign: 'center',
-    height:60
+  buttonBar:{
+    display:'flex'
+  },
+  title: {
+    textAlign:'center'
+  },
+
+backButton:{
+    padding:5,
+  },
+  linkStyle:{
+    textDecoration: 'none',
+    color: 'white'
   },
   productSearch:{
     margin: theme.spacing(1),
@@ -275,9 +286,19 @@ if (!invoiceObj.customerId || !invoiceObj.products.length) {
 
   return (
     <div className={classes.root}>
+      <Paper variant="outlined" square  className={classes.buttonBar}> 
+                  <div className={classes.backButton}>
+                  <Link to ='/dashboard/invoice/invoice-list' className={classes.linkStyle}>
+                      <Button variant="contained" color="primary">
+                    <ArrowBackIosIcon/>Back
+                      </Button>
+                </Link>
+                </div> 
+             
+           </Paper >
     <Grid container >
       <Grid item xs={12}>
-        <Paper elevation={5}  className={classes.tittle}>Create Invoice</Paper>
+        <Paper elevation={5}  className={classes.title}>Create Invoice</Paper>
       </Grid>
 
       <Grid item xs={7}>

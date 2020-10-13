@@ -2,7 +2,6 @@ import React, { useContext, useEffect, useState } from 'react'
 import CircularProgress from '@material-ui/core/CircularProgress';
 import moment from 'moment'
 import {Link} from 'react-router-dom'
-
 import {
   FilteringState,
   IntegratedFiltering,
@@ -21,13 +20,10 @@ import { makeStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
 import { Button} from '@material-ui/core';
 import Alert from '@material-ui/lab/Alert'
-
 import AddIcon from '@material-ui/icons/Add';
-
 import DeleteIcon from '@material-ui/icons/Delete';
-import EditIcon from '@material-ui/icons/Edit';
+import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
 import IconButton from '@material-ui/core/IconButton';
-
 import InvoiceContext from '../../context/InvoiceContext/InvoiceContext'
 
 const useStyles = makeStyles((theme) => ({
@@ -35,18 +31,15 @@ const useStyles = makeStyles((theme) => ({
       flexGrow: 1,
     },
 
-    tittle: {
-      height: 60,
-      padding:0,
-      margin:0
+  buttonBar: {
+      display:'flex'
     },
-    addButton:{
-      paddingTop:10,
-      marginRight:8,
-      direction: 'rtl',
+  addButton:{
+    padding:5,
+    marginLeft: 'auto',
     },
-    link:{
-      
+  backButton:{
+      padding:5,
     },
     content:{
        margin:8,
@@ -134,15 +127,22 @@ const useStyles = makeStyles((theme) => ({
 
     return (
         <div>
-             <Paper variant="outlined" square className={classes.tittle}>  
-          <div className={classes.addButton}>
-            <Link to ='/dashboard/invoice/create-invoice' className={classes.linkStyle}>
-                 <Button variant="contained" color="primary">
-                Create Invoice<AddIcon/>
-                </Button>
-          </Link>
-          </div>
-           </Paper > 
+          <Paper variant="outlined" square  className={classes.buttonBar}> 
+                  <div className={classes.backButton}>
+                  <Link to ='/dashboard' className={classes.linkStyle}>
+                      <Button variant="contained" color="primary">
+                    <ArrowBackIosIcon/>Back
+                      </Button>
+                </Link>
+                </div> 
+                <div className={classes.addButton} >
+                  <Link to ='/dashboard/invoice/create-invoice' className={classes.linkStyle}>
+                      <Button variant="contained" color="primary">
+                      <AddIcon/>Create Invoice
+                      </Button>
+                </Link>
+                </div>
+           </Paper> 
 
       {!invoices.length ? (<div className={classes.spinner}>
         <CircularProgress size={80} />
