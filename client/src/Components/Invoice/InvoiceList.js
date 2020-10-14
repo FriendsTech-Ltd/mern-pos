@@ -61,7 +61,7 @@ const useStyles = makeStyles((theme) => ({
   }))
  const InvoiceList = () => {
 
-  const { invoices, getInvoices } = useContext(InvoiceContext);
+  const { invoices, getInvoices,getInvoice } = useContext(InvoiceContext);
 
     const classes = useStyles()
 
@@ -100,9 +100,9 @@ const useStyles = makeStyles((theme) => ({
         sl: index+1,
         _id: invoice._id,
         name:invoice.customer.name,
-        due:invoice.customer.due,
+        due:invoice.due,
         createdAt:invoice.createdAt,
-        view:( <Link to={`/dashboard/invoice/${invoice._id}`}className={classes.linkStyle}><Button variant="contained" size="small" color="primary">
+        view:( <Link onClick={()=>getInvoice(invoice._id)} to={`/dashboard/invoice/${invoice._id}`}className={classes.linkStyle}><Button variant="contained" size="small" color="primary">
           View
         </Button> </Link>),
   
@@ -116,7 +116,7 @@ const useStyles = makeStyles((theme) => ({
   
     const [defaultColumnWidths] = useState([
       { columnName: 'sl', width: 100 },
-      { columnName: '_id', width: 200  },
+      { columnName: '_id', width: 220  },
       { columnName: 'name', width: 200  },
       { columnName: 'due', width: 100  },
       { columnName: 'createdAt', width: 200  },

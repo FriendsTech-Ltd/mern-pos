@@ -9,9 +9,10 @@ import AddProduct from '../Components/Product/AddProduct';
 import CustomerList from '../Components/Customer/CustomerList';
 import AddCustomer from '../Components/Customer/AddCustomer';
 import CustomerDetails from '../Components/Customer/CustomerDetails';
-import Invoice from '../Components/Invoice/Invoice';
+import CustomerInvoice from '../Components/Customer/CustomerInvoice';
 import InvoiceList from '../Components/Invoice/InvoiceList';
 import CreateInvoice from '../Components/Invoice/CreateInvoice'
+import Invoice from '../Components/Invoice/InvoicePrint'
 const DashboardRoutes = () => {
     return (
         <Switch>
@@ -59,7 +60,7 @@ const DashboardRoutes = () => {
           <Route
           exact
           path="/dashboard/customer/invoice"
-          component={Invoice}
+          component={CustomerInvoice}
         />
           <Route
           exact

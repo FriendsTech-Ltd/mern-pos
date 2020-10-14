@@ -22,12 +22,20 @@ export default (state,action)=>{
       serverMessage: action.payload.msg,
     }
 
+    // case GET_INVOICE:
+    //   return{
+    //     ...state,
+    //     invoice: action.payload.invoice,
+    //     success: action.payload.success,
+    //     serverMessage: action.payload.msg,
+    //   }
+
     case GET_INVOICE:
       return{
         ...state,
-        invoice: action.payload.invoice,
-        success: action.payload.success,
-        serverMessage: action.payload.msg,
+        invoice: state.invoices.filter(invoice => invoice._id === action.payload),
+        success: true,
+        serverMessage: 'loaded single invoice',
       }
 
     case CREATE_INVOICE:

@@ -30,7 +30,7 @@ export const registerUser = asyncHandler(async (req, res) => {
   });
 
   // Create reset URL
-  const verificationURL = `${req.protocol}://${req.get('host')}/api/auth/verify/${registerToken}`;
+  const verificationURL = `${req.protocol}://${req.headers.host}/verify/${registerToken}`;
 
   const message = `Please click the link below to complete your signup process on POS System: \n\n ${verificationURL} `;
 
