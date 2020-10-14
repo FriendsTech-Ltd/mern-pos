@@ -55,11 +55,7 @@ const DashboardRoutes = () => {
           path="/dashboard/add-customer"
           component={AddCustomer}
         />
-          <Route
-          exact
-          path="/dashboard/:id"
-          component={CustomerDetails}
-        />
+        
           <Route
           exact
           path="/dashboard/customer/invoice"
@@ -74,6 +70,16 @@ const DashboardRoutes = () => {
           exact
           path="/dashboard/invoice/invoice-list"
           component={InvoiceList}
+        />
+          <Route
+          exact
+          path="/dashboard/customer/:id"
+          component={CustomerDetails}
+        />
+          <Route
+          exact
+          path="/dashboard/invoice/:id"
+          component={Invoice}
         />
 
         </Switch>

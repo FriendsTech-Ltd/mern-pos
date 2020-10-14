@@ -102,7 +102,7 @@ const useStyles = makeStyles((theme) => ({
         name:invoice.customer.name,
         due:invoice.customer.due,
         createdAt:invoice.createdAt,
-        view:( <Link to={`/dashboard/${invoice._id}`}className={classes.linkStyle}><Button variant="contained" size="small" color="primary">
+        view:( <Link to={`/dashboard/invoice/${invoice._id}`}className={classes.linkStyle}><Button variant="contained" size="small" color="primary">
           View
         </Button> </Link>),
   

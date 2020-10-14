@@ -112,7 +112,7 @@ const useStyles = makeStyles((theme) => ({
         address: c.address,
         due: (c.due > 0? <Alert severity="error">{c.due}</Alert> : <Alert severity="info">No Due</Alert> ),
         createdAt:(moment( c.createdAt).format("MMMM Do YYYY")),
-        view:( <Link className={classes.linkStyle} to={`/dashboard/${c._id}`}><Button variant="contained" size="small" color="primary">
+        view:( <Link className={classes.linkStyle} to={`/dashboard/customer/${c._id}`}><Button variant="contained" size="small" color="primary">
           View
         </Button> </Link>),
   
