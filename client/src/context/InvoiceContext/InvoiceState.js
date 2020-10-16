@@ -53,17 +53,30 @@ try{
     clearError();
   }}
 
+//   // Get single invoice
+// const getInvoice = async (id) => {
+//   try{
+//     const res = await axios.get(`/api/invoice/${id}`)
+//     console.log(res)
+//       dispatch({ type: GET_INVOICE, payload: res.data })
+//       clearSuccess()
+//   }catch (err) {  
+//       dispatch({ type: ERROR, payload: err.response.data })
+//       clearError();
+//     }}
+
   // Get single invoice
-const getInvoice = async (id) => {
-  try{
-    const res = await axios.get(`/api/invoice/${id}`)
-    console.log(res)
-      dispatch({ type: GET_INVOICE, payload: res.data })
-      clearSuccess()
-  }catch (err) {  
-      dispatch({ type: ERROR, payload: err.response.data })
-      clearError();
-    }}
+  const getInvoice = async (id) => {
+   
+    try{
+    
+        dispatch({ type: GET_INVOICE, payload: id })
+        clearSuccess()
+    }catch (err) { 
+      console.log(err) 
+        // dispatch({ type: ERROR, payload: err.response.data })
+        clearError();
+      }}
 
 // Delete Invoice
 const deleteInvoice = async (id)=>{

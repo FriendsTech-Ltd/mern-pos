@@ -9,7 +9,8 @@ import {
     CLEAR_SUCCESS,
     EDIT_FORM,
     CLEAR_EDIT_FORM,
-    GET_INVOICE
+    GET_INVOICE,
+    PAY_DUE
 } from '../type'
 
 export default (state,action)=>{
@@ -50,6 +51,13 @@ export default (state,action)=>{
                 success:action.payload.success,
                 serverMessage: action.payload.msg,
                 }
+        case  PAY_DUE:
+            return{
+            ...state,
+            customers :state.customers.map(customer=>customer._id === action.payload.customer._id ? action.payload.customer:customer),
+            success:action.payload.success,
+            serverMessage: action.payload.msg,
+            }
   
 
             case EDIT_FORM:

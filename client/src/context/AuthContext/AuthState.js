@@ -44,20 +44,22 @@ const register = async user => {
   }
 }
 
-//  register user
-const verifyUser = async token => {
+//  verify user
+const verifyUser = async (registerToken) => {
+
   const config={
     header:{ 'Content-Type':'application/json' }
   }
   try{
-  const res=await axios.post('/api/auth/register', token, config)
+  const res=await axios.get(`/api/auth/verify/${registerToken}`, config)
     dispatch({
     type: SUCCESS_REGISTER,
     payload:res.data.data
     });
     loadUser();
   }catch (err) {  
-    console.log(err)
+    dispatch({ type: ERROR, payload: err.response.data })
+  clearError();
   }
 }
 

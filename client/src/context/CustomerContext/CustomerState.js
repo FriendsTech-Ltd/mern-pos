@@ -14,7 +14,8 @@ import {
   CLEAR_ERROR,
   CLEAR_SUCCESS,
   EDIT_FORM,
-  CLEAR_EDIT_FORM
+  CLEAR_EDIT_FORM,
+  PAY_DUE
 } from '../type'
 
 const CustomerState=(props)=> {
@@ -89,6 +90,18 @@ try {
     }
   }
 
+  //pay due amount
+const payDue= async(id,amount)=>{
+  const config={ header:{'Content-Type':'application/json'}}
+  const res=await axios.put(`/api/customer/${id}`,amount,config)
+try {
+  dispatch({ type: PAY_DUE, payload:res.data });
+  } catch (err) {
+      dispatch({ type: ERROR, payload: err.response.data })
+      clearError();
+  }
+}
+
   //edit customer
 const editFormFun=(customer)=>{
   dispatch({ type:EDIT_FORM, payload:customer }) ;
@@ -136,7 +149,8 @@ const clearEditForm=()=>{
           editFormFun,
           clearEditForm,
           deleteCustomer,
-          getInvoice
+          getInvoice,
+          payDue
     }}>
       {props.children}
     </CustomerContext.Provider >

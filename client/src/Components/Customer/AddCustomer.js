@@ -10,15 +10,16 @@ import {
   CssBaseline,
   TextField,
   Paper,
-
   TextareaAutosize
 } from '@material-ui/core';
-
+import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
 import Notification from '../common/Notification'
-
-import customerContext from '../../context/CustomerContext/CustomerContext'
+import CustomerContext from '../../context/CustomerContext/CustomerContext'
 
 const useStyles = makeStyles((theme) => ({
+  buttonBar:{
+   margin:0
+  },
   paper: {
     marginTop: theme.spacing(8),
     display: 'flex',
@@ -26,7 +27,13 @@ const useStyles = makeStyles((theme) => ({
     alignItems: 'center',
     padding: '15px'
   },
-
+  linkStyle:{
+    textDecoration: 'none',
+    color: 'white'
+  },
+  backButton:{
+    padding:5,
+  },
   form: {
     width: '100%', // Fix IE 11 issue.
     marginTop: theme.spacing(3),
@@ -38,7 +45,7 @@ const useStyles = makeStyles((theme) => ({
 
 const  AddCustomer = (props) => {
 
-  const { createCustomer, serverMessage, success } = useContext(customerContext)
+  const { createCustomer, serverMessage } = useContext(CustomerContext)
 
   const classes = useStyles();
 
@@ -49,40 +56,43 @@ const  AddCustomer = (props) => {
     address:"",
 });
 
-const onChange=e=>{setFormData({...formData,[e.target.name]:e.target.value});} 
-
+const onChange=e=>{setFormData({...formData,[e.target.name]:e.target.value});}
 const { name,phone, email, address } = formData;
-
-
-// useEffect(() => {
-//   if(success){
-//     props.history.push('/product');
-//   }
-//   // eslint-disable-next-line
-// },[success])
-
 const onSubmit = e => {
   e.preventDefault();
-
   createCustomer({ 
   name,
   phone,
   address,
   });
-  
+  setFormData({
+    name:"",
+    phone:"",
+    email:"",
+    address:"",
+  })
   }
   
 return (
   <div>
-
+  <Paper variant="outlined" square  className={classes.buttonBar}> 
+                  <div className={classes.backButton}>
+                  <Link to ='/dashboard/customer' className={classes.linkStyle}>
+                      <Button variant="contained" color="primary">
+                    <ArrowBackIosIcon/>Back
+                      </Button>
+                </Link>
+                </div> 
+    </Paper > 
     <Container component="main" maxWidth="md">
     {serverMessage && <Notification severity='error' message={serverMessage}/> }
       <Paper elevation={5} >
       <CssBaseline />
+    
       <div className={classes.paper}>
     
         <Typography component="h1" variant="h5">
-          Add Customer
+          Add New Customer
         </Typography>
         <form className={classes.form} onSubmit={e=>onSubmit(e)}>
           <Grid container spacing={2}>
@@ -128,7 +138,6 @@ return (
               />
             </Grid>
 
-
             <Grid item xs={12}>
             <TextareaAutosize rows={6}
              style={{width:"100%"}}
@@ -139,8 +148,6 @@ return (
             required
              />
             </Grid>
-
-  
           </Grid>
           <Button
             type="submit"

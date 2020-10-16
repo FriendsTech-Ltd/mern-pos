@@ -52,7 +52,7 @@ export default function CustomizedTimeline() {
           <TimelineConnector />
         </TimelineSeparator>
         <TimelineContent>
-          <Paper elevation={3} className={classes.paper}>
+          <Paper  elevation={3} className={classes.paper}>
             <Typography variant="h6" component="h1">
               Product Management
             </Typography>
