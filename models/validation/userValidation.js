@@ -7,8 +7,10 @@ const schema = Joi.object().keys(
     email: Joi.string().email().required(),
     companyType: Joi.string().required(),
     description: Joi.string().required(),
+    address: Joi.string().required(),
+    phone: Joi.number().required(),
     password: Joi.string().required(),
-
+    confirmPassword: Joi.ref('password'),
   },
 );
 

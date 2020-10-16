@@ -12,7 +12,6 @@ export const CLEAR_ERROR = 'CLEAR_ERROR'
 export const ERROR = 'ERROR'
 export const EDIT_FORM = 'EDIT_FORM'
 export const CLEAR_EDIT_FORM = 'CLEAR_EDIT_FORM'
-
 export const CLEAR_SUCCESS = 'CLEAR_SUCCESS'
 
 

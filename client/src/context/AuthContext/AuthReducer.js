@@ -9,6 +9,8 @@ import {
     REGISTER_VERIFICATION,
     CLEAR_ERROR,
     ERROR,
+    EDIT_FORM,
+    CLEAR_EDIT_FORM
 } from '../type'
 
 export default (state,action)=>{
@@ -30,40 +32,45 @@ export default (state,action)=>{
               success: action.payload.success
           }
       case SUCCESS_LOGIN:
-          localStorage.setItem('token',action.payload.token)
-          return{
+      case SUCCESS_REGISTER:
+           localStorage.setItem('token',action.payload.token)
+           return{
               ...state,
               isAuthenticate:true,
-          }
+            }
       case LOAD_USER:
-          return{
+            return{
               ...state,
               isAuthenticated: true,
               user: action.payload.data,
           }
-      case SUCCESS_REGISTER:
-          localStorage.setItem('token', action.payload.token)
-          return{
-              ...state,
-              isAuthenticate:true,
-          }  
-          
+    
       case LOGOUT:
       case CHANGE_PASSWORD:
       case DELETE_USER:
-          localStorage.removeItem('token')
+           localStorage.removeItem('token')
             return{
-              isAuthentication: false,
-              user:{},
+            isAuthentication: false,
+            user:{},
             }
-        
       case  UPDATE_USER:
-              return{
-              ...state,
-              user: action.payload.user,
-          
-                  }
-
+            return{
+            ...state,
+            user: action.payload.user,
+            success:action.payload.success,
+            serverMessage: action.payload.msg,
+            }
+      case EDIT_FORM:
+             return{
+            ...state,
+            editForm:action.payload          
+             }
+    
+    case CLEAR_EDIT_FORM:
+            return{
+            ...state,
+            editForm:{}
+            } 
       default:
           return state
     }

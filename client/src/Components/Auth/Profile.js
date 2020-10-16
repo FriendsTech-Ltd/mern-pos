@@ -45,7 +45,7 @@ const useStyles = makeStyles((theme) => ({
   }
 }))
  const Profile = () => {
-   const {user} =useContext(AuthContext)
+   const {user,editFormFun} =useContext(AuthContext)
     const classes = useStyles()
     return (
         <div>
@@ -58,7 +58,7 @@ const useStyles = makeStyles((theme) => ({
                 </Link>
                 </div> 
                 <div className={classes.addButton} >
-                  <Link to ='/dashboard/edit-profile' className={classes.linkStyle}>
+                  <Link onClick={()=>editFormFun(user)}to ='/dashboard/edit-profile' className={classes.linkStyle}>
                       <Button variant="contained" color="primary">
                       <EditIcon/>Edit Profile
                       </Button>
@@ -69,12 +69,13 @@ const useStyles = makeStyles((theme) => ({
            <Paper variant="outlined" elevation={5} className={classes.content}>
              <Grid className={classes.details}>
                <Typography>{user.companyName} </Typography>
-                <Typography>Address:..................</Typography>
-                <Typography>Owner:  {user.companyOwner} </Typography>
                <Typography>Email: {user.email}</Typography> 
-                <Typography>Phone: .............. </Typography>
-                <Link to='/dashboard/change-password'>
-                  <Button color="secondary">Change Password</Button>
+               <Typography>Phone: {user.phone}</Typography> 
+                <Typography>Address:{user.address}</Typography>
+                <Typography>Owner:  {user.companyOwner} </Typography>
+             
+                <Link to='/dashboard/change-password' className={classes.linkStyle}>
+                  <Button variant="outlined" color="secondary">Change Password</Button>
                 </Link>
              </Grid>
            </Paper> 
