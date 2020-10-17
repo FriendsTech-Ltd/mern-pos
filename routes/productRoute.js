@@ -8,6 +8,7 @@ import {
   addProduct,
   deleteProduct,
   updateProduct,
+  getAllProductInfo,
 
 } from '../controllers/productController';
 
@@ -16,6 +17,8 @@ const router = express.Router();
 router.route('/')
   .post(protect, uploadImage.single('image'), handleValidations(validators.productValidation), addProduct)
   .get(protect, getProducts);
+
+router.route('/info').get(protect, getAllProductInfo);
 router.route('/:id').put(protect, updateProduct).delete(protect, deleteProduct);
 
 export default router;
