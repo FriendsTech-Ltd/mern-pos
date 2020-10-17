@@ -7,7 +7,8 @@ import {
   createInvoice,
   deleteInvoice,
   getInvoices,
-
+  getTotalSaleInfo,
+  getTotalDue,
 } from '../controllers/invoiceController';
 
 const router = express.Router();
@@ -15,6 +16,9 @@ const router = express.Router();
 router.route('/')
   .post(protect, handleValidations(validators.invoiceValidation), createInvoice)
   .get(protect, getInvoices);
+
+router.route('/sale-info').get(protect, getTotalSaleInfo);
+router.route('/total-due').get(protect, getTotalDue);
 
 router.route('/:id').delete(protect, deleteInvoice);
 

@@ -1,3 +1,4 @@
+import mongoose from 'mongoose';
 import asyncHandler from '../middleware/async';
 
 import ProductModel from '../models/ProductModel';
@@ -5,8 +6,8 @@ import InvoiceModel from '../models/InvoiceModel';
 import CustomerModel from '../models/CustomerModel';
 import { NotFound } from '../utils/error';
 
-// @desc    Get All Product
-// @route   PUT /api/product/:id
+// @desc    Get All Invoice
+// @route   PUT /api/invoice/:id
 // @access  Private
 export const getInvoices = asyncHandler(async (req, res) => {
   const invoices = await InvoiceModel.find({ user: req.user.id })
@@ -88,5 +89,48 @@ export const deleteInvoice = asyncHandler(async (req, res) => {
   if (!deletedInvoice) {
     throw new NotFound('Invoice not found');
   }
-  return res.status(200).json({ success: true, deletedInvoice, msg: 'Invoice deleted successfully' });
+  return res.status(200).json({ success: true, invoice: deletedInvoice, msg: 'Invoice deleted successfully' });
+});
+
+// @desc    Get Total sale info
+// @route   GET /api/invoice/sale-info
+// @access  Private
+export const getTotalSaleInfo = asyncHandler(async (req, res) => {
+  const { ObjectId } = mongoose.Types;
+
+  const totalSaleAmount = await InvoiceModel.aggregate([
+    {
+      $match: { user: ObjectId(req.user.id) },
+    },
+    {
+      $group: {
+        _id: req.user.id,
+        totalSaleAmount: { $sum: '$totalAmountAfterDiscount' },
+        totalProductSale: { $sum: 1 },
+      },
+    },
+  ]);
+
+  res.status(200).json({ success: true, totalSaleAmount, msg: 'Total sale amount' });
+});
+
+// @desc    Get Total sale info
+// @route   GET /api/invoice/sale-info
+// @access  Private
+export const getTotalDue = asyncHandler(async (req, res) => {
+  const { ObjectId } = mongoose.Types;
+
+  const totalDueAmount = await InvoiceModel.aggregate([
+    {
+      $match: { user: ObjectId(req.user.id) },
+    },
+    {
+      $group: {
+        _id: req.user.id,
+        totalDueAmount: { $sum: '$due' },
+      },
+    },
+  ]);
+
+  res.status(200).json({ success: true, totalDueAmount, msg: 'Total sale amount' });
 });
