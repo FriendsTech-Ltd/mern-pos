@@ -1,5 +1,5 @@
-import React,{useContext,useState} from 'react'
-import {Link} from 'react-router-dom'
+import React,{useContext,useState,useEffect} from 'react'
+import { withRouter, Link } from 'react-router-dom'
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import {
     Grid,
@@ -63,19 +63,23 @@ const useStyles = makeStyles((theme) => ({
         margin: theme.spacing(3, 0, 2),
       }
   }))
- const ForgotPassword = () => {
+ const ForgotPassword = (props) => {
  
-   const {  serverMessage} = useContext(AuthContext);
+   const { forgoRequest, serverMessage,success} = useContext(AuthContext);
    const classes = useStyles();
  
+   useEffect(() => {
+    if(success){
+      props.history.push('/info');
+    }
+    // eslint-disable-next-line
+  },[success])
 
 const [email,setEmail]=useState('');
- 
 
- 
  const onSubmit = e =>{
    e.preventDefault();
-
+   forgoRequest({email})
  } 
     return (
         <div>
@@ -135,4 +139,4 @@ const [email,setEmail]=useState('');
         </div>
     )
 }
-export default ForgotPassword;
+export default withRouter(ForgotPassword);

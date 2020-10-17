@@ -15,7 +15,9 @@ import {
   CLEAR_ERROR,
   ERROR,
   EDIT_FORM,
-  CLEAR_EDIT_FORM
+  CLEAR_EDIT_FORM,
+  FORGOT_REQUEST,
+  RESET_PASSWORD
 } from '../type'
 
 const AuthState=(props)=> {
@@ -123,12 +125,43 @@ const res=await axios.put(`/api/auth/update/${user._id}`,user,config)
 const changePassword = async data=>{
   const config={ header:{'Content-Type':'application/json' }}
 try{
-    const res=await axios.put('/api/change-password',data,config)
-    dispatch({type:CHANGE_PASSWORD,payload:res.data.data,})  
+    const res=await axios.put('/api/auth/change-password',data,config)
+    dispatch({type:CHANGE_PASSWORD,payload:res.data})  
 }catch (err){ 
   dispatch({ type: ERROR, payload: err.response.data })
   clearError(); 
 }
+}
+
+
+// forgot request 
+const forgoRequest = async (data) =>{
+  const config={ header:{'Content-Type':'application/json' }}
+  try{
+      const res=await axios.post('/api/auth/forgot',data,config)
+      dispatch({ type: FORGOT_REQUEST, payload:res.data })          
+  }catch (err){ 
+    dispatch({ type: ERROR, payload: err.response.data })
+    clearError(); 
+  }
+
+}
+
+
+//reset password
+const resetPassword = async (data,token)=>{
+  const config={ header:{'Content-Type':'application/json' }}
+  try{
+      const res=await axios.post(`/api/auth/reset/${token}`,data,config)
+      dispatch({
+      type: RESET_PASSWORD,
+      payload:res.data,
+      })          
+  }catch (err){ 
+    dispatch({ type: ERROR, payload: err.response.data })
+    clearError(); 
+  }
+
 }
 
 // log out  test complete
@@ -172,6 +205,8 @@ const logout=()=>{
             updateUser,
             deleteUser,
             changePassword,
+            forgoRequest,
+            resetPassword,
             logout,
             verifyUser,
             editFormFun,

@@ -118,13 +118,13 @@ export const changePassword = asyncHandler(async (req, res) => {
 });
 
 // forget password
-export const forgetPassword = asyncHandler(async (req, res) => {
+export const forgotPassword = asyncHandler(async (req, res) => {
+  const user = await UserModel.findOne({ email: req.body.email });
+  if (!user) {
+    throw new NotFound('User not found');
+  }
   crypto.randomBytes(32, async (err, buffer) => {
     const token = buffer.toString('hex');
-    const user = await UserModel.findOne({ email: req.body.email });
-    if (!user) {
-      throw new NotFound('User not found');
-    }
     user.resetPasswordToken = token;
     user.resetPasswordExpires = Date.now() + 3600000; // 1 hour
     await user.save();
@@ -141,7 +141,7 @@ export const forgetPassword = asyncHandler(async (req, res) => {
       message,
     });
 
-    res.status(200).json({ success: true, data: `Please check your email ${user.email} to complete the process` });
+    res.status(200).json({ success: true, msg: `Please check your email ${user.email} to complete the process` });
   });
 });
 
@@ -160,5 +160,5 @@ export const resetPassword = asyncHandler(async (req, res) => {
     expireToken: undefined,
   });
   update.save();
-  return res.status(200).json({ success: true, msg: 'password update success', update });
+  return sendTokenResponse(update, 200, res);
 });

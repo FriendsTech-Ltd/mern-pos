@@ -7,6 +7,9 @@ export const DELETE_USER = 'DELETE_USER'
 export const UPDATE_USER = 'UPDATE_USER'
 export const CHANGE_PASSWORD = 'CHANGE_PASSWORD'
 export const LOGOUT = 'LOGOUT'
+export const FORGOT_REQUEST = 'FORGOT_REQUEST'
+export const RESET_PASSWORD = 'RESET_PASSWORD'
+
 
 export const CLEAR_ERROR = 'CLEAR_ERROR'
 export const ERROR = 'ERROR'

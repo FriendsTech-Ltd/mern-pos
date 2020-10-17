@@ -1,7 +1,8 @@
-import React,{useContext,useState} from 'react'
-import {Link} from 'react-router-dom'
+import React,{useContext,useState,useEffect} from 'react'
+import { withRouter, Link } from 'react-router-dom'
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import {
+    Grid,
   Container,
   Avatar,
   Typography,
@@ -14,37 +15,37 @@ import Notification from '../common/Notification';
 import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
 import AuthContext from '../../context/AuthContext/AuthContext'
 const useStyles = makeStyles((theme) => ({
-  root: {
+    root: {
       flexGrow: 1,
     },
-  tittle: {
+    tittle: {
       display:'flex',
-      padding:3
+     padding:3
     },
-  addButton:{
+    addButton:{
       paddingTop:10,
       marginRight:8,
       direction: 'rtl',
     },
-  backButton:{
+    backButton:{
       padding:5,
     },
-  content:{
+    content:{
        margin:10,
        flexGrow: 1,
-       height: '77vh',
-       overflow: 'auto',
+    height: '77vh',
+    overflow: 'auto',
     },
-  details:{
-  textAlign:'center',
-  paddingTop:'10%'
+    details:{
+    textAlign:'center',
+    paddingTop:'10%'
     },
-  linkStyle:{
+    linkStyle:{
       textDecoration: 'none',
       color: 'white'
     },
-   paper: {
-        marginTop: theme.spacing(7),
+    paper: {
+        marginTop: theme.spacing(0),
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
@@ -60,37 +61,38 @@ const useStyles = makeStyles((theme) => ({
       },
     submit: {
         margin: theme.spacing(3, 0, 2),
-      },
+      }
   }))
- const ChangePassword = () => {
-  
-  const {  changePassword, serverMessage} = useContext(AuthContext);
+ const ResetPassword = (props) => {
+    const token = props.match.params.token
+   const { resetPassword, serverMessage,isAuthenticated} = useContext(AuthContext);
+   const classes = useStyles();
+ 
 
-  const classes = useStyles();
-
-  const [formData,setFormData]=useState({
-   oldPassword:"",
-   newPassword:"",
-   confirmNewPassword:""
-  });
-const {oldPassword,newPassword,confirmNewPassword}=formData
+   useEffect(() => {
+    if(isAuthenticated){
+      props.history.push('/dashboard');
+    }
+    // eslint-disable-next-line
+  },[isAuthenticated])
 
 
-const onChange = e => { setFormData({ ...formData,[e.target.name]:e.target.value }); }
+const [password,setPassword]=useState('');
+const [confirmPassword,setConfirmPassword]=useState('');
 
-const onSubmit = e =>{
-  e.preventDefault();
-  if(newPassword !== confirmNewPassword){
-   return alert('confirm Password not match')
-  }
-  changePassword({oldPassword, newPassword});
-}
 
+ const onSubmit = e =>{
+   e.preventDefault();
+   if (password !== confirmPassword)  {
+    return  alert('confirm password no match')
+   }
+   resetPassword({password},token)
+ } 
     return (
         <div>
         <Paper variant="outlined" square  className={classes.tittle}> 
                   <div className={classes.backButton}>
-                  <Link to ='/dashboard/me' className={classes.linkStyle}>
+                  <Link to ='/' className={classes.linkStyle}>
                       <Button variant="contained" color="primary">
                     <ArrowBackIosIcon/>Back
                       </Button>
@@ -98,8 +100,9 @@ const onSubmit = e =>{
                 </div> 
               
            </Paper>
+
            <Paper variant="outlined" elevation={5} className={classes.content}>
-          
+             <Grid className={classes.details}>
 <Container component="main" maxWidth="xs">
       { serverMessage && <Notification severity='error' message={serverMessage}/> }
       <Paper elevation={5}>
@@ -109,7 +112,7 @@ const onSubmit = e =>{
           <LockOutlinedIcon />
         </Avatar>
         <Typography component="h1" variant="h5">
-         Change Password
+        Reset Password
         </Typography>
         <form className={classes.form} onSubmit={e => onSubmit(e)}>
         <TextField
@@ -120,9 +123,9 @@ const onSubmit = e =>{
             required
             fullWidth
             label="Password"
-            name="oldPassword"
-            value={oldPassword}
-            onChange={e=> onChange(e)}
+            name="password"
+            value={password}
+            onChange={(e)=>{setPassword(e.target.value)}}
           />
             <TextField
             size="small"
@@ -131,22 +134,10 @@ const onSubmit = e =>{
             margin="normal"
             required
             fullWidth
-            label=" New Password"
-            name="newPassword"
-            value={newPassword}
-            onChange={e=> onChange(e)}
-          />
-           <TextField
-            size="small"
-            type="password"
-            variant="outlined"
-            margin="normal"
-            required
-            fullWidth
-            label="Confirm New Password"
-            name="confirmNewPassword"
-            value={confirmNewPassword}
-            onChange={e=> onChange(e)}
+            label="Confirm Password"
+            name="confirmPassword"
+            value={confirmPassword}
+            onChange={(e)=>{setConfirmPassword(e.target.value)}}
           />
           <Button
             type="submit"
@@ -155,16 +146,16 @@ const onSubmit = e =>{
             color="primary"
             className={classes.submit}
           >
-            Change Password
+           submit
           </Button>
         </form>
       </div>
      
       </Paper>
-    </Container>
-           
+</Container>
+            </Grid>
            </Paper> 
         </div>
     )
 }
-export default ChangePassword;
+export default withRouter(ResetPassword);

@@ -10,7 +10,9 @@ import {
     CLEAR_ERROR,
     ERROR,
     EDIT_FORM,
-    CLEAR_EDIT_FORM
+    CLEAR_EDIT_FORM,
+    FORGOT_REQUEST,
+    RESET_PASSWORD
 } from '../type'
 
 export default (state,action)=>{
@@ -33,6 +35,7 @@ export default (state,action)=>{
           }
       case SUCCESS_LOGIN:
       case SUCCESS_REGISTER:
+      case RESET_PASSWORD:
            localStorage.setItem('token',action.payload.token)
            return{
               ...state,
@@ -50,8 +53,8 @@ export default (state,action)=>{
       case DELETE_USER:
            localStorage.removeItem('token')
             return{
-            isAuthentication: false,
-            user:{},
+              isAuthentication: false,
+              user:{},
             }
       case  UPDATE_USER:
             return{
@@ -71,6 +74,12 @@ export default (state,action)=>{
             ...state,
             editForm:{}
             } 
+   case FORGOT_REQUEST:
+              return{
+              ...state,
+              serverMessage: action.payload.msg,
+              success: action.payload.success
+              } 
       default:
           return state
     }
