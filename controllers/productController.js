@@ -1,3 +1,4 @@
+import mongoose from 'mongoose';
 import fs from 'fs';
 import asyncHandler from '../middleware/async';
 
@@ -58,4 +59,27 @@ export const deleteProduct = asyncHandler(async (req, res, next) => {
     const result = await ProductModel.findByIdAndRemove(req.params.id);
     return res.status(200).json({ success: true, msg: 'Product deleted successfully', product: result });
   });
+});
+
+// @desc    Get All product information
+// @route   GET /api/product/info
+// @access  Private
+export const getAllProductInfo = asyncHandler(async (req, res) => {
+  const { ObjectId } = mongoose.Types;
+
+  const productInfo = await ProductModel.aggregate([
+    {
+      $match: { user: ObjectId(req.user.id) },
+    },
+    {
+      $group: {
+        _id: req.user.id,
+        totalProductCost: { $sum: { $multiply: ['$price', '$stock'] } },
+        totalProduct: { $sum: '$stock' },
+        totalProductType: { $sum: 1 },
+      },
+    },
+  ]);
+
+  res.status(200).json({ success: true, productInfo, msg: 'Successfully product info fetched' });
 });

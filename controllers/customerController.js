@@ -61,3 +61,12 @@ export const deleteCustomer = asyncHandler(async (req, res) => {
 
   return res.status(200).json({ success: true, deletedCustomer, msg: 'Customer deleted successfully' });
 });
+
+// @desc    Get total customer count
+// @route   GET /api/customer/count
+// @access  Private
+export const getTotalCustomerCount = asyncHandler(async (req, res) => {
+  const customerCount = await CustomerModel.find({ user: req.user.id }).count();
+
+  res.status(200).json({ success: true, customerCount, msg: 'Total customer count fetched' });
+});

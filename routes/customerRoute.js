@@ -9,6 +9,7 @@ import {
   addCustomer,
   deleteCustomer,
   updateCustomer,
+  getTotalCustomerCount,
 
 } from '../controllers/customerController';
 
@@ -17,6 +18,8 @@ const router = express.Router();
 router.route('/')
   .post(protect, handleValidations(validators.customerValidation), addCustomer)
   .get(protect, getCustomers);
+
+router.route('/count').get(protect, getTotalCustomerCount);
 router.route('/details/:id').get(protect, getCustomer);
 router.route('/:id').put(protect, updateCustomer).delete(protect, deleteCustomer);
 
