@@ -1,4 +1,5 @@
 import bcrypt from 'bcryptjs';
+import crypto from 'crypto';
 import jwt from 'jsonwebtoken';
 import asyncHandler from '../middleware/async';
 import UserModel from '../models/UserModel';
@@ -94,14 +95,12 @@ export const updateUser = asyncHandler(async (req, res) => {
     new: true,
     runValidators: true,
   });
-  res.status(200).json({ success: true, data: updatedUser, msg: 'User updated successfully' });
+  res.status(200).json({ success: true, user: updatedUser, msg: 'User updated successfully' });
 });
 
 // change password
 export const changePassword = asyncHandler(async (req, res) => {
   const { oldPassword, newPassword } = req.body;
-  console.log(req.user)
-  const { _id } = req.user;
 
   const match = await bcrypt.compare(oldPassword, req.user.password);
 
@@ -119,11 +118,47 @@ export const changePassword = asyncHandler(async (req, res) => {
 });
 
 // forget password
-export const forgetPassword = asyncHandler(async (req, res) => {
-  res.status(200).json({ success: true, data: 'user route okay' });
+export const forgotPassword = asyncHandler(async (req, res) => {
+  const user = await UserModel.findOne({ email: req.body.email });
+  if (!user) {
+    throw new NotFound('User not found');
+  }
+  crypto.randomBytes(32, async (err, buffer) => {
+    const token = buffer.toString('hex');
+    user.resetPasswordToken = token;
+    user.resetPasswordExpires = Date.now() + 3600000; // 1 hour
+    await user.save();
+    // reset url
+    const resetUrl = `${req.protocol}://${req.headers.host}/reset/${token}`;
+
+    const message = `You are receiving this because you (or someone else) have requested the reset of the password for your account.\n\n
+     Please click on the following link to complete the process: \n\n ${resetUrl} \n\n
+     If you did not request this, please ignore this email and your password will remain unchanged.`;
+
+    await sendEmail({
+      email: user.email,
+      subject: 'Password Reset',
+      message,
+    });
+
+    res.status(200).json({ success: true, msg: `Please check your email ${user.email} to complete the process` });
+  });
 });
 
 // reset  password
 export const resetPassword = asyncHandler(async (req, res) => {
-  res.status(200).json({ success: true, data: 'user route okay' });
+  const { newPassword } = req.body;
+  const user = await UserModel.findOne({
+    resetPasswordToken: req.params.token, resetPasswordExpires: { $gt: Date.now() } });
+  if (!user) {
+    return res.status(400).json({ success: false, msg: 'Try again session expried' });
+  }
+  const hash = await bcrypt.hash(newPassword, 11);
+  const update = new UserModel({
+    password: hash,
+    resetToken: undefined,
+    expireToken: undefined,
+  });
+  update.save();
+  return sendTokenResponse(update, 200, res);
 });

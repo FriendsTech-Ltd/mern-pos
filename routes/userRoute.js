@@ -10,7 +10,7 @@ import {
   deleteUser,
   updateUser,
   changePassword,
-  forgetPassword,
+  forgotPassword,
   resetPassword,
   verifyUser,
 } from '../controllers/userController';
@@ -27,7 +27,7 @@ router.route('/delete/:id').delete(protect, deleteUser);
 
 router.route('/verify/:registerToken').get(verifyUser);
 
-router.route('/forget').post(forgetPassword);
+router.route('/forgot').post(forgotPassword);
 router.route('/reset/:token').post(resetPassword);
 
 export default router;
