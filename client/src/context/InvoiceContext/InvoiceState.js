@@ -5,6 +5,7 @@ import InvoiceReducer from './InvoiceReducer';
 
 import {
   GET_INVOICE,
+  GET_SALE_INFO,
   GET_INVOICES,
   DELETE_INVOICE,
   CREATE_INVOICE,
@@ -21,6 +22,7 @@ const InvoiceState = (props) => {
 const initialState={
   invoices: [],
   invoice:{},
+  saleInfo:[],
   serverMessage: null,
   success: false,
   card:[],
@@ -28,6 +30,17 @@ const initialState={
 }
 
 const [state,dispatch]=useReducer(InvoiceReducer,initialState)
+
+  //  get all sales info by user
+  const getAllSaleInfo = async () => {
+    try{
+      const res = await axios.get('/api/invoice/sale-info')
+        dispatch({ type: GET_SALE_INFO, payload: res.data })
+        clearSuccess()
+    }catch (err) {  
+        dispatch({ type: ERROR, payload: err.response.data })
+        clearError();
+      }}
 
  // Create new invoice
 const createInvoice = async data => {
@@ -143,10 +156,12 @@ try{
         <InvoiceContext.Provider value={{
           invoice: state.invoice,
           invoices: state.invoices,
+          saleInfo:state.saleInfo,
           serverMessage: state.serverMessage,
           card:state.card,
           invoiceCustomer:state.invoiceCustomer,
           createInvoice,
+          getAllSaleInfo,
           getInvoices,
           deleteInvoice,
           getInvoice,

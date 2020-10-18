@@ -1,6 +1,7 @@
 import {
     GET_CUSTOMERS,
     GET_CUSTOMER,
+    GET_TOTAL_CUSTOMER,
     CREATE_CUSTOMER,
     UPDATE_CUSTOMER,
     DELETE_CUSTOMER,
@@ -29,6 +30,13 @@ export default (state,action)=>{
                 success:action.payload.success,
                 serverMessage: action.payload.msg,
             }
+            case GET_TOTAL_CUSTOMER:
+                return{
+                  ...state,
+                  totalCustomer: action.payload.customerCount,
+                  success: action.payload.success,
+                  serverMessage: action.payload.msg,
+                }
             case CREATE_CUSTOMER:
                 return{
                 ...state,

@@ -98,7 +98,7 @@ export const deleteInvoice = asyncHandler(async (req, res) => {
 export const getTotalSaleInfo = asyncHandler(async (req, res) => {
   const { ObjectId } = mongoose.Types;
 
-  const totalSaleAmount = await InvoiceModel.aggregate([
+  const totalSaleInfo = await InvoiceModel.aggregate([
     {
       $match: { user: ObjectId(req.user.id) },
     },
@@ -107,11 +107,12 @@ export const getTotalSaleInfo = asyncHandler(async (req, res) => {
         _id: req.user.id,
         totalSaleAmount: { $sum: '$totalAmountAfterDiscount' },
         totalProductSale: { $sum: 1 },
+        totalDueAmount: { $sum: '$due' },
       },
     },
   ]);
 
-  res.status(200).json({ success: true, totalSaleAmount, msg: 'Total sale amount' });
+  res.status(200).json({ success: true, totalSaleInfo, msg: 'Total sale amount' });
 });
 
 // @desc    Get Total sale info
