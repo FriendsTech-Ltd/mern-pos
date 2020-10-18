@@ -31,7 +31,9 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-const Budget = () => {
+const TotalProductCost = ({productInfo}) => {
+
+  const info = productInfo[0] || {}
   const classes = useStyles();
 
   return (
@@ -48,13 +50,13 @@ const Budget = () => {
               gutterBottom
               variant="h6"
             >
-              Profit
+          COST
             </Typography>
             <Typography
               color="textPrimary"
               variant="h5"
             >
-              ৳24,000
+              ৳{info.totalProductCost}
             </Typography>
           </Grid>
           <Grid item>
@@ -64,6 +66,27 @@ const Budget = () => {
           </Grid>
         </Grid>
         <Box
+          mt={1}
+        >
+          <Typography
+            color="textSecondary"
+            variant="caption"
+          >
+           Total Product {info.totalProduct}
+          </Typography>
+        </Box>
+        <Box
+          mt={1}
+        >
+          <Typography
+            color="textSecondary"
+            variant="caption"
+          >
+           Product Type {info.totalProductType}
+          </Typography>
+        </Box>
+      
+        {/* <Box
           mt={2}
           display="flex"
           alignItems="center"
@@ -81,7 +104,7 @@ const Budget = () => {
           >
             Since last month
           </Typography>
-        </Box>
+        </Box> */}
       </CardContent>
       </Paper>
 
@@ -90,4 +113,4 @@ const Budget = () => {
 
 
 
-export default Budget;
+export default TotalProductCost;

@@ -4,6 +4,7 @@ import { makeStyles } from '@material-ui/core/styles';
 
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
+import Info from './DashboardInfo/index'
 import Chart from './Chart'
 import Deposits from './Deposits'
 import Orders from './Orders'
@@ -38,7 +39,7 @@ const DashboardInfo = () => {
     return (
         <div>
              <Grid container spacing={3}>
-         
+         <Info/>
             <Grid item xs={12} md={8} lg={9}>
               <Paper className={fixedHeightPaper}>
                 <Chart />

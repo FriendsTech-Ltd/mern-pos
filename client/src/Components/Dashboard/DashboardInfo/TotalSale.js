@@ -1,8 +1,7 @@
 import React from 'react';
-import clsx from 'clsx';
-import PropTypes from 'prop-types';
 import {
   Avatar,
+  Paper,
   Box,
   Card,
   CardContent,
@@ -12,7 +11,8 @@ import {
   makeStyles
 } from '@material-ui/core';
 import ArrowDownwardIcon from '@material-ui/icons/ArrowDownward';
-import MoneyIcon from '@material-ui/icons/Money';
+import MonetizationOnIcon from '@material-ui/icons/MonetizationOn';
+
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -20,8 +20,8 @@ const useStyles = makeStyles((theme) => ({
   },
   avatar: {
     backgroundColor: colors.red[600],
-    height: 56,
-    width: 56
+    height: 40,
+    width: 40
   },
   differenceIcon: {
     color: colors.red[900]
@@ -32,14 +32,12 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-const Budget = ({ className, ...rest }) => {
+const Budget = ({saleInfo}) => {
   const classes = useStyles();
+  const info = saleInfo[0] || {}
 
   return (
-    <Card
-      className={clsx(classes.root, className)}
-      {...rest}
-    >
+    <Paper variant='outlined'>
       <CardContent>
         <Grid
           container
@@ -52,18 +50,18 @@ const Budget = ({ className, ...rest }) => {
               gutterBottom
               variant="h6"
             >
-              BUDGET
+              Sales
             </Typography>
             <Typography
               color="textPrimary"
-              variant="h3"
+              variant="h5"
             >
-              $24,000
+              ৳{info.totalSaleAmount}
             </Typography>
           </Grid>
           <Grid item>
             <Avatar className={classes.avatar}>
-              <MoneyIcon />
+              <MonetizationOnIcon />
             </Avatar>
           </Grid>
         </Grid>
@@ -77,22 +75,21 @@ const Budget = ({ className, ...rest }) => {
             className={classes.differenceValue}
             variant="body2"
           >
-            12%
+            
           </Typography>
           <Typography
             color="textSecondary"
             variant="caption"
           >
-            Since last month
+            total product sale {info.totalProductSale}
           </Typography>
         </Box>
       </CardContent>
-    </Card>
+      </Paper>
+
   );
 };
 
-Budget.propTypes = {
-  className: PropTypes.string
-};
+
 
 export default Budget;

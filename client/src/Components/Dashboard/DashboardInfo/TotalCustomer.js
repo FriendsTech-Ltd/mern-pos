@@ -11,7 +11,7 @@ import {
   makeStyles
 } from '@material-ui/core';
 import ArrowDownwardIcon from '@material-ui/icons/ArrowDownward';
-import MoneyIcon from '@material-ui/icons/Money';
+import PeopleIcon from '@material-ui/icons/People';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -31,9 +31,9 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-const Budget = () => {
+const TotalCustomer = ({totalCustomer}) => {
   const classes = useStyles();
-
+  const info = totalCustomer[0] || {}
   return (
     <Paper variant='outlined'>
       <CardContent>
@@ -48,18 +48,18 @@ const Budget = () => {
               gutterBottom
               variant="h6"
             >
-              Profit
+              CUSTOMER
             </Typography>
             <Typography
               color="textPrimary"
               variant="h5"
             >
-              ৳24,000
+              {totalCustomer}
             </Typography>
           </Grid>
           <Grid item>
             <Avatar className={classes.avatar}>
-              <MoneyIcon />
+              <PeopleIcon />
             </Avatar>
           </Grid>
         </Grid>
@@ -90,4 +90,4 @@ const Budget = () => {
 
 
 
-export default Budget;
+export default TotalCustomer;

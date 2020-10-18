@@ -1,14 +1,17 @@
 
-import React from 'react';
+import React,{useContext,useEffect} from 'react';
 import {
   Container,
   Grid,
   makeStyles
 } from '@material-ui/core';
-import Budget from './Budget';
-import TasksProgress from './TasksProgress';
+import TotalProductCost from './TotalProductCost';
+import TotalSale from './TotalSale'
+import TotalCustomer from './TotalCustomer';
 import TotalProfit from './TotalProfit';
-
+import ProductContext from '../../../context/ProductContext/ProductContext';
+import InvoiceContext from '../../../context/InvoiceContext/InvoiceContext';
+import CustomerContext from '../../../context/CustomerContext/CustomerContext'
 const useStyles = makeStyles((theme) => ({
   root: {
     backgroundColor: theme.palette.background.dark,
@@ -18,9 +21,17 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-const Dashboard = () => {
+const Info = () => {
   const classes = useStyles();
-
+const {getAllProductInfo,productInfo} =useContext(ProductContext);
+const {getAllSaleInfo,saleInfo} = useContext(InvoiceContext);
+const {getTotalCustomer, totalCustomer} = useContext(CustomerContext)
+useEffect(()=>{
+  getAllProductInfo();
+  getAllSaleInfo();
+  getTotalCustomer();
+ //eslint-disable-next-line
+},[])
   return (
   
       <Container maxWidth={false}>
@@ -35,7 +46,7 @@ const Dashboard = () => {
             xl={3}
             xs={12}
           >
-            <Budget />
+            <TotalProductCost productInfo={productInfo}/>
           </Grid>
           <Grid
             item
@@ -44,7 +55,7 @@ const Dashboard = () => {
             xl={3}
             xs={12}
           >
-            <TotalCustomers />
+            <TotalSale saleInfo={saleInfo}/>
           </Grid>
           <Grid
             item
@@ -53,7 +64,7 @@ const Dashboard = () => {
             xl={3}
             xs={12}
           >
-            <TasksProgress />
+            <TotalCustomer totalCustomer={totalCustomer} />
           </Grid>
           <Grid
             item
@@ -70,4 +81,4 @@ const Dashboard = () => {
   );
 };
 
-export default Dashboard;
+export default Info;

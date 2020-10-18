@@ -1,5 +1,6 @@
 import {
     GET_PRODUCT,
+    GET_PRODUCT_INFO,
     UPLOAD_PRODUCT,
     UPDATE_PRODUCT,
     DELETE_PRODUCT,
@@ -16,6 +17,13 @@ export default (state,action)=>{
                 return{
                 ...state,
                 products: action.payload.products,
+                success:action.payload.success,
+                serverMessage: action.payload.msg,
+            }
+            case GET_PRODUCT_INFO:
+                return{
+                ...state,
+                productInfo: action.payload.productInfo,
                 success:action.payload.success,
                 serverMessage: action.payload.msg,
             }
