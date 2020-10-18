@@ -8,7 +8,9 @@ import {
   deleteInvoice,
   getInvoices,
   getTotalSaleInfo,
-  getTotalDue,
+  getSaleInfoWithDate,
+  getRecentSale,
+
 } from '../controllers/invoiceController';
 
 const router = express.Router();
@@ -18,7 +20,8 @@ router.route('/')
   .get(protect, getInvoices);
 
 router.route('/sale-info').get(protect, getTotalSaleInfo);
-router.route('/total-due').get(protect, getTotalDue);
+router.route('/sale/day').get(protect, getSaleInfoWithDate);
+router.route('/sale/recent').get(protect, getRecentSale);
 
 router.route('/:id').delete(protect, deleteInvoice);
 

@@ -11,7 +11,8 @@ import { NotFound } from '../utils/error';
 // @access  Private
 export const getInvoices = asyncHandler(async (req, res) => {
   const invoices = await InvoiceModel.find({ user: req.user.id })
-    .populate({ path: 'customer', model: 'customer', select: 'name due address phone' });
+    .populate({ path: 'customer', model: 'customer', select: 'name due address phone' })
+    .sort({ createdAt: -1 });
   // .populate({ path: 'customer', model: 'customer' }).select('customer.name');
 
   if (!invoices.length) throw new NotFound('No invoice found');
@@ -102,36 +103,71 @@ export const getTotalSaleInfo = asyncHandler(async (req, res) => {
     {
       $match: { user: ObjectId(req.user.id) },
     },
+    { $unwind: '$products' },
     {
       $group: {
         _id: req.user.id,
         totalSaleAmount: { $sum: '$totalAmountAfterDiscount' },
-        totalProductSale: { $sum: 1 },
+        totalSoldInvoice: { $sum: 1 },
         totalDueAmount: { $sum: '$due' },
+        totalSoldProductQuantity: { $sum: '$products.quantity' },
+        totalProductCost: { $sum: { $multiply: ['$products.price', '$products.quantity'] } },
+      },
+    },
+    {
+      $addFields: {
+        totalProfit: { $subtract: ['$totalSaleAmount', '$totalProductCost'] },
       },
     },
   ]);
 
-  res.status(200).json({ success: true, totalSaleInfo, msg: 'Total sale amount' });
+  res.status(200).json({ success: true, totalSaleInfo: totalSaleInfo[0], msg: 'Total sale amount' });
 });
 
 // @desc    Get Total sale info
-// @route   GET /api/invoice/sale-info
+// @route   GET /api/invoice/sale/day
 // @access  Private
-export const getTotalDue = asyncHandler(async (req, res) => {
+export const getSaleInfoWithDate = asyncHandler(async (req, res) => {
   const { ObjectId } = mongoose.Types;
 
-  const totalDueAmount = await InvoiceModel.aggregate([
+  const day = req.query.day ? req.query.day : 1;
+
+  const totalSaleInfoByDay = await InvoiceModel.aggregate([
     {
-      $match: { user: ObjectId(req.user.id) },
+      $match: {
+        user: ObjectId(req.user.id),
+        createdAt: { $gte: new Date((new Date().getTime() - (day * 24 * 60 * 60 * 1000))) },
+      },
     },
+    { $unwind: '$products' },
     {
       $group: {
         _id: req.user.id,
-        totalDueAmount: { $sum: '$due' },
+        totalSaleAmount: { $sum: '$totalAmountAfterDiscount' },
+        totalSoldProduct: { $sum: '$products.quantity' },
+        totalProductCost: { $sum: { $multiply: ['$products.price', '$products.quantity'] } },
+      },
+    },
+    {
+      $addFields: {
+        totalProfit: { $subtract: ['$totalSaleAmount', '$totalProductCost'] },
       },
     },
   ]);
 
-  res.status(200).json({ success: true, totalDueAmount, msg: 'Total sale amount' });
+  res.status(200).json({ success: true, totalSaleInfoByDay: totalSaleInfoByDay[0], msg: 'Total sale amount' });
+});
+
+// @desc    Get recent sale
+// @route   GET /api/invoice/sale/recent
+// @access  Private
+export const getRecentSale = asyncHandler(async (req, res) => {
+  const recentSale = await InvoiceModel.find({ user: req.user.id })
+    .sort({ createdAt: -1 }).limit(7);
+
+  if (!recentSale.length) {
+    throw new NotFound('Recently you don\'t have any sale');
+  }
+
+  res.status(200).json({ success: true, recentSale, msg: 'Recent sale fetched' });
 });
