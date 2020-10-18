@@ -81,5 +81,5 @@ export const getAllProductInfo = asyncHandler(async (req, res) => {
     },
   ]);
 
-  res.status(200).json({ success: true, productInfo, msg: 'Successfully product info fetched' });
+  res.status(200).json({ success: true, productInfo: productInfo[0], msg: 'Successfully product info fetched' });
 });
