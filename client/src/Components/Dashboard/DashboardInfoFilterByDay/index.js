@@ -2,10 +2,12 @@ import React,{useContext,useEffect} from 'react';
 import {
   Container,
   Grid,
-  makeStyles
+  makeStyles,
+  Paper
 } from '@material-ui/core'
 import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
+import Box from '@material-ui/core/Box';
 import FormHelperText from '@material-ui/core/FormHelperText';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
@@ -18,6 +20,14 @@ const useStyles = makeStyles((theme) => ({
       minHeight: '100%',
       paddingBottom: theme.spacing(3),
       paddingTop: theme.spacing(3)
+    },
+    paper:{
+     paddingTop:10,
+     paddingBottom:10
+    },
+    selectMenu:{
+     textAlign:'center',
+     paddingBottom:3
     }
   }));
  const Index = () => {
@@ -40,15 +50,20 @@ const handleClick = (e) => {
 const {totalProductCost,totalProfit,totalSaleAmount,totalSoldProduct}  = recentSaleByDay || {}
   
 return (
-        <div>
-              <FormControl variant="outlined" className={classes.formControl}>
-        <InputLabel htmlFor="outlined-age-native-simple">day</InputLabel>
+        <Paper variant='outlined' className={classes.paper}>
+            
+
+              <Container>
+                <Grid className={classes.selectMenu}>
+              <FormControl variant="outlined"  style={{width:'300px'}} size="small" >
+        <InputLabel htmlFor="outlined-age-native-simple">Sale Information Filter By Days</InputLabel>
         <Select
           native
           name="day"
+          
           value={day}
           onChange={(e)=>handleClick(e)}
-          label="day"
+          label="Sale Information Filter By Days"
         >
         
           <option value={1}>Today</option>
@@ -57,12 +72,14 @@ return (
           <option value={30}>Last 30 days</option>
         </Select>
       </FormControl>
-
-              <Container maxWidth={false}>
+      </Grid>
         <Grid
           container
           spacing={2}
         >
+           
+         
+   
           <Grid
             item
             lg={3}
@@ -104,7 +121,7 @@ return (
           </Grid>
         </Grid>
       </Container>
-        </div>
+        </Paper>
     )
 }
 

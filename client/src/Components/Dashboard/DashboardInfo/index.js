@@ -35,53 +35,38 @@ useEffect(()=>{
 },[])
   return (
   
-      <Container maxWidth={false}>
+      <Container >
         <Grid
           container
           spacing={2}
         >
           <Grid
-            item
-            lg={3}
-            sm={6}
-            xl={3}
-            xs={12}
+          item
+           
           >
             <TotalProductCost productInfo={productInfo}/>
           </Grid>
           <Grid
             item
-            lg={3}
-            sm={6}
-            xl={3}
-            xs={12}
+           
           >
             <TotalSale saleInfo={saleInfo}/>
           </Grid>
           <Grid
             item
-            lg={3}
-            sm={6}
-            xl={3}
-            xs={12}
+           
           >
             <TotalCustomer totalCustomer={totalCustomer} />
           </Grid>
           <Grid
             item
-            lg={3}
-            sm={6}
-            xl={3}
-            xs={12}
+           
           >
             <TotalDue/>
           </Grid>
           <Grid
             item
-            lg={3}
-            sm={6}
-            xl={3}
-            xs={12}
+           
           >
             <TotalProfit  totalProfit={saleInfo}/>
           </Grid>

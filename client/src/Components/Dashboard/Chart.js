@@ -1,27 +1,47 @@
-import React from 'react';
+import React,{useContext} from 'react';
+import moment from 'moment'
 import { useTheme } from '@material-ui/core/styles';
 import { LineChart, Line, XAxis, YAxis, Label, ResponsiveContainer } from 'recharts';
 import Title from './Title';
-
+import InvoiceContext from '../../context/InvoiceContext/InvoiceContext'
 // Generate Sales Data
 function createData(time, amount) {
   return { time, amount };
 }
 
-const data = [
-  createData('00:00', 0),
-  createData('03:00', 300),
-  createData('06:00', 600),
-  createData('09:00', 800),
-  createData('12:00', 1500),
-  createData('15:00', 2000),
-  createData('18:00', 2400),
-  createData('21:00', 2400),
-  createData('24:00', 3000),
-];
+// const data = [
+//   createData('00:00', 0),
+//   createData('03:00', 300),
+//   createData('06:00', 600),
+//   createData('09:00', 800),
+//   createData('12:00', 1500),
+//   createData('15:00', 2000),
+//   createData('18:00', 0),
+//   createData('21:00', 2400),
+//   createData('24:00', 3000),
+// ];
 
 export default function Chart() {
+
   const theme = useTheme();
+  const {getRecentSale,recentSale} = useContext(InvoiceContext)
+
+// const data = recentSale.map((t)=>{
+//   createData( moment(t.createdAt).format('h:mm') ,t.totalAmountAfterDiscount)
+// })
+const data = recentSale.map((t)=>{
+ return  {time:moment(t.createdAt).format('h:mm'), amount: t.totalAmountAfterDiscount}
+})
+console.log(data)
+
+// const date = recentSale.map((t)=>{
+//   createData( moment(t.createdAt).format('h:mm')),t.totalAmountAfterDiscount)
+// })
+// { createData( moment(t.createdAt).format('h:mm')),t.totalAmountAfterDiscount )})
+
+
+
+
 
   return (
     <React.Fragment>

@@ -19,8 +19,8 @@ const useStyles = makeStyles((theme) => ({
   },
   avatar: {
     backgroundColor: colors.red[600],
-    height: 40,
-    width: 40
+    height: 30,
+    width: 30
   },
   differenceIcon: {
     color: colors.red[900]
@@ -46,14 +46,14 @@ const TotalProductCost = ({productInfo}) => {
         >
           <Grid item>
             <Typography
-              color="textSecondary"
+              color="textPrimary"
               gutterBottom
               variant="h6"
             >
           COST
             </Typography>
             <Typography
-              color="textPrimary"
+              color="error"
               variant="h5"
             >
               ৳{info.totalProductCost}
@@ -66,45 +66,27 @@ const TotalProductCost = ({productInfo}) => {
           </Grid>
         </Grid>
         <Box
-          mt={1}
+         
         >
           <Typography
-            color="textSecondary"
+            color="textPrimary"
             variant="caption"
           >
            Total Product {info.totalProduct}
           </Typography>
         </Box>
         <Box
-          mt={1}
+         
         >
           <Typography
-            color="textSecondary"
+            color="textPrimary"
             variant="caption"
           >
            Product Type {info.totalProductType}
           </Typography>
         </Box>
       
-        {/* <Box
-          mt={2}
-          display="flex"
-          alignItems="center"
-        >
-          <ArrowDownwardIcon className={classes.differenceIcon} />
-          <Typography
-            className={classes.differenceValue}
-            variant="body2"
-          >
-            12%
-          </Typography>
-          <Typography
-            color="textSecondary"
-            variant="caption"
-          >
-            Since last month
-          </Typography>
-        </Box> */}
+      
       </CardContent>
       </Paper>
 

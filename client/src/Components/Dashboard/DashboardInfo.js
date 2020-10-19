@@ -45,13 +45,18 @@ useEffect(()=>{
 
     return (
         <div>
-             <Grid container spacing={3}>
-               <div>
-               <Info/>
-               </div>
-               <div >
-                 <DashboardInfoFilterByDay/>
-               </div>
+          <Grid container spacing={2}>
+               <Grid item xs={12}>
+              <Paper >
+              <Info/>
+              </Paper>
+            </Grid>
+
+               <Grid item xs={12}>
+              <Paper >
+              <DashboardInfoFilterByDay/>
+              </Paper>
+            </Grid>
          
             <Grid item xs={12} md={8} lg={9}>
               <Paper className={fixedHeightPaper}>
