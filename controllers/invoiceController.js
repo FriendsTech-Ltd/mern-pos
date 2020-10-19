@@ -129,14 +129,18 @@ export const getTotalSaleInfo = asyncHandler(async (req, res) => {
 // @access  Private
 export const getSaleInfoWithDate = asyncHandler(async (req, res) => {
   const { ObjectId } = mongoose.Types;
+  const query = req.query.day;
 
-  const day = req.query.day ? req.query.day : 1;
+  const todaydate= new Date().toISOString().slice(0, 10);
+  const olddate = (new Date().getTime() - (query * 24 * 60 * 60 * 1000));
+
+  const day = query == 1 ? todaydate : olddate;
 
   const totalSaleInfoByDay = await InvoiceModel.aggregate([
     {
       $match: {
         user: ObjectId(req.user.id),
-        createdAt: { $gte: new Date((new Date().getTime() - (day * 24 * 60 * 60 * 1000))) },
+        createdAt: { $gte: new Date(day) },
       },
     },
     { $unwind: '$products' },
@@ -163,6 +167,7 @@ export const getSaleInfoWithDate = asyncHandler(async (req, res) => {
 // @access  Private
 export const getRecentSale = asyncHandler(async (req, res) => {
   const recentSale = await InvoiceModel.find({ user: req.user.id })
+    .populate({ path: 'customer', model: 'customer', select: 'name' })
     .sort({ createdAt: -1 }).limit(7);
 
   if (!recentSale.length) {

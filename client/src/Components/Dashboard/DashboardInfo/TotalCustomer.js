@@ -33,14 +33,14 @@ const useStyles = makeStyles((theme) => ({
 
 const TotalCustomer = ({totalCustomer}) => {
   const classes = useStyles();
-  const info = totalCustomer[0] || {}
+  const info = totalCustomer || {}
   return (
     <Paper variant='outlined'>
       <CardContent>
         <Grid
           container
           justify="space-between"
-          spacing={3}
+          spacing={1}
         >
           <Grid item>
             <Typography

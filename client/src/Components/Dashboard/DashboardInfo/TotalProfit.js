@@ -31,7 +31,8 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-const Budget = () => {
+const Budget = ({totalProfit}) => {
+  const info  = totalProfit || {}
   const classes = useStyles();
 
   return (
@@ -54,7 +55,7 @@ const Budget = () => {
               color="textPrimary"
               variant="h5"
             >
-              ৳24,000
+              ৳{info.totalProfit}
             </Typography>
           </Grid>
           <Grid item>

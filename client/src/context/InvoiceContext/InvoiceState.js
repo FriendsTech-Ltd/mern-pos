@@ -6,6 +6,8 @@ import InvoiceReducer from './InvoiceReducer';
 import {
   GET_INVOICE,
   GET_SALE_INFO,
+  GET_RECENT_SALE,
+  GET_SALE_INFO_BY_DAY,
   GET_INVOICES,
   DELETE_INVOICE,
   CREATE_INVOICE,
@@ -23,6 +25,8 @@ const initialState={
   invoices: [],
   invoice:{},
   saleInfo:[],
+  recentSaleByDay:{},
+  recentSale:[],
   serverMessage: null,
   success: false,
   card:[],
@@ -36,11 +40,38 @@ const [state,dispatch]=useReducer(InvoiceReducer,initialState)
     try{
       const res = await axios.get('/api/invoice/sale-info')
         dispatch({ type: GET_SALE_INFO, payload: res.data })
-        clearSuccess()
+     
     }catch (err) {  
         dispatch({ type: ERROR, payload: err.response.data })
         clearError();
       }}
+
+
+    //  get recent info by user
+  const getRecentSale = async () => {
+      try{
+        const res = await axios.get('/api/invoice/sale/recent')
+          dispatch({ type: GET_RECENT_SALE, payload: res.data })
+         
+      }catch (err) {  
+          dispatch({ type: ERROR, payload: err.response.data })
+          clearError();
+        }}
+
+
+    //  get recent info by day
+    const getSaleInfoByDay = async (day) => {
+      try{
+        const res = await axios.get(`/api/invoice/sale/day?day=${day}`)
+          dispatch({ type: GET_SALE_INFO_BY_DAY, payload: res.data })
+         
+      }catch (err) {  
+        console.log(err)
+          // dispatch({ type: ERROR, payload: err.response.data })
+          // clearError();
+        }}
+
+
 
  // Create new invoice
 const createInvoice = async data => {
@@ -157,11 +188,15 @@ try{
           invoice: state.invoice,
           invoices: state.invoices,
           saleInfo:state.saleInfo,
+          recentSale:state.recentSale,
+          recentSaleByDay:state.recentSaleByDay,
           serverMessage: state.serverMessage,
           card:state.card,
           invoiceCustomer:state.invoiceCustomer,
           createInvoice,
           getAllSaleInfo,
+          getRecentSale,
+          getSaleInfoByDay,
           getInvoices,
           deleteInvoice,
           getInvoice,

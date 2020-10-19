@@ -3,7 +3,6 @@ import {
   Avatar,
   Paper,
   Box,
-  Card,
   CardContent,
   Grid,
   Typography,
@@ -11,8 +10,7 @@ import {
   makeStyles
 } from '@material-ui/core';
 import ArrowDownwardIcon from '@material-ui/icons/ArrowDownward';
-import MonetizationOnIcon from '@material-ui/icons/MonetizationOn';
-
+import MoneyIcon from '@material-ui/icons/Money';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -32,9 +30,9 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-const Budget = ({saleInfo}) => {
+const TotalDue = () => {
+
   const classes = useStyles();
-  const info = saleInfo || {}
 
   return (
     <Paper variant='outlined'>
@@ -50,18 +48,18 @@ const Budget = ({saleInfo}) => {
               gutterBottom
               variant="h6"
             >
-              Sales
+              Due
             </Typography>
             <Typography
               color="textPrimary"
               variant="h5"
             >
-              ৳{info.totalSaleAmount}
+              ৳213874
             </Typography>
           </Grid>
           <Grid item>
             <Avatar className={classes.avatar}>
-              <MonetizationOnIcon />
+              <MoneyIcon />
             </Avatar>
           </Grid>
         </Grid>
@@ -75,13 +73,13 @@ const Budget = ({saleInfo}) => {
             className={classes.differenceValue}
             variant="body2"
           >
-            
+            12%
           </Typography>
           <Typography
             color="textSecondary"
             variant="caption"
           >
-            total product sale {info.totalSoldProductQuantity}
+            Since last month
           </Typography>
         </Box>
       </CardContent>
@@ -92,4 +90,4 @@ const Budget = ({saleInfo}) => {
 
 
 
-export default Budget;
+export default TotalDue;

@@ -8,6 +8,7 @@ import {
 import TotalProductCost from './TotalProductCost';
 import TotalSale from './TotalSale'
 import TotalCustomer from './TotalCustomer';
+import TotalDue from './TotalDue';
 import TotalProfit from './TotalProfit';
 import ProductContext from '../../../context/ProductContext/ProductContext';
 import InvoiceContext from '../../../context/InvoiceContext/InvoiceContext';
@@ -37,7 +38,7 @@ useEffect(()=>{
       <Container maxWidth={false}>
         <Grid
           container
-          spacing={3}
+          spacing={2}
         >
           <Grid
             item
@@ -73,7 +74,16 @@ useEffect(()=>{
             xl={3}
             xs={12}
           >
-            <TotalProfit />
+            <TotalDue/>
+          </Grid>
+          <Grid
+            item
+            lg={3}
+            sm={6}
+            xl={3}
+            xs={12}
+          >
+            <TotalProfit  totalProfit={saleInfo}/>
           </Grid>
         </Grid>
       </Container>

@@ -33,7 +33,7 @@ const useStyles = makeStyles((theme) => ({
 
 const TotalProductCost = ({productInfo}) => {
 
-  const info = productInfo[0] || {}
+  const info = productInfo || {}
   const classes = useStyles();
 
   return (
