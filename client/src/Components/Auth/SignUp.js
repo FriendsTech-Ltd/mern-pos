@@ -57,6 +57,8 @@ const  SignUp = (props) => {
     companyName:"",
     companyOwner:"",
     email:"",
+    phone:"",
+    address:"",
     companyType:"",
     description:"",
     password:"",
@@ -64,7 +66,7 @@ const  SignUp = (props) => {
 });
 
 
-const { companyName, companyOwner, email, companyType, description, password, confirmPassword} = formData;
+const { companyName, companyOwner, email,phone,address, companyType, description, password, confirmPassword} = formData;
 
 // useEffect(() => {
 //   loadUser()
@@ -88,9 +90,12 @@ const onSubmit = e => {
   register({ companyName,
     companyOwner,
     email,
+    phone,
+    address,
     companyType,
     description,
     password,
+    confirmPassword
     
   });
   }
@@ -151,6 +156,33 @@ return (
                 label="Email Address"
                 name="email"
                 value={email}
+                onChange={e=> onChange(e)}
+              />
+            </Grid>
+
+            <Grid item xs={12}>
+              <TextField
+                size="small"
+                type="number"
+                variant="outlined"
+                required
+                fullWidth
+                label="Phone"
+                name="phone"
+                value={phone}
+                onChange={e=> onChange(e)}
+              />
+            </Grid>
+
+            <Grid item xs={12}>
+              <TextField
+                size="small"
+                variant="outlined"
+                required
+                fullWidth
+                label="Address"
+                name="address"
+                value={address}
                 onChange={e=> onChange(e)}
               />
             </Grid>

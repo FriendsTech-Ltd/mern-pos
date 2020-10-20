@@ -17,13 +17,22 @@ const userSchema = mongoose.Schema({
   description: {
     type: String,
   },
+  phone: {
+    type: Number,
+  },
+  address: {
+    type: String,
+  },
   password: {
     type: String,
     required: true,
   },
-
-  reset_password_token: String,
-  reset_password_expires: Date,
+  companyLogo: {
+    type: String,
+    default: '/uploads/default.jpg',
+  },
+  resetPasswordToken: String,
+  resetPasswordExpires: Date,
 },
 {
   timestamps: true,
