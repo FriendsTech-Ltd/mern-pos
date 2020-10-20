@@ -5,6 +5,10 @@ import InvoiceReducer from './InvoiceReducer';
 
 import {
   GET_INVOICE,
+  GET_SALE_INFO,
+  GET_RECENT_SALE,
+  GET_SALE_INFO_BY_DAY,
+  GET_TODAY_SALE,
   GET_INVOICES,
   DELETE_INVOICE,
   CREATE_INVOICE,
@@ -21,6 +25,10 @@ const InvoiceState = (props) => {
 const initialState={
   invoices: [],
   invoice:{},
+  saleInfo:[],
+  todaySale:[],
+  recentSaleByDay:{},
+  recentSale:[],
   serverMessage: null,
   success: false,
   card:[],
@@ -28,6 +36,52 @@ const initialState={
 }
 
 const [state,dispatch]=useReducer(InvoiceReducer,initialState)
+
+  //  get all sales info by user
+  const getAllSaleInfo = async () => {
+    try{
+      const res = await axios.get('/api/invoice/sale-info')
+        dispatch({ type: GET_SALE_INFO, payload: res.data })
+     
+    }catch (err) {  
+        dispatch({ type: ERROR, payload: err.response.data })
+        clearError();
+      }}
+
+
+    //  get recent info by user
+  const getRecentSale = async () => {
+      try{
+        const res = await axios.get('/api/invoice/sale/recent')
+          dispatch({ type: GET_RECENT_SALE, payload: res.data })
+         
+      }catch (err) {  
+          dispatch({ type: ERROR, payload: err.response.data })
+          clearError();
+        }}
+
+
+    //  get recent info by day
+    const getSaleInfoByDay = async (day) => {
+      try{
+        const res = await axios.get(`/api/invoice/sale/day?day=${day}`)
+          dispatch({ type: GET_SALE_INFO_BY_DAY, payload: res.data })
+         
+      }catch (err) {  
+        dispatch({ type: ERROR, payload: err.response.data })
+        clearError();
+        }}
+
+    //  get recent info by day
+    const getTodaySale = async () => {
+      try{
+        const res = await axios.get('/api/invoice/sale/today')
+          dispatch({ type: GET_TODAY_SALE, payload: res.data })
+         
+      }catch (err) {  
+        dispatch({ type: ERROR, payload: err.response.data })
+        clearError();;
+        }}
 
  // Create new invoice
 const createInvoice = async data => {
@@ -143,10 +197,18 @@ try{
         <InvoiceContext.Provider value={{
           invoice: state.invoice,
           invoices: state.invoices,
+          saleInfo:state.saleInfo,
+          todaySale:state.todaySale,
+          recentSale:state.recentSale,
+          recentSaleByDay:state.recentSaleByDay,
           serverMessage: state.serverMessage,
           card:state.card,
           invoiceCustomer:state.invoiceCustomer,
           createInvoice,
+          getAllSaleInfo,
+          getRecentSale,
+          getSaleInfoByDay,
+          getTodaySale,
           getInvoices,
           deleteInvoice,
           getInvoice,

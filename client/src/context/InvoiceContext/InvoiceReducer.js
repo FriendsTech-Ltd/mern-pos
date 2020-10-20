@@ -1,6 +1,10 @@
 import {
     CREATE_INVOICE,
     GET_INVOICE,
+    GET_SALE_INFO,
+    GET_RECENT_SALE,
+    GET_SALE_INFO_BY_DAY,
+    GET_TODAY_SALE,
     GET_INVOICES,
     DELETE_INVOICE,
     CLEAR_SUCCESS,
@@ -22,13 +26,36 @@ export default (state,action)=>{
       serverMessage: action.payload.msg,
     }
 
-    // case GET_INVOICE:
-    //   return{
-    //     ...state,
-    //     invoice: action.payload.invoice,
-    //     success: action.payload.success,
-    //     serverMessage: action.payload.msg,
-    //   }
+    case GET_SALE_INFO:
+      return{
+        ...state,
+        saleInfo: action.payload.totalSaleInfo,
+        success: action.payload.success,
+        serverMessage: action.payload.msg,
+      }
+
+    case GET_RECENT_SALE:
+        return{
+          ...state,
+          recentSale: action.payload.recentSale,
+          success: action.payload.success,
+          serverMessage: action.payload.msg,
+        }
+        case GET_SALE_INFO_BY_DAY:
+          return{
+            ...state,
+            recentSaleByDay: action.payload.totalSaleInfoByDay,
+            success: action.payload.success,
+            serverMessage: action.payload.msg,
+          }
+      case GET_TODAY_SALE:
+        return{
+          ...state,
+          todaySale: action.payload.todaySale,
+          success: action.payload.success,
+          serverMessage: action.payload.msg,
+        }
+
 
     case GET_INVOICE:
       return{

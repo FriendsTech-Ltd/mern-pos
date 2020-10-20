@@ -6,6 +6,7 @@ import CustomerReducer from '../CustomerContext/CustomerReducer';
 import {
   GET_CUSTOMERS,
   GET_CUSTOMER,
+  GET_TOTAL_CUSTOMER,
   GET_INVOICE,
   CREATE_CUSTOMER,
   UPDATE_CUSTOMER,
@@ -22,6 +23,7 @@ const CustomerState=(props)=> {
 const initialState={
   customers: [],
   customer:{},
+  totalCustomer:[],
   invoice:{},
   editForm:{},
   serverMessage: null,
@@ -47,6 +49,19 @@ const getCustomer = async (id) => {
     const res = await axios.get(`/api/customer/details/${id}`)
     console.log(res)
       dispatch({ type: GET_CUSTOMER, payload: res.data })
+      clearSuccess()
+  }catch (err) {  
+      dispatch({ type: ERROR, payload: err.response.data })
+      clearError();
+    }}
+
+
+
+      //  get all info by user
+const getTotalCustomer = async () => {
+  try{
+    const res = await axios.get('/api/customer/count')
+      dispatch({ type: GET_TOTAL_CUSTOMER, payload: res.data })
       clearSuccess()
   }catch (err) {  
       dispatch({ type: ERROR, payload: err.response.data })
@@ -139,11 +154,13 @@ const clearEditForm=()=>{
         <CustomerContext.Provider value={{
           customers: state.customers,
           customer: state.customer,
+          totalCustomer:state.totalCustomer,
           editForm: state.editForm,
           serverMessage: state.serverMessage,
           invoice:state.invoice,
           getCustomers,
           getCustomer,
+          getTotalCustomer,
           createCustomer,
           updateCustomer,
           editFormFun,

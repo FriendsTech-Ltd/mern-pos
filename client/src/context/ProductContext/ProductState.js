@@ -5,6 +5,7 @@ import ProductReducer from '../ProductContext/ProductReducer';
 
 import {
   GET_PRODUCT,
+  GET_PRODUCT_INFO,
   UPDATE_PRODUCT,
   UPLOAD_PRODUCT,
   DELETE_PRODUCT,
@@ -19,6 +20,7 @@ import {
 const ProductState=(props)=> {
 const initialState={
   products: [],
+  productInfo:[],
   editForm:{},
   invoiceProducts:[],
   serverMessage: null,
@@ -77,6 +79,17 @@ try {
     }
   }
 
+  //  get all info by user
+const getAllProductInfo = async () => {
+  try{
+    const res = await axios.get('/api/product/info')
+      dispatch({ type: GET_PRODUCT_INFO, payload: res.data })
+      clearSuccess()
+  }catch (err) {  
+      dispatch({ type: ERROR, payload: err.response.data })
+      clearError();
+    }}
+
   //edit product
 const editFormFun=(product)=>{
   dispatch({ type:EDIT_FORM, payload:product }) ;
@@ -108,9 +121,11 @@ const clearEditForm=()=>{
     return (
         <ProductContext.Provider value={{
           products: state.products,
+          productInfo:state.productInfo,
           editForm: state.editForm,
           serverMessage: state.serverMessage,
           getProducts,
+          getAllProductInfo,
           uploadProduct,
           updateProduct,
           editFormFun,
