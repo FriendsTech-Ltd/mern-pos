@@ -6,6 +6,7 @@ import EditProfile from '../Components/Auth/EditProfile'
 import ChangePassword from '../Components/Auth/ChangePassword';
 import ProductList from '../Components/Product/ProductList';
 import AddProduct from '../Components/Product/AddProduct';
+import EditProduct from '../Components/Product/EditProduct'
 import CustomerList from '../Components/Customer/CustomerList';
 import AddCustomer from '../Components/Customer/AddCustomer';
 import CustomerDetails from '../Components/Customer/CustomerDetails';
@@ -43,8 +44,13 @@ const DashboardRoutes = () => {
         />
          <Route
           exact
-          path="/dashboard/add-product"
+          path="/dashboard/product/add-product"
           component={AddProduct}
+        />
+         <Route
+          exact
+          path="/dashboard/product/edit-product"
+          component={EditProduct}
         />
           <Route
           exact

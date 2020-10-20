@@ -30,7 +30,10 @@ const useStyles = makeStyles((theme) => ({
     root: {
       flexGrow: 1,
     },
-
+ middle:{
+margin:'auto',
+width:'100%'
+},
   buttonBar: {
       display:'flex'
     },
@@ -42,10 +45,11 @@ const useStyles = makeStyles((theme) => ({
       padding:5,
     },
     content:{
-       margin:8,
+      marginLeft:'2%',
+      marginRight: '2%',
+        width:'100%',
        flexGrow: 1,
        textAlign: 'center',
-    height: '77vh',
     overflow: 'auto',
     },
     linkStyle:{
@@ -86,22 +90,23 @@ const useStyles = makeStyles((theme) => ({
   
     const [columns] = useState([
       { name: 'sl', title: 'Sl' },
-      { name: '_id', title: 'Invoice Id' },
-      { name: 'name', title: 'Customer Name' },
+      { name: 'date', title: 'Date' },
+      { name: 'customerName', title: 'Customer Name' },
+      { name: 'totalAmount', title: 'Total Amount' },
+      { name: 'payAmount', title: 'Pay Amount' },
       { name: 'due', title: 'Due' },
-      { name: 'createdAt', title: 'Date Added' },
       { name: 'view', title: 'View' },
-
       { name: 'action', title: 'Action', columnFilteringEnabled: false },
     ]);
   
     const data = invoices.map((invoice,index) => {
       return {
         sl: index+1,
-        _id: invoice._id,
-        name:invoice.customer.name,
+        date: moment(invoice.createdAt).format("MMMM Do YYYY"),
+        customerName:invoice.customer.name,
+        totalAmount: invoice.totalAmountAfterDiscount,
+        payAmount:invoice.payAmount,
         due:invoice.due,
-        createdAt:invoice.createdAt,
         view:( <Link onClick={()=>getInvoice(invoice._id)} to={`/dashboard/invoice/${invoice._id}`}className={classes.linkStyle}><Button variant="contained" size="small" color="primary">
           View
         </Button> </Link>),
@@ -116,10 +121,11 @@ const useStyles = makeStyles((theme) => ({
   
     const [defaultColumnWidths] = useState([
       { columnName: 'sl', width: 100 },
-      { columnName: '_id', width: 220  },
-      { columnName: 'name', width: 200  },
+      { columnName: 'date', width: 220  },
+      { columnName: 'customerName', width: 200  },
+      { columnName: 'totalAmount', width: 100  },
+      { columnName: 'payAmount', width: 100  },
       { columnName: 'due', width: 100  },
-      { columnName: 'createdAt', width: 200  },
       { columnName: 'view', width: 150  },
       { columnName: 'action', width: 100 },
     ]);
@@ -147,7 +153,7 @@ const useStyles = makeStyles((theme) => ({
       {!invoices.length ? (<div className={classes.spinner}>
         <CircularProgress size={80} />
         </div>)
-         : (<div>
+         : (<div className={classes.middle}>
        
            <Paper variant="outlined" elevation={5} className={classes.content}>
            <h1>All Invoice here</h1>

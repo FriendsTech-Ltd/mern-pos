@@ -65,7 +65,7 @@ const useStyles = makeStyles((theme) => ({
   }))
  const ProductList = () => {
   // const productContext = useContext(ProductContext);
-  const { products, getProducts } = useContext(ProductContext);
+  const { products, getProducts,deleteProduct,editFormFun } = useContext(ProductContext);
 
     const classes = useStyles()
 
@@ -76,12 +76,12 @@ const useStyles = makeStyles((theme) => ({
   
 
 
-    const handleEdit = (_id) => {
-      console.log(_id)
+    const handleEdit = (product) => {
+      editFormFun(product)
     }
   
     const handleDelete= (_id) => {
-      console.log(_id)
+      deleteProduct(_id)
     }
   
     const [filteringStateColumnExtensions] = useState([
@@ -118,9 +118,11 @@ const useStyles = makeStyles((theme) => ({
         description: c.description,
         createdAt:(moment( c.createdAt).format("MMMM Do YYYY")),
         action: (<div>
-          <IconButton onClick={() => handleEdit(c._id)} aria-label="edit">
-            <EditIcon />
+           <Link to="/dashboard/product/edit-product" className={classes.linkStyle}>
+          <IconButton onClick={() => handleEdit(c)} aria-label="edit">
+           <EditIcon/>
           </IconButton>
+          </Link>
           <IconButton onClick={() => handleDelete(c._id)} aria-label="delete">
             <DeleteIcon />
           </IconButton>
@@ -145,14 +147,14 @@ const useStyles = makeStyles((theme) => ({
         <div>
           <Paper variant="outlined" square  className={classes.tittle}> 
                   <div className={classes.backButton}>
-                  <Link to ='/dashboard' className={classes.linkStyle}>
+                  <Link to ='/dashboard/product' className={classes.linkStyle}>
                       <Button variant="contained" color="primary">
                     <ArrowBackIosIcon/>Back
                       </Button>
                 </Link>
                 </div> 
                 <div className={classes.addButton} >
-                  <Link to ='/dashboard/add-product' className={classes.linkStyle}>
+                  <Link to ='/dashboard/product/add-product' className={classes.linkStyle}>
                       <Button variant="contained" color="primary">
                       <AddIcon/>Add Product
                       </Button>
@@ -183,7 +185,6 @@ const useStyles = makeStyles((theme) => ({
             </Grid>
           </Paper> 
           </div>
-
          )
         }
       

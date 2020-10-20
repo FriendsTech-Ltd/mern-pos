@@ -112,10 +112,10 @@ table: {
                       <Grid item xs={6}>
                       <Typography>From: </Typography>
                       <Typography>{user.companyName} </Typography>
-                      <Typography>Address:..................</Typography>
                       <Typography>Owner:  {user.companyOwner} </Typography>
+                      <Typography>Address: {user.address}</Typography>
                      <Typography>Email: {user.email}</Typography> 
-                      <Typography>Phone: .............. </Typography>
+                      <Typography>Phone: {user.phone} </Typography>
                       </Grid>
         
                       <Grid item xs={6}>

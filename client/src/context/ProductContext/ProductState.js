@@ -69,10 +69,10 @@ try{
 
 //update product
 const updateProduct=async(product)=>{
-    const config={ header:{'Content-Type':'application/json'}}
-    const res=await axios.put(`/api/product/${product._id}`,product,config)
+  const config={ header:{'Content-Type':'application/json'}}
 try {
-    dispatch({ type:UPDATE_PRODUCT, payload:res.data });
+  const res=await axios.put(`/api/product/${product._id}`,product,config)
+  dispatch({ type:UPDATE_PRODUCT, payload:res.data });
     } catch (err) {
         dispatch({ type: ERROR, payload: err.response.data })
         clearError();
