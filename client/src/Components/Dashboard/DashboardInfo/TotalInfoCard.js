@@ -3,14 +3,15 @@ import {
   Avatar,
   Paper,
   Box,
+  Card,
   CardContent,
   Grid,
   Typography,
   colors,
   makeStyles
 } from '@material-ui/core';
+import ArrowDownwardIcon from '@material-ui/icons/ArrowDownward';
 import MoneyIcon from '@material-ui/icons/Money';
-import  NumberWithComma from '../../../utils/NumberWithComma'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -30,11 +31,11 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-const TotalProductCost = ({productInfo}) => {
+const TotalInfoCard = ({title,data,info1,info2}) => {
 
-const classes = useStyles();
-const {totalProductCost, totalProduct, totalProductType } = productInfo
-const defaultValue = 0
+  const info = data || {}
+  const classes = useStyles();
+
   return (
     <Paper variant='outlined'>
       <CardContent>
@@ -49,13 +50,13 @@ const defaultValue = 0
               gutterBottom
               variant="subtitle1"
             >
-        Total Product Cost
+          {title}
             </Typography>
             <Typography
               color="error"
               variant="h5"
             >
-              ৳ {totalProductCost ? NumberWithComma(totalProductCost) : defaultValue}
+              ৳{info.totalProductCost}
             </Typography>
           </Grid>
           <Grid item>
@@ -68,10 +69,11 @@ const defaultValue = 0
          
         >
           <Typography
-            color="textPrimary"
+            color="info"
             variant="caption"
           >
-           Total product in stock {totalProduct ? totalProduct : defaultValue}
+              {info1} {info.totalProduct}
+       
           </Typography>
         </Box>
         <Box
@@ -81,7 +83,7 @@ const defaultValue = 0
             color="textPrimary"
             variant="caption"
           >
-           Product type in stock {totalProductType ? totalProductType : defaultValue}
+           {info2} {info.totalProductType}
           </Typography>
         </Box>
       
@@ -94,4 +96,4 @@ const defaultValue = 0
 
 
 
-export default TotalProductCost;
+export default TotalInfoCard;

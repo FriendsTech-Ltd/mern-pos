@@ -9,8 +9,8 @@ import {
   colors,
   makeStyles
 } from '@material-ui/core';
-import ArrowDownwardIcon from '@material-ui/icons/ArrowDownward';
 import MoneyIcon from '@material-ui/icons/Money';
+import  NumberWithComma from '../../../utils/NumberWithComma';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -18,8 +18,8 @@ const useStyles = makeStyles((theme) => ({
   },
   avatar: {
     backgroundColor: colors.red[600],
-    height: 40,
-    width: 40
+    height: 30,
+    width: 30
   },
   differenceIcon: {
     color: colors.red[900]
@@ -30,60 +30,63 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-const TotalDue = () => {
+const TotalDue = ({totalDue}) => {
+const classes = useStyles();
+const {totalDueAmount} = totalDue;
+const defaultValue = 0 ;
 
-  const classes = useStyles();
 
   return (
     <Paper variant='outlined'>
-      <CardContent>
-        <Grid
-          container
-          justify="space-between"
-          spacing={3}
-        >
-          <Grid item>
-            <Typography
-              color="textSecondary"
-              gutterBottom
-              variant="h6"
-            >
-              Due
-            </Typography>
-            <Typography
-              color="textPrimary"
-              variant="h5"
-            >
-              ৳213874
-            </Typography>
-          </Grid>
-          <Grid item>
-            <Avatar className={classes.avatar}>
-              <MoneyIcon />
-            </Avatar>
-          </Grid>
+    <CardContent>
+      <Grid
+        container
+        justify="space-between"
+        spacing={2}
+      >
+        <Grid item>
+          <Typography
+            color="textPrimary"
+            gutterBottom
+            variant="subtitle1"
+          >
+      Total Due
+          </Typography>
+          <Typography
+            color="error"
+            variant="h5"
+          >
+            {totalDueAmount ? NumberWithComma(totalDueAmount) : defaultValue }
+          </Typography>
         </Grid>
-        <Box
-          mt={2}
-          display="flex"
-          alignItems="center"
+        <Grid item>
+          <Avatar className={classes.avatar}>
+            <MoneyIcon />
+          </Avatar>
+        </Grid>
+      </Grid>
+      <Box mt={5}>
+        <Typography
+          color="textPrimary"
+          variant="caption"
         >
-          <ArrowDownwardIcon className={classes.differenceIcon} />
-          <Typography
-            className={classes.differenceValue}
-            variant="body2"
-          >
-            12%
-          </Typography>
-          <Typography
-            color="textSecondary"
-            variant="caption"
-          >
-            Since last month
-          </Typography>
-        </Box>
-      </CardContent>
-      </Paper>
+         
+        </Typography>
+      </Box>
+      {/* <Box
+       
+      >
+        <Typography
+          color="textPrimary"
+          variant="caption"
+        >
+      
+        </Typography>
+      </Box> */}
+    
+    
+    </CardContent>
+    </Paper>
 
   );
 };

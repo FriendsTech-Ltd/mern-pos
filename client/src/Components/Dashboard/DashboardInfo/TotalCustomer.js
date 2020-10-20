@@ -18,72 +18,78 @@ const useStyles = makeStyles((theme) => ({
     height: '100%'
   },
   avatar: {
-    backgroundColor: colors.red[600],
-    height: 40,
-    width: 40
+    backgroundColor:'#01579b',
+    height: 30,
+    width: 30
   },
   differenceIcon: {
-    color: colors.red[900]
+    color:'#01579b'
   },
   differenceValue: {
-    color: colors.red[900],
+    color: '#01579b',
     marginRight: theme.spacing(1)
+  },
+  color:{
+    color:'#01579b'
   }
+  
 }));
 
 const TotalCustomer = ({totalCustomer}) => {
   const classes = useStyles();
-  const info = totalCustomer || {}
   return (
-    <Paper variant='outlined'>
-      <CardContent>
-        <Grid
-          container
-          justify="space-between"
-          spacing={1}
-        >
-          <Grid item>
-            <Typography
-              color="textSecondary"
-              gutterBottom
-              variant="h6"
-            >
-              CUSTOMER
-            </Typography>
-            <Typography
-              color="textPrimary"
-              variant="h5"
-            >
-              {totalCustomer}
-            </Typography>
-          </Grid>
-          <Grid item>
-            <Avatar className={classes.avatar}>
-              <PeopleIcon />
-            </Avatar>
-          </Grid>
-        </Grid>
-        <Box
-          mt={2}
-          display="flex"
-          alignItems="center"
-        >
-          <ArrowDownwardIcon className={classes.differenceIcon} />
-          <Typography
-            className={classes.differenceValue}
-            variant="body2"
-          >
-            12%
-          </Typography>
-          <Typography
-            color="textSecondary"
-            variant="caption"
-          >
-            Since last month
-          </Typography>
-        </Box>
-      </CardContent>
-      </Paper>
+<Paper variant='outlined'>
+<CardContent>
+  <Grid
+    container
+    justify="space-between"
+    spacing={2}
+  >
+    <Grid item>
+      <Typography
+        color="textPrimary"
+        gutterBottom
+        variant="subtitle1"
+      >
+  Total Customer
+      </Typography>
+      <Typography
+          variant="h5"
+        className={classes.color}
+      >
+        {totalCustomer}
+      </Typography>
+    </Grid>
+    <Grid item>
+      <Avatar className={classes.avatar}>
+        <PeopleIcon />
+      </Avatar>
+    </Grid>
+  </Grid>
+  <Box mt={5}
+   
+  >
+    <Typography
+      color="textPrimary"
+      variant="caption"
+    >
+    
+    </Typography>
+  </Box>
+  {/* <Box
+   
+  >
+    <Typography
+      color="textPrimary"
+      variant="caption"
+    >
+     
+    </Typography>
+  </Box> */}
+
+
+</CardContent>
+</Paper>
 
   );
 };
