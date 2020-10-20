@@ -8,6 +8,7 @@ import {
   GET_SALE_INFO,
   GET_RECENT_SALE,
   GET_SALE_INFO_BY_DAY,
+  GET_TODAY_SALE,
   GET_INVOICES,
   DELETE_INVOICE,
   CREATE_INVOICE,
@@ -25,6 +26,7 @@ const initialState={
   invoices: [],
   invoice:{},
   saleInfo:[],
+  todaySale:[],
   recentSaleByDay:{},
   recentSale:[],
   serverMessage: null,
@@ -66,12 +68,20 @@ const [state,dispatch]=useReducer(InvoiceReducer,initialState)
           dispatch({ type: GET_SALE_INFO_BY_DAY, payload: res.data })
          
       }catch (err) {  
-        console.log(err)
-          // dispatch({ type: ERROR, payload: err.response.data })
-          // clearError();
+        dispatch({ type: ERROR, payload: err.response.data })
+        clearError();
         }}
 
-
+    //  get recent info by day
+    const getTodaySale = async () => {
+      try{
+        const res = await axios.get('/api/invoice/sale/today')
+          dispatch({ type: GET_TODAY_SALE, payload: res.data })
+         
+      }catch (err) {  
+        dispatch({ type: ERROR, payload: err.response.data })
+        clearError();;
+        }}
 
  // Create new invoice
 const createInvoice = async data => {
@@ -188,6 +198,7 @@ try{
           invoice: state.invoice,
           invoices: state.invoices,
           saleInfo:state.saleInfo,
+          todaySale:state.todaySale,
           recentSale:state.recentSale,
           recentSaleByDay:state.recentSaleByDay,
           serverMessage: state.serverMessage,
@@ -197,6 +208,7 @@ try{
           getAllSaleInfo,
           getRecentSale,
           getSaleInfoByDay,
+          getTodaySale,
           getInvoices,
           deleteInvoice,
           getInvoice,

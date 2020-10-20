@@ -6,7 +6,6 @@ import {
   CardContent,
   Grid,
   Typography,
-  colors,
   makeStyles
 } from '@material-ui/core';
 import MoneyIcon from '@material-ui/icons/Money';
@@ -51,13 +50,13 @@ const Budget = ({saleInfo}) => {
                gutterBottom
                variant="subtitle1"
              >
-         Total Sale
+         Total Sale Amount
              </Typography>
              <Typography
                className={classes.color}
                variant="h5"
              >
-               ৳ {totalSaleAmount ? NumberWithComma(totalSaleAmount) : defaultValue }
+               ৳{totalSaleAmount ? NumberWithComma(totalSaleAmount) : defaultValue }
              </Typography>
            </Grid>
            <Grid item>
@@ -70,19 +69,15 @@ const Budget = ({saleInfo}) => {
           
          >
            <Typography
-          
              variant="caption"
            >
              Total product sale <span className={classes.color}> {totalSoldProductQuantity ? totalSoldProductQuantity : defaultValue }</span>
             
            </Typography>
          </Box>
-         <Box
-          
-         >
+         <Box >
            <Typography
-           
-             variant="caption"
+          variant="caption"
            >
             Total invoice <span className={classes.color}>{totalSoldInvoice ? totalSoldInvoice : defaultValue }</span>
            </Typography>

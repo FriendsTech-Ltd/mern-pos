@@ -4,6 +4,7 @@ import {
     GET_SALE_INFO,
     GET_RECENT_SALE,
     GET_SALE_INFO_BY_DAY,
+    GET_TODAY_SALE,
     GET_INVOICES,
     DELETE_INVOICE,
     CLEAR_SUCCESS,
@@ -47,6 +48,14 @@ export default (state,action)=>{
             success: action.payload.success,
             serverMessage: action.payload.msg,
           }
+      case GET_TODAY_SALE:
+        return{
+          ...state,
+          todaySale: action.payload.todaySale,
+          success: action.payload.success,
+          serverMessage: action.payload.msg,
+        }
+
 
     case GET_INVOICE:
       return{

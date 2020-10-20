@@ -52,13 +52,13 @@ const Budget = (props) => {
             gutterBottom
             variant="subtitle1"
           >
-      Total Profit
+      Total Profit Amount
           </Typography>
           <Typography
              variant="h5"
             className={classes.color}
           >
-            {totalProfit ? NumberWithComma(totalProfit) : defaultValue }
+            ৳{totalProfit ? NumberWithComma(totalProfit) : defaultValue }
           </Typography>
         </Grid>
         <Grid item>
@@ -75,16 +75,7 @@ const Budget = (props) => {
          
         </Typography>
       </Box>
-      {/* <Box
-       
-      >
-        <Typography
-          color="textPrimary"
-          variant="caption"
-        >
-      
-        </Typography>
-      </Box> */}
+
     
     
     </CardContent>

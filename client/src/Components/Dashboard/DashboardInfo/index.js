@@ -17,9 +17,17 @@ const useStyles = makeStyles((theme) => ({
   root: {
     backgroundColor: theme.palette.background.dark,
     minHeight: '100%',
-    paddingBottom: theme.spacing(2),
-    paddingTop: theme.spacing(2)
-  }
+    paddingBottom: theme.spacing(1),
+    paddingTop: theme.spacing(1),
+    margin:'auto',
+    width:'100%',
+   
+   
+  },
+  mainStyle:{
+    marginRight:'auto'
+  },
+
 }));
 
 const Info = () => {
@@ -34,44 +42,26 @@ useEffect(()=>{
  //eslint-disable-next-line
 },[])
   return (
+    <div className={classes.root}>
+    <Grid container spacing={1}>
+      <Grid item >
+      <TotalProductCost productInfo={productInfo}/>
+      </Grid>
+      <Grid item >
+      <TotalSale saleInfo={saleInfo}/>
+      </Grid>
+      <Grid item >
+      <TotalCustomer totalCustomer={totalCustomer} />
+      </Grid>
+      <Grid item >
+      <TotalDue totalDue={saleInfo}/>
+      </Grid>
+      <Grid item >
+      <TotalProfit  totalProfit={saleInfo}/>
+      </Grid>
+    </Grid>
+  </div>
   
-      <Container >
-        <Grid
-          container
-          spacing={3}
-        >
-          <Grid
-          item
-           
-          >
-            <TotalProductCost productInfo={productInfo}/>
-          </Grid>
-          <Grid
-            item
-           
-          >
-            <TotalSale saleInfo={saleInfo}/>
-          </Grid>
-          <Grid
-            item
-           
-          >
-            <TotalCustomer totalCustomer={totalCustomer} />
-          </Grid>
-          <Grid
-            item
-           
-          >
-            <TotalDue totalDue={saleInfo}/>
-          </Grid>
-          <Grid
-            item
-           
-          >
-            <TotalProfit  totalProfit={saleInfo}/>
-          </Grid>
-        </Grid>
-      </Container>
 
   );
 };

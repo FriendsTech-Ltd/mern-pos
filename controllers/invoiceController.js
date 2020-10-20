@@ -131,17 +131,17 @@ export const getSaleInfoWithDate = asyncHandler(async (req, res) => {
   const { ObjectId } = mongoose.Types;
   const query = req.query.day;
 
-  // const todaydate = new Date().toISOString().slice(0, 10);
-  // const olddate = (new Date().getTime() - (query * 24 * 60 * 60 * 1000));
+  const todaydate = new Date().toISOString().slice(0, 10);
+  const olddate = (new Date().getTime() - (query * 24 * 60 * 60 * 1000));
 
-  // const day = query == 1 ? todaydate : olddate;
+  const day = query == 1 ? todaydate : olddate;
 
-  const today = new Date();
-  today.setHours(0, 0, 0, 0);
+  // const today = new Date();
+  // today.setHours(0, 0, 0, 0);
 
-  const oldDate = (new Date().getTime() - (query * 24 * 60 * 60 * 1000));
+  // const oldDate = (new Date().getTime() - (query * 24 * 60 * 60 * 1000));
 
-  const day = query === Number(1) ? today : oldDate;
+  // const day = query === Number(1) ? today : oldDate;
 
   const totalSaleInfoByDay = await InvoiceModel.aggregate([
     {
@@ -173,6 +173,7 @@ export const getSaleInfoWithDate = asyncHandler(async (req, res) => {
 // @route   GET /api/invoice/sale/recent
 // @access  Private
 export const getRecentSale = asyncHandler(async (req, res) => {
+
   const recentSale = await InvoiceModel.find({ user: req.user.id })
     .populate({ path: 'customer', model: 'customer', select: 'name' })
     .sort({ createdAt: -1 }).limit(7);
@@ -182,4 +183,19 @@ export const getRecentSale = asyncHandler(async (req, res) => {
   }
 
   res.status(200).json({ success: true, recentSale, msg: 'Recent sale fetched' });
+});
+
+// @desc    Get today  sale
+// @route   GET /api/invoice/sale/today
+// @access  Private
+export const getTodaySale = asyncHandler(async (req, res) => {
+  const today = new Date().toISOString().slice(0, 10);
+  const todaySale = await InvoiceModel.find({ user: req.user.id, createdAt: { $gte: new Date(today) } })
+    .select('totalAmountAfterDiscount createdAt');
+
+  if (!todaySale.length) {
+    throw new NotFound('Today you don\'t have any sale');
+  }
+
+  res.status(200).json({ success: true, todaySale, msg: 'Today sale fetched' });
 });

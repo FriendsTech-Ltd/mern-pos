@@ -3,14 +3,12 @@ import {
   Avatar,
   Paper,
   Box,
-  Card,
   CardContent,
   Grid,
   Typography,
-  colors,
   makeStyles
 } from '@material-ui/core';
-import ArrowDownwardIcon from '@material-ui/icons/ArrowDownward';
+
 import PeopleIcon from '@material-ui/icons/People';
 
 const useStyles = makeStyles((theme) => ({
@@ -76,16 +74,7 @@ const TotalCustomer = ({totalCustomer}) => {
     
     </Typography>
   </Box>
-  {/* <Box
-   
-  >
-    <Typography
-      color="textPrimary"
-      variant="caption"
-    >
-     
-    </Typography>
-  </Box> */}
+
 
 
 </CardContent>

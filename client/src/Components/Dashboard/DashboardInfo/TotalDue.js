@@ -50,13 +50,13 @@ const defaultValue = 0 ;
             gutterBottom
             variant="subtitle1"
           >
-      Total Due
+      Total Due Amount
           </Typography>
           <Typography
             color="error"
             variant="h5"
           >
-            {totalDueAmount ? NumberWithComma(totalDueAmount) : defaultValue }
+            ৳{totalDueAmount ? NumberWithComma(totalDueAmount) : defaultValue }
           </Typography>
         </Grid>
         <Grid item>
@@ -73,18 +73,9 @@ const defaultValue = 0 ;
          
         </Typography>
       </Box>
-      {/* <Box
-       
-      >
-        <Typography
-          color="textPrimary"
-          variant="caption"
-        >
-      
-        </Typography>
-      </Box> */}
+  
     
-    
+  
     </CardContent>
     </Paper>
 

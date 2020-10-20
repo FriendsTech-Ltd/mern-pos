@@ -4,9 +4,8 @@ import { makeStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 import Info from './DashboardInfo/index'
-import DashboardInfoFilterByDay from './DashboardInfoFilterByDay/index'
+import FilterByDay from './DashboardInfoFilterByDay/FilterByDay'
 import Chart from './Chart'
-import Deposits from './Deposits'
 import RecentSale from './RecentSale'
 import InvoiceContext from '../../context/InvoiceContext/InvoiceContext'
 
@@ -15,9 +14,9 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
   },
 
-  dashboardInfoFilterByDay:{
-    display: 'flex',
-  },
+  // dashboardInfoFilterByDay:{
+  //   display: 'flex',
+  // },
   container: {
     paddingTop: theme.spacing(4),
     paddingBottom: theme.spacing(4),
@@ -29,8 +28,18 @@ const useStyles = makeStyles((theme) => ({
     flexDirection: 'column',
   },
   fixedHeight: {
-    height: 240,
+    height: 294,
   },
+  middle:{
+    margin:'auto',
+   
+  },
+  p:{
+    paddingTop:1,
+    paddingRight:6,
+    paddingLeft:6,
+    paddingBottom:1
+  }
 }));
 const DashboardInfo = () => {
     const classes = useStyles();
@@ -46,17 +55,15 @@ useEffect(()=>{
     return (
         <div>
           <Grid container spacing={2}>
-               <Grid item xs={12}>
-              <Paper >
-              <Info/>
+               <Grid item  className={classes.middle} >
+              <Paper className={classes.p}>
+    
+                <Info/>
+
               </Paper>
             </Grid>
 
-               <Grid item xs={12}>
-              <Paper >
-              <DashboardInfoFilterByDay/>
-              </Paper>
-            </Grid>
+           
          
             <Grid item xs={12} md={8} lg={9}>
               <Paper className={fixedHeightPaper}>
@@ -66,7 +73,7 @@ useEffect(()=>{
          
             <Grid item xs={12} md={4} lg={3}>
               <Paper className={fixedHeightPaper}>
-                <Deposits />
+                <FilterByDay/>
               </Paper>
             </Grid>
        
