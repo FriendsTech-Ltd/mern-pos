@@ -133,23 +133,23 @@ export const getSaleInfoWithDate = asyncHandler(async (req, res) => {
   const { ObjectId } = mongoose.Types;
   const query = req.query.day;
 
-  const todaydate = new Date().toISOString().slice(0, 10);
-  const olddate = (new Date().getTime() - (query * 24 * 60 * 60 * 1000));
+  // const todaydate = new Date().toISOString().slice(0, 10);
+  // const olddate = (new Date().getTime() - (query * 24 * 60 * 60 * 1000));
 
-  const day = query == 1 ? todaydate : olddate;
+  // const day = query == 1 ? todaydate : olddate;
 
   // const today = new Date();
   // today.setHours(0, 0, 0, 0);
 
-  // const oldDate = (new Date().getTime() - (query * 24 * 60 * 60 * 1000));
-
-  // const day = query === Number(1) ? today : oldDate;
+  const oldDate = (new Date().getTime() - (query * 24 * 60 * 60 * 1000));
+  oldDate.setHours(0, 0, 0, 0);
+  // const day = query === Number(0) ? today : oldDate;
 
   const totalSaleInfoByDay = await InvoiceModel.aggregate([
     {
       $match: {
         user: ObjectId(req.user.id),
-        createdAt: { $gte: new Date(day) },
+        createdAt: { $gte: new Date(oldDate) },
       },
     },
     { $unwind: '$products' },

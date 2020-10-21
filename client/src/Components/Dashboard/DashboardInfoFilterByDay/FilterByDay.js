@@ -47,7 +47,7 @@ export default function InteractiveList() {
 
   const {getSaleInfoByDay,recentSaleByDay,} =useContext(InvoiceContext);
 
-  const [day, setDay] = React.useState(1);
+  const [day, setDay] = React.useState(0);
   
   useEffect(()=>{
     getSaleInfoByDay(day)
@@ -76,7 +76,7 @@ export default function InteractiveList() {
           label="Sale Information Filter By Days"
         >
         
-          <option value={1}>Today</option>
+          <option value={0}>Today</option>
           <option value={7}>Last week</option>
           <option value={15}>Last 15 days</option>
           <option value={30}>Last 30 days</option>

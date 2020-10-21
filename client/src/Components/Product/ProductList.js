@@ -106,6 +106,7 @@ const useStyles = makeStyles((theme) => ({
     const handleDelete= () => {
       // deleteProduct(_id)
       console.log(deleteId)
+      handleClick()
     }
   
     const [filteringStateColumnExtensions] = useState([
@@ -203,7 +204,7 @@ const useStyles = makeStyles((theme) => ({
                     No
                       </Button>
                 </div>
-                <div>  <Button size="small" aria-describedby={id} onClick={handleClick} variant="contained" onClick={() => handleDelete()} color="primary">
+                <div>  <Button size="small" aria-describedby={id} variant="contained" onClick={() => handleDelete()} color="primary">
                     Yes
                       </Button>
                 </div>
