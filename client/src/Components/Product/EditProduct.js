@@ -72,6 +72,7 @@ const { _id,name, price, sellingPrice, unit, stock, description,image } = formDa
 
 useEffect(() => {
   if(success){
+    clearEditForm()
     props.history.push('/dashboard/product');
   }
   // eslint-disable-next-line
@@ -193,7 +194,6 @@ return (
                 fullWidth
                 name="stock"
                 label="stock"
-                type="stock"
                 value={stock}
                 onChange={e=> onChange(e)}
               />

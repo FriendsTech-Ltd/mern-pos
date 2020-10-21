@@ -10,7 +10,7 @@ export default function Chart() {
 
   const theme = useTheme();
   const {getTodaySale,todaySale} = useContext(InvoiceContext)
-console.log(todaySale)
+
   useEffect(()=>{
     getTodaySale();
     // eslint-disable-next-line

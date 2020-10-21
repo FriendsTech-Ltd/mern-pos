@@ -81,5 +81,9 @@ export const getAllProductInfo = asyncHandler(async (req, res) => {
     },
   ]);
 
+  if (!productInfo.length) {
+    throw new NotFound('No information found');
+  }
+
   res.status(200).json({ success: true, productInfo: productInfo[0], msg: 'Successfully product info fetched' });
 });

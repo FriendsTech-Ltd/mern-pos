@@ -12,7 +12,6 @@ import Divider from '@material-ui/core/Divider';
 import IconButton from '@material-ui/core/IconButton';
 import Badge from '@material-ui/core/Badge';
 import Container from '@material-ui/core/Container';
-import Grid from '@material-ui/core/Grid';
 import MenuIcon from '@material-ui/icons/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import Menu from '@material-ui/core/Menu';
@@ -23,8 +22,6 @@ import { mainListItems, secondaryListItems } from './listItems';
 import DashboardRoutes from '../../Routing/DashboardRoutes'
 import AuthContext from '../../context/AuthContext/AuthContext'
 
-
-
 const drawerWidth = 240;
 
 const useStyles = makeStyles((theme) => ({
@@ -32,7 +29,7 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
   },
   toolbar: {
-    paddingRight: 24, // keep right padding when drawer closed
+    paddingRight: 24,
   },
   toolbarIcon: {
     display: 'flex',
@@ -96,8 +93,6 @@ const useStyles = makeStyles((theme) => ({
     margin:0,
     padding:0,
     width:'100%'
-    // paddingTop: theme.spacing(4),
-    // paddingBottom: theme.spacing(4),
   },
   paper: {
     padding: theme.spacing(0),
@@ -137,7 +132,6 @@ export default function Dashboard(props) {
    
   };
 
-  const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
   const menuId = 'primary-search-account-menu';
   const renderMenu = (
     <Menu
@@ -216,12 +210,6 @@ export default function Dashboard(props) {
         <DashboardRoutes url = {url} />
         </Container>
       </main>
-     
-    
-       
-    
-    
-      
     </div>
   );
 }

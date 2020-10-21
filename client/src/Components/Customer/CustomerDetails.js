@@ -40,9 +40,8 @@ const useStyles = makeStyles((theme) => ({
       textAlign:"center",
     },
   details: {
-      textAlign:'justify',
       textAlign:"center",
-      width: '60%'
+       width: '60%'
     },
   account:{
      padding:5,
@@ -59,11 +58,7 @@ const useStyles = makeStyles((theme) => ({
    display:'flex',
    padding:5
     },
-    table:{
-
-    },
-
-    linkStyle:{
+  linkStyle:{
       textDecoration: 'none',
       color: 'white'
     },

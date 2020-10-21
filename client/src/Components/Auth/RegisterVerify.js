@@ -2,12 +2,9 @@ import React,{ useContext, useEffect} from 'react'
 import {
   Grid,
   Box,
-Container,
-Typography,
-makeStyles,
-Button,
-
-Paper} from '@material-ui/core';
+  makeStyles,
+  Button,
+} from '@material-ui/core';
 import AuthContext from '../../context/AuthContext/AuthContext'
 import Notification from '../common/Notification'
 

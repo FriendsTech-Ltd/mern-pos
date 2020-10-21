@@ -1,4 +1,3 @@
-
 import React, { useState,useContext,useEffect } from 'react';
 import {Link} from 'react-router-dom';
 // /* eslint-disable no-use-before-define */
@@ -96,11 +95,7 @@ backButton:{
     flexGrow: 1,
   }
 }));
-const Label = styled('label')`
-  padding: 0 0 4px;
-  line-height: 1.5;
-  display: block;
-`;
+
 
 const InputWrapper = styled('div')`
   width: 600px;
@@ -224,7 +219,6 @@ const Listbox = styled('ul')`
 
   const {
     getRootProps,
-    getInputLabelProps,
     getInputProps,
     getTagProps,
     getListboxProps,
@@ -244,17 +238,17 @@ const Listbox = styled('ul')`
 
 
 useEffect(()=>{
-  getProducts()
-  getCustomers()
-  getInvoiceProducts(value)
+  getProducts();
+  getCustomers();
+  getInvoiceProducts(value);
 },[value])
 
 
-const BlanceArray = card.map(function(product) {
+const BalanceArray = card.map(function(product) {
   return product.sellingPrice*product.quantity;
 });
 
-const totalPrice = BlanceArray.reduce(function(accumulator, currentValue) {
+const totalPrice = BalanceArray.reduce(function(accumulator, currentValue) {
   return accumulator + currentValue;;
 }, 0);
 

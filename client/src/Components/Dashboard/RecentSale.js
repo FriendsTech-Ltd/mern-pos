@@ -14,7 +14,7 @@ import Title from './Title';
 
 const useStyles = makeStyles((theme) => ({
   seeMore: {
-    marginTop: theme.spacing(3),
+    marginTop: theme.spacing(2),
   },
   spinner: {
     textAlign: 'center',

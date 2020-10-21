@@ -1,5 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react'
 import CircularProgress from '@material-ui/core/CircularProgress';
+import Popper from '@material-ui/core/Popper';
+import Fade from '@material-ui/core/Fade';
 import moment from 'moment'
 import {Link} from 'react-router-dom'
 
@@ -61,6 +63,17 @@ const useStyles = makeStyles((theme) => ({
       textAlign: 'center',
       marginTop:'17%'
     
+    },
+    deleteContent:{
+      border: '1px solid',
+    padding: theme.spacing(1),
+    backgroundColor: theme.palette.background.paper,
+    },
+    deleteContentMiddle:{
+      display:'flex',
+    },
+    deleteContentSpace:{
+      paddingRight:6
     }
   }))
  const ProductList = () => {
@@ -74,14 +87,25 @@ const useStyles = makeStyles((theme) => ({
       // eslint-disable-next-line
     }, []);
   
+    const [anchorEl, setAnchorEl] = React.useState(null);
+    const [deleteId, setDeleteId] = React.useState(null);
 
+    const handleClick = (_id,event) => {
+      setAnchorEl(anchorEl ? null : event.currentTarget);
+      setDeleteId(_id);
+    };
+  
+    const open = Boolean(anchorEl);
+    const id = open ? 'transitions-popper' : undefined;
+  
 
     const handleEdit = (product) => {
       editFormFun(product)
     }
   
-    const handleDelete= (_id) => {
-      deleteProduct(_id)
+    const handleDelete= () => {
+      // deleteProduct(_id)
+      console.log(deleteId)
     }
   
     const [filteringStateColumnExtensions] = useState([
@@ -123,7 +147,7 @@ const useStyles = makeStyles((theme) => ({
            <EditIcon/>
           </IconButton>
           </Link>
-          <IconButton onClick={() => handleDelete(c._id)} aria-label="delete">
+          <IconButton aria-describedby={id} type="button" onClick={(event)=>handleClick(c._id,event)} aria-label="delete">
             <DeleteIcon />
           </IconButton>
         </div>)
@@ -169,6 +193,26 @@ const useStyles = makeStyles((theme) => ({
        
            <Paper variant="outlined" elevation={5} className={classes.content}>
            <h1>All product here</h1>
+           <Popper id={id} open={open} anchorEl={anchorEl} transition>
+        {({ TransitionProps }) => (
+          <Fade {...TransitionProps} timeout={350}>
+            <div className={classes.deleteContent}>
+              are you want to delete?
+              <div className={classes.deleteContentMiddle}>
+            <div className={classes.deleteContentSpace}>  <Button  size="small" aria-describedby={id} onClick={handleClick} variant="contained" color="primary">
+                    No
+                      </Button>
+                </div>
+                <div>  <Button size="small" aria-describedby={id} onClick={handleClick} variant="contained" onClick={() => handleDelete()} color="primary">
+                    Yes
+                      </Button>
+                </div>
+                </div>
+            </div>
+           
+          </Fade>
+        )}
+      </Popper>
             <Grid
               rows={data}
               columns={columns}

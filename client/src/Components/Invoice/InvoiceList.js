@@ -15,11 +15,9 @@ import {
   Grid,
 } from '@devexpress/dx-react-grid-material-ui';
 
-
 import { makeStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
-import { Button} from '@material-ui/core';
-import Alert from '@material-ui/lab/Alert'
+import Button from '@material-ui/core/Button';
 import AddIcon from '@material-ui/icons/Add';
 import DeleteIcon from '@material-ui/icons/Delete';
 import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
@@ -30,9 +28,9 @@ const useStyles = makeStyles((theme) => ({
     root: {
       flexGrow: 1,
     },
- middle:{
-margin:'auto',
-width:'100%'
+    middle:{
+    margin:'auto',
+    width:'100%'
 },
   buttonBar: {
       display:'flex'
@@ -44,22 +42,21 @@ width:'100%'
   backButton:{
       padding:5,
     },
-    content:{
+  content:{
       marginLeft:'2%',
       marginRight: '2%',
-        width:'100%',
-       flexGrow: 1,
+      width:'100%',
+      flexGrow: 1,
        textAlign: 'center',
-    overflow: 'auto',
+  overflow: 'auto',
     },
-    linkStyle:{
+  linkStyle:{
       textDecoration: 'none',
       color: 'white'
     },
-    spinner: {
+  spinner: {
       textAlign: 'center',
       marginTop:'17%'
-    
     },
 
   }))
@@ -76,11 +73,7 @@ width:'100%'
   
 
 
-    const handleEdit = (_id) => {
-      console.log(_id)
-    }
-  
-    const handleDelete= (_id) => {
+     const handleDelete= (_id) => {
       console.log(_id)
     }
   

@@ -121,6 +121,8 @@ export const getTotalSaleInfo = asyncHandler(async (req, res) => {
     },
   ]);
 
+  if (!totalSaleInfo.length) throw new NotFound('No sale info found');
+
   res.status(200).json({ success: true, totalSaleInfo: totalSaleInfo[0], msg: 'Total sale amount' });
 });
 
@@ -165,6 +167,10 @@ export const getSaleInfoWithDate = asyncHandler(async (req, res) => {
       },
     },
   ]);
+
+  if (!totalSaleInfoByDay.length) {
+    throw new NotFound('No information found');
+  }
 
   res.status(200).json({ success: true, totalSaleInfoByDay: totalSaleInfoByDay[0], msg: 'Total sale amount' });
 });

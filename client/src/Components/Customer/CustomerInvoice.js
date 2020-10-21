@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useContext} from 'react'
 import InvoiceComponent from '../common/InvoiceComponent'
 import CustomerContext from '../../context/CustomerContext/CustomerContext'
  const CustomerInvoice = () => {
@@ -8,11 +8,11 @@ import CustomerContext from '../../context/CustomerContext/CustomerContext'
 
   const invoiceAccount = invoice[0]
 
-  const BlanceArray = invoiceItem.map(function(product) {
+  const BalanceArray = invoiceItem.map(function(product) {
     return product.sellingPrice*product.quantity;
   });
   
-  const totalPrice = BlanceArray.reduce(function(accumulator, currentValue) {
+  const totalPrice = BalanceArray.reduce(function(accumulator, currentValue) {
     return accumulator + currentValue;;
   }, 0)
 

@@ -73,8 +73,8 @@ const createCustomer = async data=>{
     const config = { headers: { 'Content-type': 'application/json' }};
 try{
     const res= await axios.post('/api/customer',data,config)
-    dispatch({ type: CREATE_CUSTOMER, payload:res.data });
-    clearSuccess()
+      dispatch({ type: CREATE_CUSTOMER, payload:res.data });
+      clearSuccess()
 }catch (err){  
     dispatch({ type: ERROR, payload: err.response.data })
     clearError();
@@ -86,19 +86,21 @@ try{
 const deleteCustomer = async (id)=>{
 try{
     const res=await axios.delete(`/api/customer/${id}`)
-    dispatch({ type:DELETE_CUSTOMER, payload:res.data });
+      dispatch({ type:DELETE_CUSTOMER, payload:res.data });
+      clearSuccess()
 }catch (err){  
-    dispatch({ type: ERROR, payload: err.response.data })
-    clearError();
+      dispatch({ type: ERROR, payload: err.response.data })
+      clearError();
   }}
 
 
 //update customer
 const updateCustomer = async(customer)=>{
     const config={ header:{'Content-Type':'application/json'}}
-    const res=await axios.put(`/api/customer/${customer._id}`,customer,config)
 try {
-    dispatch({ type: UPDATE_CUSTOMER, payload:res.data });
+  const res=await axios.put(`/api/customer/${customer._id}`,customer,config)
+        dispatch({ type: UPDATE_CUSTOMER, payload:res.data });
+        clearSuccess();
     } catch (err) {
         dispatch({ type: ERROR, payload: err.response.data })
         clearError();
@@ -108,9 +110,11 @@ try {
   //pay due amount
 const payDue= async(id,amount)=>{
   const config={ header:{'Content-Type':'application/json'}}
-  const res=await axios.put(`/api/customer/${id}`,amount,config)
+ 
 try {
-  dispatch({ type: PAY_DUE, payload:res.data });
+  const res=await axios.put(`/api/customer/${id}`,amount,config)
+      dispatch({ type: PAY_DUE, payload:res.data });
+      clearSuccess();
   } catch (err) {
       dispatch({ type: ERROR, payload: err.response.data })
       clearError();

@@ -43,7 +43,7 @@ const useStyles = makeStyles((theme) => ({
 
 const SignIn = (props) =>  {
   const authContext = useContext(AuthContext);
-  const { login, loadUser, isAuthenticated, serverMessage} = authContext;
+  const { login, isAuthenticated, serverMessage} = authContext;
 
   const classes = useStyles();
 
@@ -54,7 +54,7 @@ const SignIn = (props) =>  {
 const {email,password}=formData
 
 useEffect(() => {
-  loadUser();
+  // loadUser();
   if(isAuthenticated){
     props.history.push('/dashboard');
   }

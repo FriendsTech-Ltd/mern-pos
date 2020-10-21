@@ -61,6 +61,7 @@ const deleteProduct = async (id)=>{
 try{
     const res=await axios.delete(`/api/product/${id}`)
     dispatch({ type:DELETE_PRODUCT, payload:res.data });
+    clearSuccess()
 }catch (err){  
     dispatch({ type: ERROR, payload: err.response.data })
     clearError();
@@ -73,6 +74,7 @@ const updateProduct=async(product)=>{
 try {
   const res=await axios.put(`/api/product/${product._id}`,product,config)
   dispatch({ type:UPDATE_PRODUCT, payload:res.data });
+  clearSuccess()
     } catch (err) {
         dispatch({ type: ERROR, payload: err.response.data })
         clearError();

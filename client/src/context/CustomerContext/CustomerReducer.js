@@ -102,7 +102,7 @@ export default (state,action)=>{
             case GET_INVOICE:
                     return{
                     ...state,
-                    invoice: state.customer.totalSell.filter(invoice=> invoice._id == action.payload)
+                    invoice: state.customer.totalSell.filter(invoice=> invoice._id === action.payload)
                     }
  
         default:
