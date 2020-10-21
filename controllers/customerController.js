@@ -1,5 +1,5 @@
+import mongoose from 'mongoose';
 import asyncHandler from '../middleware/async';
-
 import CustomerModel from '../models/CustomerModel';
 import { NotFound } from '../utils/error';
 
@@ -69,4 +69,24 @@ export const getTotalCustomerCount = asyncHandler(async (req, res) => {
   const customerCount = await CustomerModel.find({ user: req.user.id }).count();
 
   res.status(200).json({ success: true, customerCount, msg: 'Total customer count fetched' });
+});
+
+// @desc    Pay Due
+// @route   POST /api/customer/due/pay
+// @access  Private
+export const payDue = asyncHandler(async (req, res) => {
+  const { ObjectId } = mongoose.Types;
+  const { _id, payAmount } = req.body;
+
+  const customer = await CustomerModel.findOne({ _id, user: ObjectId(req.user.id) });
+
+  if (customer.due < payAmount) {
+    throw new NotFound('You send more amount than due');
+  }
+
+  customer.due -= payAmount;
+  customer.duePayHistory.push({ payAmount });
+  await customer.save();
+
+  res.status(200).json({ success: true, customer, msg: 'Due has been updated' });
 });

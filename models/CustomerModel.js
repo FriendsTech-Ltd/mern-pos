@@ -21,6 +21,18 @@ const customerSchema = mongoose.Schema({
     type: Number,
     default: 0,
   },
+  duePayHistory: [
+    {
+      payAmount: {
+        type: Number,
+        default: 0,
+      },
+      date: {
+        type: Date,
+        default: Date.now,
+      },
+    },
+  ],
   allTimeSellAmount: {
     type: Number,
     default: 0,

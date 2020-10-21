@@ -10,7 +10,7 @@ import {
   deleteCustomer,
   updateCustomer,
   getTotalCustomerCount,
-
+  payDue,
 } from '../controllers/customerController';
 
 const router = express.Router();
@@ -20,6 +20,7 @@ router.route('/')
   .get(protect, getCustomers);
 
 router.route('/count').get(protect, getTotalCustomerCount);
+router.route('/due/pay').post(protect, payDue);
 router.route('/details/:id').get(protect, getCustomer);
 router.route('/:id').put(protect, updateCustomer).delete(protect, deleteCustomer);
 
