@@ -67,7 +67,7 @@ const useStyles = makeStyles((theme) => ({
   }))
  const CustomerList = () => {
 
-  const { customers, getCustomers } = useContext(CustomerContext);
+  const { customers, getCustomers,editFormFun,deleteCustomer, } = useContext(CustomerContext);
 
     const classes = useStyles()
 
@@ -78,12 +78,12 @@ const useStyles = makeStyles((theme) => ({
   
 
 
-    const handleEdit = (_id) => {
-      console.log(_id)
+    const handleEdit = (customer) => {
+      editFormFun(customer)
     }
   
     const handleDelete= (_id) => {
-      console.log(_id)
+      deleteCustomer(_id)
     }
   
     const [filteringStateColumnExtensions] = useState([
@@ -117,9 +117,11 @@ const useStyles = makeStyles((theme) => ({
         </Button> </Link>),
   
         action: (<div>
-          <IconButton onClick={() => handleEdit(c._id)} aria-label="edit">
+          <Link to ="/dashboard/customer/edit-customer">
+          <IconButton onClick={() => handleEdit(c)} aria-label="edit">
             <EditIcon />
           </IconButton>
+          </Link>
           <IconButton onClick={() => handleDelete(c._id)} aria-label="delete">
             <DeleteIcon />
           </IconButton>
@@ -144,14 +146,14 @@ const useStyles = makeStyles((theme) => ({
         <div>
              <Paper variant="outlined" square  className={classes.buttonBar}> 
                   <div className={classes.backButton}>
-                  <Link to ='/dashboard' className={classes.linkStyle}>
+                  <Link to ='/dashboard/customer' className={classes.linkStyle}>
                       <Button variant="contained" color="primary">
                     <ArrowBackIosIcon/>Back
                       </Button>
                 </Link>
                 </div> 
                 <div className={classes.addButton} >
-                  <Link to ='/dashboard/add-customer' className={classes.linkStyle}>
+                  <Link to ='/dashboard/customer/add-customer' className={classes.linkStyle}>
                       <Button variant="contained" color="primary">
                       <AddIcon/>New Customer
                       </Button>

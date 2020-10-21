@@ -49,7 +49,7 @@ export const updateCustomer = asyncHandler(async (req, res) => {
 
   if (!updatedCustomer) throw new NotFound('Customer not found');
 
-  res.status(200).json({ success: true, product: updatedCustomer, msg: 'Customer updated successfully' });
+  res.status(200).json({ success: true, customer: updatedCustomer, msg: 'Customer updated successfully' });
 });
 
 // @desc    Delete Customer
@@ -59,7 +59,7 @@ export const deleteCustomer = asyncHandler(async (req, res) => {
   const deletedCustomer = await CustomerModel.findByIdAndDelete(req.params.id);
   if (!deletedCustomer) throw new NotFound('Customer not found');
 
-  return res.status(200).json({ success: true, deletedCustomer, msg: 'Customer deleted successfully' });
+  return res.status(200).json({ success: true, customer: deletedCustomer, msg: 'Customer deleted successfully' });
 });
 
 // @desc    Get total customer count
