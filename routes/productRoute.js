@@ -19,6 +19,6 @@ router.route('/')
   .get(protect, getProducts);
 
 router.route('/info').get(protect, getAllProductInfo);
-router.route('/:id').put(protect, updateProduct).delete(protect, deleteProduct);
+router.route('/:id').put(protect, handleValidations(validators.productValidation), updateProduct).delete(protect, deleteProduct);
 
 export default router;

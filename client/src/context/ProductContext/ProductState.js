@@ -115,7 +115,7 @@ const clearEditForm=()=>{
       dispatch({
         type:CLEAR_SUCCESS,
       })
-    }, 5000);
+    }, 6000);
   }
 
 
@@ -126,6 +126,7 @@ const clearEditForm=()=>{
           productInfo:state.productInfo,
           editForm: state.editForm,
           serverMessage: state.serverMessage,
+          success:state.success,
           getProducts,
           getAllProductInfo,
           uploadProduct,

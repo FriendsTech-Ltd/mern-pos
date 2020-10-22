@@ -54,13 +54,13 @@ const  AddProduct = (props) => {
   const classes = useStyles();
 
   const [formData, setFormData]=useState({
-    name:"",
+    name:null,
     price: 0,
     sellingPrice:0,
     unit:"piece",
     stock:0,
-    description:"",
-    image:""
+    description:null,
+    image:null
 });
 
 const onChange=e=>{setFormData({...formData,[e.target.name]:e.target.value});} 
@@ -71,6 +71,15 @@ const { name, price, sellingPrice, unit, stock, description,image } = formData;
 
 useEffect(() => {
   if(success){
+    setFormData({
+        name:null,
+        price: 0,
+        sellingPrice:0,
+        unit:"piece",
+        stock:0,
+        description:null,
+        image:null
+    })
     props.history.push('/dashboard/product');
   }
 },[success])

@@ -72,8 +72,18 @@ const { _id,name, price, sellingPrice, unit, stock, description,image } = formDa
 
 useEffect(() => {
   if(success){
-    clearEditForm()
+    clearEditForm();
+    setFormData({
+      name:null,
+      price: 0,
+      sellingPrice:0,
+      unit:"piece",
+      stock:0,
+      description:null,
+      image:null
+  })
     props.history.push('/dashboard/product');
+
   }
   // eslint-disable-next-line
 },[success])

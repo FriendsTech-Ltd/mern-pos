@@ -2,6 +2,7 @@ import Joi from 'joi';
 
 const schema = Joi.object().keys(
   {
+    _id: Joi.string(),
     name: Joi.string().required(),
     price: Joi.number().required(),
     sellingPrice: Joi.number().required(),

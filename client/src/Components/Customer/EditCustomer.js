@@ -1,4 +1,4 @@
-import React, { useState, useContext} from 'react';
+import React, { useState,useEffect, useContext} from 'react';
 import { withRouter, Link } from 'react-router-dom'
 import {
   Grid,
@@ -45,7 +45,7 @@ const useStyles = makeStyles((theme) => ({
 
 const  EditCustomer = (props) => {
 
-  const {editForm, updateCustomer, serverMessage,success } = useContext(CustomerContext)
+  const {editForm, updateCustomer, serverMessage,success,clearEditForm } = useContext(CustomerContext)
 
   const classes = useStyles();
 
@@ -59,20 +59,32 @@ const  EditCustomer = (props) => {
 
 const onChange=e=>{setFormData({...formData,[e.target.name]:e.target.value});}
 const {_id, name,phone, email, address } = formData;
+
+
+useEffect(() => {
+  if(success){
+    clearEditForm();
+    setFormData({
+      name:null,
+      phone:null,
+      email:null,
+      address:null,
+    })
+    props.history.push('/dashboard/customer');
+
+  }
+  // eslint-disable-next-line
+},[success])
+
 const onSubmit = e => {
   e.preventDefault();
   updateCustomer({ 
   _id,  
   name,
   phone,
+  email,
   address,
   });
-  setFormData({
-    name:"",
-    phone:"",
-    email:"",
-    address:"",
-  })
   }
   
 return (

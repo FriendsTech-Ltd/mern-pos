@@ -144,7 +144,7 @@ const clearEditForm=()=>{
       dispatch({
         type:CLEAR_SUCCESS,
       })
-    }, 5000);
+    }, 3000);
   }
 
 
@@ -161,6 +161,7 @@ const clearEditForm=()=>{
           totalCustomer:state.totalCustomer,
           editForm: state.editForm,
           serverMessage: state.serverMessage,
+          success:state.success,
           invoice:state.invoice,
           getCustomers,
           getCustomer,
