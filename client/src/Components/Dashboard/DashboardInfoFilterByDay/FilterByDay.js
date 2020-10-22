@@ -11,6 +11,8 @@ import ListItemText from '@material-ui/core/ListItemText';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import MoneyIcon from '@material-ui/icons/Money';
+import AccountBalanceWalletIcon from '@material-ui/icons/AccountBalanceWallet';
+import IndeterminateCheckBoxIcon from '@material-ui/icons/IndeterminateCheckBox';
 import  NumberWithComma from '../../../utils/NumberWithComma';
 import InvoiceContext from '../../../context/InvoiceContext/InvoiceContext'
 const useStyles = makeStyles((theme) => ({
@@ -35,6 +37,9 @@ const useStyles = makeStyles((theme) => ({
   costColor:{
       color:'red'
   },
+  saleColor:{
+    color: '#154360 '
+  },
   soldColor:{
 color: '#01579b',
   }
@@ -47,7 +52,7 @@ export default function InteractiveList() {
 
   const {getSaleInfoByDay,recentSaleByDay,} =useContext(InvoiceContext);
 
-  const [day, setDay] = React.useState(1);
+  const [day, setDay] = React.useState(0);
   
   useEffect(()=>{
     getSaleInfoByDay(day)
@@ -57,7 +62,7 @@ export default function InteractiveList() {
     setDay(e.target.value)
   
   };
-  const {totalProductCost,totalProfit,totalSaleAmount,totalSoldProduct}  = recentSaleByDay || {}
+  const {totalProductCost,totalProfit,totalSaleAmount,totalSoldProduct,totalSoldInvoice,currentCash,totalDue }  = recentSaleByDay || {}
  const defaultValue = 0;
   return (
     <div className={classes.root}>
@@ -76,7 +81,7 @@ export default function InteractiveList() {
           label="Sale Information Filter By Days"
         >
         
-          <option value={1}>Today</option>
+          <option value={0}>Today</option>
           <option value={7}>Last week</option>
           <option value={15}>Last 15 days</option>
           <option value={30}>Last 30 days</option>
@@ -103,6 +108,95 @@ export default function InteractiveList() {
            
             </List>
 
+            <List >
+                <ListItem divider={true}
+                className={classes.saleColor}>
+                      <MoneyIcon fontSize="small" />
+                  <ListItemText
+                    primary="Sale Amount"
+                    
+                  />
+                  <ListItemSecondaryAction>
+                      <Typography
+                      className={classes.saleColor}>
+                       
+                       ৳ {totalSaleAmount ? NumberWithComma(totalSaleAmount) : defaultValue}
+                        </Typography>
+                  </ListItemSecondaryAction>
+                </ListItem>
+           
+            </List>
+
+            <List >
+                <ListItem divider={true}
+                className={classes.profitColor} >
+                      <MoneyIcon fontSize="small" />
+                  <ListItemText
+                    primary="Profit"
+                    
+                  />
+                  <ListItemSecondaryAction>
+                      <Typography className={classes.profitColor}>
+                      ৳ <span className={classes.profitColor} >{totalProfit ? NumberWithComma(totalProfit) : defaultValue}</span> 
+                        </Typography>
+                  </ListItemSecondaryAction>
+                </ListItem>
+           
+            </List>
+
+
+            <List >
+                <ListItem divider={true}
+                className={classes.soldColor} >
+                      <AccountBalanceWalletIcon fontSize="small" />
+                  <ListItemText
+                    primary="Current Cash"
+                    
+                  />
+                  <ListItemSecondaryAction>
+                      <Typography className={classes.soldColor}>
+                      ৳ <span className={classes.soldColor} >{currentCash ? NumberWithComma(currentCash) : defaultValue}</span> 
+                        </Typography>
+                  </ListItemSecondaryAction>
+                </ListItem>
+           
+            </List>
+
+            <List >
+                <ListItem divider={true}
+                className={classes.costColor} >
+                      <IndeterminateCheckBoxIcon fontSize="small" />
+                  <ListItemText
+                    primary="Due"
+                    
+                  />
+                  <ListItemSecondaryAction>
+                      <Typography className={classes.costColor}>
+                      ৳ <span className={classes.costColor} >{totalDue ? NumberWithComma(totalDue) : defaultValue}</span> 
+                        </Typography>
+                  </ListItemSecondaryAction>
+                </ListItem>
+           
+            </List>
+
+            <List >
+                <ListItem divider={true}
+                className={classes.profitColor} >
+                      <MoneyIcon fontSize="small" />
+                  <ListItemText
+                    primary="Invoice"
+                    
+                  />
+                  <ListItemSecondaryAction>
+                      <Typography className={classes.profitColor}>
+                      ৳ <span className={classes.profitColor} >{totalSoldInvoice ? totalSoldInvoice : defaultValue}</span> 
+                        </Typography>
+                  </ListItemSecondaryAction>
+                </ListItem>
+           
+            </List>
+
+
             <List className={classes.listStyle}>
                 <ListItem divider={true}
                 className={classes.costColor}>
@@ -122,40 +216,7 @@ export default function InteractiveList() {
             </List>
 
 
-            <List >
-                <ListItem divider={true}
-                className={classes.saleAmountColor}>
-                      <MoneyIcon fontSize="small" />
-                  <ListItemText
-                    primary="Sale Amount"
-                    
-                  />
-                  <ListItemSecondaryAction>
-                      <Typography
-                      className={classes.saleAmountColor}>
-                       
-                       ৳ {totalSaleAmount ? NumberWithComma(totalSaleAmount) : defaultValue}
-                        </Typography>
-                  </ListItemSecondaryAction>
-                </ListItem>
-           
-            </List>
-            <List >
-                <ListItem divider={true}
-                className={classes.profitColor} >
-                      <MoneyIcon fontSize="small" />
-                  <ListItemText
-                    primary="Profit"
-                    
-                  />
-                  <ListItemSecondaryAction>
-                      <Typography className={classes.profitColor}>
-                      ৳ <span className={classes.profitColor} >{totalProfit ? NumberWithComma(totalProfit) : defaultValue}</span> 
-                        </Typography>
-                  </ListItemSecondaryAction>
-                </ListItem>
-           
-            </List>
+
           </div>
         </Grid>
      

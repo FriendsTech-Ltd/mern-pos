@@ -20,6 +20,18 @@ export const getInvoices = asyncHandler(async (req, res) => {
   res.status(200).json({ success: true, invoices, msg: 'All product fetched' });
 });
 
+// @desc    Get single Invoice
+// @route   GET /api/invoice/:id
+// @access  Private
+export const getInvoice = asyncHandler(async (req, res) => {
+  const invoice = await InvoiceModel.findOne({ user: req.user.id, _id: req.params.id })
+    .populate({ path: 'customer', model: 'customer', select: 'name due address phone' });
+
+  if (!invoice) throw new NotFound('No invoice found');
+
+  res.status(200).json({ success: true, invoice, msg: 'Single invoice fetched' });
+});
+
 // @desc    Add Invoice
 // @route   POST /api/invoice/
 // @access  Private
@@ -74,10 +86,12 @@ export const createInvoice = asyncHandler(async (req, res, next) => {
       $inc: { due: dueAmount, allTimeSellAmount: totalProductAmount },
     });
   if (customer instanceof Error) return next(customer, req, res);
-
+  // invoice.customer = customer;
+  const createdInv = await InvoiceModel.findById(invoice._id)
+    .populate({ path: 'customer', model: 'customer', select: 'name due address phone' });
   res.status(201).json({
     success: true,
-    invoice,
+    invoice: createdInv,
     msg: 'Invoice created successfully',
   });
 });
@@ -121,6 +135,8 @@ export const getTotalSaleInfo = asyncHandler(async (req, res) => {
     },
   ]);
 
+  if (!totalSaleInfo.length) throw new NotFound('No sale info found');
+
   res.status(200).json({ success: true, totalSaleInfo: totalSaleInfo[0], msg: 'Total sale amount' });
 });
 
@@ -131,17 +147,18 @@ export const getSaleInfoWithDate = asyncHandler(async (req, res) => {
   const { ObjectId } = mongoose.Types;
   const query = req.query.day;
 
-  const todaydate = new Date().toISOString().slice(0, 10);
-  const olddate = (new Date().getTime() - (query * 24 * 60 * 60 * 1000));
+  // const todaydate = new Date().toISOString().slice(0, 10);
+  // const olddate = (new Date().getTime() - (query * 24 * 60 * 60 * 1000));
 
-  const day = query == 1 ? todaydate : olddate;
+  // const day = query == 0 ? todaydate : olddate;
 
   // const today = new Date();
   // today.setHours(0, 0, 0, 0);
 
-  // const oldDate = (new Date().getTime() - (query * 24 * 60 * 60 * 1000));
-
-  // const day = query === Number(1) ? today : oldDate;
+  const oldDate = (new Date().getTime() - (query * 24 * 60 * 60 * 1000));
+  // const day = query === Number(0) ? today : oldDate;
+  const day = new Date(oldDate);
+  day.setHours(0, 0, 0, 0);
 
   const totalSaleInfoByDay = await InvoiceModel.aggregate([
     {
@@ -156,15 +173,22 @@ export const getSaleInfoWithDate = asyncHandler(async (req, res) => {
         _id: req.user.id,
         totalSaleAmount: { $sum: '$totalAmountAfterDiscount' },
         totalSoldProduct: { $sum: '$products.quantity' },
+        totalSoldInvoice: { $sum: 1 },
         totalProductCost: { $sum: { $multiply: ['$products.price', '$products.quantity'] } },
+        totalDue: { $sum: '$due' },
       },
     },
     {
       $addFields: {
         totalProfit: { $subtract: ['$totalSaleAmount', '$totalProductCost'] },
+        currentCash: { $subtract: ['$totalSaleAmount', '$totalDue'] },
       },
     },
   ]);
+
+  if (!totalSaleInfoByDay.length) {
+    return res.status(200).json({ success: true, totalSaleInfoByDay, msg: 'No sale so far' });
+  }
 
   res.status(200).json({ success: true, totalSaleInfoByDay: totalSaleInfoByDay[0], msg: 'Total sale amount' });
 });
@@ -173,7 +197,6 @@ export const getSaleInfoWithDate = asyncHandler(async (req, res) => {
 // @route   GET /api/invoice/sale/recent
 // @access  Private
 export const getRecentSale = asyncHandler(async (req, res) => {
-
   const recentSale = await InvoiceModel.find({ user: req.user.id })
     .populate({ path: 'customer', model: 'customer', select: 'name' })
     .sort({ createdAt: -1 }).limit(7);
@@ -189,8 +212,11 @@ export const getRecentSale = asyncHandler(async (req, res) => {
 // @route   GET /api/invoice/sale/today
 // @access  Private
 export const getTodaySale = asyncHandler(async (req, res) => {
-  const today = new Date().toISOString().slice(0, 10);
-  const todaySale = await InvoiceModel.find({ user: req.user.id, createdAt: { $gte: new Date(today) } })
+  // const today = new Date().toISOString().slice(0, 10);
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+  const todaySale = await InvoiceModel
+    .find({ user: req.user.id, createdAt: { $gte: new Date(today) } })
     .select('totalAmountAfterDiscount createdAt');
 
   if (!todaySale.length) {

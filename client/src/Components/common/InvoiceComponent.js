@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useContext,useEffect } from 'react'
 import CircularProgress from '@material-ui/core/CircularProgress';
 import moment from 'moment'
 import { makeStyles } from '@material-ui/core/styles';
@@ -25,8 +25,8 @@ main:{
 },
   header:{
   textAlign:'center',
-  height:45,
-  padding:8
+  height:60,
+  padding:15
 },
   tittle: {
   height: 60,
@@ -59,24 +59,12 @@ table: {
 }))
 
 
-  
-  function createData(name, calories, fat, carbs, protein) {
-    return { name, calories, fat, carbs, protein };
-  }
-  
-  const rows = [
-    createData('Frozen yoghurt', 159, 6.0, 24, 4.0),
-    createData('Ice cream sandwich', 237, 9.0, 37, 4.3),
-    createData('Eclair', 262, 16.0, 24, 6.0),
-    createData('Cupcake', 305, 3.7, 67, 4.3),
-    createData('Gingerbread', 356, 16.0, 49, 3.9),
-  ];
-  
 
  const InvoiceComponent = ({invoiceItem, invoiceAccount, totalPrice,}) => {
+  const classes = useStyles()
   const {user} =useContext(AuthContext)
   const customer = invoiceAccount.customer
-    const classes = useStyles()
+  
     return (
         <div>
         <Paper variant="outlined" square  className={classes.tittle}> 
@@ -112,10 +100,10 @@ table: {
                       <Grid item xs={6}>
                       <Typography>From: </Typography>
                       <Typography>{user.companyName} </Typography>
-                      <Typography>Address:..................</Typography>
                       <Typography>Owner:  {user.companyOwner} </Typography>
+                      <Typography>Address: {user.address}</Typography>
                      <Typography>Email: {user.email}</Typography> 
-                      <Typography>Phone: .............. </Typography>
+                      <Typography>Phone: {user.phone} </Typography>
                       </Grid>
         
                       <Grid item xs={6}>

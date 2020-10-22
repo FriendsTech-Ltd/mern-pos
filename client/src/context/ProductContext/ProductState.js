@@ -61,6 +61,7 @@ const deleteProduct = async (id)=>{
 try{
     const res=await axios.delete(`/api/product/${id}`)
     dispatch({ type:DELETE_PRODUCT, payload:res.data });
+    clearSuccess()
 }catch (err){  
     dispatch({ type: ERROR, payload: err.response.data })
     clearError();
@@ -69,10 +70,11 @@ try{
 
 //update product
 const updateProduct=async(product)=>{
-    const config={ header:{'Content-Type':'application/json'}}
-    const res=await axios.put(`/api/product/${product._id}`,product,config)
+  const config={ header:{'Content-Type':'application/json'}}
 try {
-    dispatch({ type:UPDATE_PRODUCT, payload:res.data });
+  const res=await axios.put(`/api/product/${product._id}`,product,config)
+  dispatch({ type:UPDATE_PRODUCT, payload:res.data });
+  clearSuccess()
     } catch (err) {
         dispatch({ type: ERROR, payload: err.response.data })
         clearError();
@@ -113,7 +115,7 @@ const clearEditForm=()=>{
       dispatch({
         type:CLEAR_SUCCESS,
       })
-    }, 5000);
+    }, 6000);
   }
 
 
@@ -124,6 +126,7 @@ const clearEditForm=()=>{
           productInfo:state.productInfo,
           editForm: state.editForm,
           serverMessage: state.serverMessage,
+          success:state.success,
           getProducts,
           getAllProductInfo,
           uploadProduct,

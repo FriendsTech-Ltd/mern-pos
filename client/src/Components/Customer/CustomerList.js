@@ -1,6 +1,8 @@
 import React, { useContext, useEffect, useState } from 'react'
 import moment from 'moment'
 import {Link} from 'react-router-dom'
+import Popper from '@material-ui/core/Popper';
+import Fade from '@material-ui/core/Fade';
 import {
   FilteringState,
   IntegratedFiltering,
@@ -28,6 +30,7 @@ import IconButton from '@material-ui/core/IconButton';
 import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
 
 import CustomerContext from '../../context/CustomerContext/CustomerContext'
+import Notification from '../common/Notification'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -62,12 +65,22 @@ const useStyles = makeStyles((theme) => ({
   spinner: {
       textAlign: 'center',
       marginTop:'17%'
-    
+    },
+    deleteContent:{
+      border: '1px solid',
+    padding: theme.spacing(1),
+    backgroundColor: theme.palette.background.paper,
+    },
+    deleteContentMiddle:{
+      display:'flex',
+    },
+    deleteContentSpace:{
+      paddingRight:6
     }
   }))
  const CustomerList = () => {
 
-  const { customers, getCustomers } = useContext(CustomerContext);
+  const { customers, getCustomers,editFormFun,deleteCustomer,serverMessage } = useContext(CustomerContext);
 
     const classes = useStyles()
 
@@ -77,13 +90,25 @@ const useStyles = makeStyles((theme) => ({
     }, []);
   
 
+    const [anchorEl, setAnchorEl] = React.useState(null);
+    const [deleteId, setDeleteId] = React.useState(null);
 
-    const handleEdit = (_id) => {
-      console.log(_id)
+    const handleClick = (_id,event) => {
+      setAnchorEl(anchorEl ? null : event.currentTarget);
+      setDeleteId(_id);
+    };
+  
+    const open = Boolean(anchorEl);
+    const id = open ? 'transitions-popper' : undefined;
+  
+
+    const handleEdit = (customer) => {
+      editFormFun(customer)
     }
   
-    const handleDelete= (_id) => {
-      console.log(_id)
+    const handleDelete= () => {
+      deleteCustomer(deleteId)
+      handleClick()
     }
   
     const [filteringStateColumnExtensions] = useState([
@@ -117,10 +142,12 @@ const useStyles = makeStyles((theme) => ({
         </Button> </Link>),
   
         action: (<div>
-          <IconButton onClick={() => handleEdit(c._id)} aria-label="edit">
-            <EditIcon />
+          <Link to ="/dashboard/customer/edit-customer">
+          <IconButton onClick={() => handleEdit(c)} aria-label="edit">
+           <EditIcon/>
           </IconButton>
-          <IconButton onClick={() => handleDelete(c._id)} aria-label="delete">
+          </Link>
+          <IconButton aria-describedby={id} type="button" onClick={(event)=>handleClick(c._id,event)} aria-label="delete">
             <DeleteIcon />
           </IconButton>
         </div>)
@@ -151,7 +178,7 @@ const useStyles = makeStyles((theme) => ({
                 </Link>
                 </div> 
                 <div className={classes.addButton} >
-                  <Link to ='/dashboard/add-customer' className={classes.linkStyle}>
+                  <Link to ='/dashboard/customer/add-customer' className={classes.linkStyle}>
                       <Button variant="contained" color="primary">
                       <AddIcon/>New Customer
                       </Button>
@@ -166,6 +193,27 @@ const useStyles = makeStyles((theme) => ({
        
            <Paper variant="outlined" elevation={5} className={classes.content}>
            <h1>All customer here</h1>
+           {serverMessage && <Notification severity='error' message={serverMessage}/> }
+           <Popper id={id} open={open} anchorEl={anchorEl} transition>
+        {({ TransitionProps }) => (
+          <Fade {...TransitionProps} timeout={350}>
+            <div className={classes.deleteContent}>
+              are you want to delete?
+              <div className={classes.deleteContentMiddle}>
+            <div className={classes.deleteContentSpace}>  <Button  size="small" aria-describedby={id} onClick={handleClick} variant="contained" color="primary">
+                    No
+                      </Button>
+                </div>
+                <div>  <Button size="small" aria-describedby={id} variant="contained" onClick={() => handleDelete()} color="primary">
+                    Yes
+                      </Button>
+                </div>
+                </div>
+            </div>
+           
+          </Fade>
+        )}
+      </Popper>
             <Grid
               rows={data}
               columns={columns}

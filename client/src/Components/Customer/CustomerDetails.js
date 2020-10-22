@@ -25,8 +25,8 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import EditIcon from '@material-ui/icons/Edit';
 import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
 import IconButton from '@material-ui/core/IconButton';
-
 import CustomerContext from '../../context/CustomerContext/CustomerContext'
+import InvoiceContext from '../../context/InvoiceContext/InvoiceContext'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -40,9 +40,8 @@ const useStyles = makeStyles((theme) => ({
       textAlign:"center",
     },
   details: {
-      textAlign:'justify',
       textAlign:"center",
-      width: '60%'
+       width: '60%'
     },
   account:{
      padding:5,
@@ -59,11 +58,7 @@ const useStyles = makeStyles((theme) => ({
    display:'flex',
    padding:5
     },
-    table:{
-
-    },
-
-    linkStyle:{
+  linkStyle:{
       textDecoration: 'none',
       color: 'white'
     },
@@ -74,7 +69,8 @@ const useStyles = makeStyles((theme) => ({
     }
   }))
  const CustomerDetails = (props) => {
-  const { getCustomer, customer,getInvoice } = useContext(CustomerContext);
+  const { getCustomer, customer } = useContext(CustomerContext);
+  const {getInvoice} =useContext(InvoiceContext)
    const totalSell = customer.totalSell || []
 
     const classes = useStyles()

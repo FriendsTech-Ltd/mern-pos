@@ -54,13 +54,13 @@ const  AddProduct = (props) => {
   const classes = useStyles();
 
   const [formData, setFormData]=useState({
-    name:"",
+    name:null,
     price: 0,
     sellingPrice:0,
     unit:"piece",
     stock:0,
-    description:"",
-    image:""
+    description:null,
+    image:null
 });
 
 const onChange=e=>{setFormData({...formData,[e.target.name]:e.target.value});} 
@@ -69,12 +69,20 @@ const upHandler=e=>{setFormData({...formData,[e.target.name]:e.target.files[0]})
 const { name, price, sellingPrice, unit, stock, description,image } = formData;
 
 
-// useEffect(() => {
-//   if(success){
-//     props.history.push('/product');
-//   }
-//   // eslint-disable-next-line
-// },[success])
+useEffect(() => {
+  if(success){
+    setFormData({
+        name:null,
+        price: 0,
+        sellingPrice:0,
+        unit:"piece",
+        stock:0,
+        description:null,
+        image:null
+    })
+    props.history.push('/dashboard/product');
+  }
+},[success])
 
 const onSubmit = e => {
   e.preventDefault();
@@ -91,8 +99,6 @@ const onSubmit = e => {
   
   }
   
-
-
 return (
   <div>
      <Paper variant="outlined" square  className={classes.tittle}> 
@@ -192,7 +198,6 @@ return (
                 fullWidth
                 name="stock"
                 label="stock"
-                type="stock"
                 value={stock}
                 onChange={e=> onChange(e)}
               />

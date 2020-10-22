@@ -1,5 +1,5 @@
+import mongoose from 'mongoose';
 import asyncHandler from '../middleware/async';
-
 import CustomerModel from '../models/CustomerModel';
 import { NotFound } from '../utils/error';
 
@@ -49,7 +49,7 @@ export const updateCustomer = asyncHandler(async (req, res) => {
 
   if (!updatedCustomer) throw new NotFound('Customer not found');
 
-  res.status(200).json({ success: true, product: updatedCustomer, msg: 'Customer updated successfully' });
+  res.status(200).json({ success: true, customer: updatedCustomer, msg: 'Customer updated successfully' });
 });
 
 // @desc    Delete Customer
@@ -59,7 +59,7 @@ export const deleteCustomer = asyncHandler(async (req, res) => {
   const deletedCustomer = await CustomerModel.findByIdAndDelete(req.params.id);
   if (!deletedCustomer) throw new NotFound('Customer not found');
 
-  return res.status(200).json({ success: true, deletedCustomer, msg: 'Customer deleted successfully' });
+  return res.status(200).json({ success: true, customer: deletedCustomer, msg: 'Customer deleted successfully' });
 });
 
 // @desc    Get total customer count
@@ -69,4 +69,24 @@ export const getTotalCustomerCount = asyncHandler(async (req, res) => {
   const customerCount = await CustomerModel.find({ user: req.user.id }).count();
 
   res.status(200).json({ success: true, customerCount, msg: 'Total customer count fetched' });
+});
+
+// @desc    Pay Due
+// @route   POST /api/customer/due/pay
+// @access  Private
+export const payDue = asyncHandler(async (req, res) => {
+  const { ObjectId } = mongoose.Types;
+  const { _id, payAmount } = req.body;
+
+  const customer = await CustomerModel.findOne({ _id, user: ObjectId(req.user.id) });
+
+  if (customer.due < payAmount) {
+    throw new NotFound('You send more amount than due');
+  }
+
+  customer.due -= payAmount;
+  customer.duePayHistory.push({ payAmount });
+  await customer.save();
+
+  res.status(200).json({ success: true, customer, msg: 'Due has been updated' });
 });

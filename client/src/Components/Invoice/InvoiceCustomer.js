@@ -1,15 +1,10 @@
 import React, { useContext,useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
-import Grid from '@material-ui/core/Grid';
 // /* eslint-disable no-use-before-define */
 import AddBoxIcon from '@material-ui/icons/AddBox';
 import useAutocomplete from '@material-ui/lab/useAutocomplete';
-import NoSsr from '@material-ui/core/NoSsr';
-import CheckIcon from '@material-ui/icons/Check';
-import CloseIcon from '@material-ui/icons/Close';
 import styled from 'styled-components';
-import Autocomplete from '@material-ui/lab/Autocomplete';
 import InvoiceContext from '../../context/InvoiceContext/InvoiceContext'
 const useStyles = makeStyles((theme) => ({
     root: {

@@ -2,10 +2,11 @@ import Joi from 'joi';
 
 const schema = Joi.object().keys(
   {
+    _id: Joi.string(),
     name: Joi.string().min(4).required(),
-    phone: Joi.number().min(11).required(),
+    phone: Joi.string().min(11).required(),
+    email: Joi.string().email(),
     address: Joi.string().required(),
-
   },
 );
 

@@ -21,21 +21,21 @@ export default (state,action)=>{
                 ...state,
                 customers: action.payload.customer,
                 success:action.payload.success,
-                serverMessage: action.payload.msg,
+                // serverMessage: action.payload.msg,
             }
             case GET_CUSTOMER:
                 return{
                 ...state,
                 customer: action.payload.customer,
                 success:action.payload.success,
-                serverMessage: action.payload.msg,
+                // serverMessage: action.payload.msg,
             }
             case GET_TOTAL_CUSTOMER:
                 return{
                   ...state,
                   totalCustomer: action.payload.customerCount,
                   success: action.payload.success,
-                  serverMessage: action.payload.msg,
+                //   serverMessage: action.payload.msg,
                 }
             case CREATE_CUSTOMER:
                 return{
@@ -102,7 +102,7 @@ export default (state,action)=>{
             case GET_INVOICE:
                     return{
                     ...state,
-                    invoice: state.customer.totalSell.filter(invoice=> invoice._id == action.payload)
+                    invoice: state.customer.totalSell.filter(invoice=> invoice._id === action.payload)
                     }
  
         default:

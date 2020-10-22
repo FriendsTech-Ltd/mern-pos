@@ -1,5 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react'
 import CircularProgress from '@material-ui/core/CircularProgress';
+import Popper from '@material-ui/core/Popper';
+import Fade from '@material-ui/core/Fade';
 import moment from 'moment'
 import {Link} from 'react-router-dom'
 
@@ -25,7 +27,7 @@ import AddIcon from '@material-ui/icons/Add';
 import DeleteIcon from '@material-ui/icons/Delete';
 import EditIcon from '@material-ui/icons/Edit';
 import IconButton from '@material-ui/core/IconButton';
-
+import Notification from '../common/Notification'
 import ProductContext from '../../context/ProductContext/ProductContext'
 
 const useStyles = makeStyles((theme) => ({
@@ -61,11 +63,22 @@ const useStyles = makeStyles((theme) => ({
       textAlign: 'center',
       marginTop:'17%'
     
+    },
+    deleteContent:{
+      border: '1px solid',
+    padding: theme.spacing(1),
+    backgroundColor: theme.palette.background.paper,
+    },
+    deleteContentMiddle:{
+      display:'flex',
+    },
+    deleteContentSpace:{
+      paddingRight:6
     }
   }))
  const ProductList = () => {
-  // const productContext = useContext(ProductContext);
-  const { products, getProducts } = useContext(ProductContext);
+
+  const { products, getProducts,deleteProduct,editFormFun,serverMessage } = useContext(ProductContext);
 
     const classes = useStyles()
 
@@ -74,14 +87,25 @@ const useStyles = makeStyles((theme) => ({
       // eslint-disable-next-line
     }, []);
   
+    const [anchorEl, setAnchorEl] = React.useState(null);
+    const [deleteId, setDeleteId] = React.useState(null);
 
+    const handleClick = (_id,event) => {
+      setAnchorEl(anchorEl ? null : event.currentTarget);
+      setDeleteId(_id);
+    };
+  
+    const open = Boolean(anchorEl);
+    const id = open ? 'transitions-popper' : undefined;
+  
 
-    const handleEdit = (_id) => {
-      console.log(_id)
+    const handleEdit = (product) => {
+      editFormFun(product)
     }
   
-    const handleDelete= (_id) => {
-      console.log(_id)
+    const handleDelete= () => {
+      deleteProduct(deleteId)
+      handleClick()
     }
   
     const [filteringStateColumnExtensions] = useState([
@@ -118,10 +142,12 @@ const useStyles = makeStyles((theme) => ({
         description: c.description,
         createdAt:(moment( c.createdAt).format("MMMM Do YYYY")),
         action: (<div>
-          <IconButton onClick={() => handleEdit(c._id)} aria-label="edit">
-            <EditIcon />
+           <Link to="/dashboard/product/edit-product" className={classes.linkStyle}>
+          <IconButton onClick={() => handleEdit(c)} aria-label="edit">
+           <EditIcon/>
           </IconButton>
-          <IconButton onClick={() => handleDelete(c._id)} aria-label="delete">
+          </Link>
+          <IconButton aria-describedby={id} type="button" onClick={(event)=>handleClick(c._id,event)} aria-label="delete">
             <DeleteIcon />
           </IconButton>
         </div>)
@@ -132,9 +158,9 @@ const useStyles = makeStyles((theme) => ({
       { columnName: 'sl', width: 50 },
       { columnName: 'name', width: 150 },
       { columnName: 'image', width: '5rem'},
-      { columnName: 'price', width: 100 },
+      { columnName: 'price', width: 90 },
       { columnName: 'sellingPrice', width: 100 },
-      { columnName: 'stock', width: 130 },
+      { columnName: 'stock', width: 100 },
       { columnName: 'unit', width: 80  },
       { columnName: 'description', width: 150  },
       { columnName: 'createdAt', width: 150  },
@@ -145,14 +171,14 @@ const useStyles = makeStyles((theme) => ({
         <div>
           <Paper variant="outlined" square  className={classes.tittle}> 
                   <div className={classes.backButton}>
-                  <Link to ='/dashboard' className={classes.linkStyle}>
+                  <Link to ='/dashboard/product' className={classes.linkStyle}>
                       <Button variant="contained" color="primary">
                     <ArrowBackIosIcon/>Back
                       </Button>
                 </Link>
                 </div> 
                 <div className={classes.addButton} >
-                  <Link to ='/dashboard/add-product' className={classes.linkStyle}>
+                  <Link to ='/dashboard/product/add-product' className={classes.linkStyle}>
                       <Button variant="contained" color="primary">
                       <AddIcon/>Add Product
                       </Button>
@@ -167,6 +193,27 @@ const useStyles = makeStyles((theme) => ({
        
            <Paper variant="outlined" elevation={5} className={classes.content}>
            <h1>All product here</h1>
+           {serverMessage && <Notification severity='error' message={serverMessage}/> }
+           <Popper id={id} open={open} anchorEl={anchorEl} transition>
+        {({ TransitionProps }) => (
+          <Fade {...TransitionProps} timeout={350}>
+            <div className={classes.deleteContent}>
+              are you want to delete?
+              <div className={classes.deleteContentMiddle}>
+            <div className={classes.deleteContentSpace}>  <Button  size="small" aria-describedby={id} onClick={handleClick} variant="contained" color="primary">
+                    No
+                      </Button>
+                </div>
+                <div>  <Button size="small" aria-describedby={id} variant="contained" onClick={() => handleDelete()} color="primary">
+                    Yes
+                      </Button>
+                </div>
+                </div>
+            </div>
+           
+          </Fade>
+        )}
+      </Popper>
             <Grid
               rows={data}
               columns={columns}
@@ -183,7 +230,6 @@ const useStyles = makeStyles((theme) => ({
             </Grid>
           </Paper> 
           </div>
-
          )
         }
       
