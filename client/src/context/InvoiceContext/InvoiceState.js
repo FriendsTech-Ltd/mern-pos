@@ -24,7 +24,7 @@ import {
 const InvoiceState = (props) => {
 const initialState={
   invoices: [],
-  invoice:{},
+  invoice:[],
   saleInfo:[],
   todaySale:[],
   recentSaleByDay:{},
@@ -202,6 +202,7 @@ try{
           recentSale:state.recentSale,
           recentSaleByDay:state.recentSaleByDay,
           serverMessage: state.serverMessage,
+          success:state.success,
           card:state.card,
           invoiceCustomer:state.invoiceCustomer,
           createInvoice,

@@ -2,11 +2,12 @@ import React, { useContext} from 'react'
 import InvoiceComponent from '../common/InvoiceComponent'
 import CustomerContext from '../../context/CustomerContext/CustomerContext'
  const CustomerInvoice = () => {
-  const { invoice } = useContext(CustomerContext);
+  const { invoice, customer} = useContext(CustomerContext);
 
   const invoiceItem = invoice[0].products || []
 
-  const invoiceAccount = invoice[0]
+  const invoiceAccount = {}
+  invoiceAccount.customer=customer;
 
   const BalanceArray = invoiceItem.map(function(product) {
     return product.sellingPrice*product.quantity;
@@ -25,3 +26,5 @@ import CustomerContext from '../../context/CustomerContext/CustomerContext'
     )
 }
 export default CustomerInvoice;
+
+

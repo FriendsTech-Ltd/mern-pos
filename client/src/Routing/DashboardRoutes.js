@@ -91,7 +91,7 @@ const DashboardRoutes = () => {
         />
           <Route
           exact
-          path="/dashboard/invoice/:id"
+          path="/dashboard/invoice/single"
           component={Invoice}
         />
 

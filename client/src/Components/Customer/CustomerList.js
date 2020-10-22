@@ -171,7 +171,7 @@ const useStyles = makeStyles((theme) => ({
         <div>
              <Paper variant="outlined" square  className={classes.buttonBar}> 
                   <div className={classes.backButton}>
-                  <Link to ='/dashboard/customer' className={classes.linkStyle}>
+                  <Link to ='/dashboard' className={classes.linkStyle}>
                       <Button variant="contained" color="primary">
                     <ArrowBackIosIcon/>Back
                       </Button>

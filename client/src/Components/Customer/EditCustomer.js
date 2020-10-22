@@ -59,32 +59,19 @@ const  EditCustomer = (props) => {
 
 const onChange=e=>{setFormData({...formData,[e.target.name]:e.target.value});}
 const {_id, name,phone, email, address } = formData;
-
+const updateData = email === "" ? {_id,name,phone,address} : {_id,name,phone,email, address} 
 
 useEffect(() => {
   if(success){
     clearEditForm();
-    setFormData({
-      name:null,
-      phone:null,
-      email:null,
-      address:null,
-    })
     props.history.push('/dashboard/customer');
-
   }
   // eslint-disable-next-line
 },[success])
 
 const onSubmit = e => {
   e.preventDefault();
-  updateCustomer({ 
-  _id,  
-  name,
-  phone,
-  email,
-  address,
-  });
+  updateCustomer(updateData);
   }
   
 return (

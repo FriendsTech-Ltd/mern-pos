@@ -211,12 +211,19 @@ const Listbox = styled('ul')`
   }
 `;
 
- const CreateInvoice = () => {
+ const CreateInvoice = (props) => {
   const classes = useStyles();
   const {getProducts,products} = useContext(ProductContext)
-  const {getInvoiceProducts,card,invoiceCustomer,increment,decrement,createInvoice} = useContext(InvoiceContext)
+  const {getInvoiceProducts,card,invoiceCustomer,increment,decrement,createInvoice,success,invoice} = useContext(InvoiceContext)
   const {getCustomers,customers} = useContext(CustomerContext)
+const inv = invoice[0] || []
+  useEffect(() => {
+    if(success){
+      props.history.push(`/dashboard/invoice/single`);
+    }
+  },[success])
 
+  
   const {
     getRootProps,
     getInputProps,

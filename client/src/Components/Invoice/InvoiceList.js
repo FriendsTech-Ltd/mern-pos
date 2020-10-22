@@ -100,7 +100,7 @@ const useStyles = makeStyles((theme) => ({
         totalAmount: invoice.totalAmountAfterDiscount,
         payAmount:invoice.payAmount,
         due:invoice.due,
-        view:( <Link onClick={()=>getInvoice(invoice._id)} to={`/dashboard/invoice/${invoice._id}`}className={classes.linkStyle}><Button variant="contained" size="small" color="primary">
+        view:( <Link onClick={()=>getInvoice(invoice._id)} to={'/dashboard/invoice/single'}className={classes.linkStyle}><Button variant="contained" size="small" color="primary">
           View
         </Button> </Link>),
   

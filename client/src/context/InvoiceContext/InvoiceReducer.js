@@ -22,7 +22,7 @@ export default (state,action)=>{
       return{
       ...state,
       invoices: action.payload.invoices,
-      success: action.payload.success,
+      // success: action.payload.success,
       serverMessage: action.payload.msg,
     }
 
@@ -30,7 +30,7 @@ export default (state,action)=>{
       return{
         ...state,
         saleInfo: action.payload.totalSaleInfo,
-        success: action.payload.success,
+        // success: action.payload.success,
         serverMessage: action.payload.msg,
       }
 
@@ -38,21 +38,21 @@ export default (state,action)=>{
         return{
           ...state,
           recentSale: action.payload.recentSale,
-          success: action.payload.success,
+          // success: action.payload.success,
           serverMessage: action.payload.msg,
         }
         case GET_SALE_INFO_BY_DAY:
           return{
             ...state,
             recentSaleByDay: action.payload.totalSaleInfoByDay,
-            success: action.payload.success,
+            // success: action.payload.success,
             serverMessage: action.payload.msg,
           }
       case GET_TODAY_SALE:
         return{
           ...state,
           todaySale: action.payload.todaySale,
-          success: action.payload.success,
+          // success: action.payload.success,
           serverMessage: action.payload.msg,
         }
 
@@ -61,14 +61,15 @@ export default (state,action)=>{
       return{
         ...state,
         invoice: state.invoices.filter(invoice => invoice._id === action.payload),
-        success: true,
-        serverMessage: 'loaded single invoice',
+        success: action.payload.success,
+        serverMessage: action.payload.msg,
       }
 
     case CREATE_INVOICE:
       return {
         ...state,
         invoices: [...state.invoices, action.payload.invoice],
+        invoice: [action.payload.invoice],
         success: action.payload.success,
         serverMessage: action.payload.msg,
       }

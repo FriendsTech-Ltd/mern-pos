@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import React, { useContext,useEffect } from 'react'
 import CircularProgress from '@material-ui/core/CircularProgress';
 import moment from 'moment'
 import { makeStyles } from '@material-ui/core/styles';
@@ -25,8 +25,8 @@ main:{
 },
   header:{
   textAlign:'center',
-  height:45,
-  padding:8
+  height:60,
+  padding:15
 },
   tittle: {
   height: 60,

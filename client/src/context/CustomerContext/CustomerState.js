@@ -47,7 +47,6 @@ try{
 const getCustomer = async (id) => {
   try{
     const res = await axios.get(`/api/customer/details/${id}`)
-    console.log(res)
       dispatch({ type: GET_CUSTOMER, payload: res.data })
       clearSuccess()
   }catch (err) {  

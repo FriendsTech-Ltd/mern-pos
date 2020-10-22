@@ -74,10 +74,12 @@ export const createInvoice = asyncHandler(async (req, res, next) => {
       $inc: { due: dueAmount, allTimeSellAmount: totalProductAmount },
     });
   if (customer instanceof Error) return next(customer, req, res);
-
+  // invoice.customer = customer;
+  const createdInv = await InvoiceModel.findById(invoice._id)
+    .populate({ path: 'customer', model: 'customer', select: 'name due address phone' });
   res.status(201).json({
     success: true,
-    invoice,
+    invoice: createdInv,
     msg: 'Invoice created successfully',
   });
 });
