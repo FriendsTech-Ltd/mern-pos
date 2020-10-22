@@ -11,6 +11,7 @@ import {
   getSaleInfoWithDate,
   getRecentSale,
   getTodaySale,
+  getInvoice,
 
 } from '../controllers/invoiceController';
 
@@ -25,6 +26,6 @@ router.route('/sale/day').get(protect, getSaleInfoWithDate);
 router.route('/sale/recent').get(protect, getRecentSale);
 router.route('/sale/today').get(protect, getTodaySale);
 
-router.route('/:id').delete(protect, deleteInvoice);
+router.route('/:id').delete(protect, deleteInvoice).get(protect, getInvoice);
 
 export default router;

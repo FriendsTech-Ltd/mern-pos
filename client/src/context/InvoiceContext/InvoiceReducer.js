@@ -60,7 +60,7 @@ export default (state,action)=>{
     case GET_INVOICE:
       return{
         ...state,
-        invoice: state.invoices.filter(invoice => invoice._id === action.payload),
+        invoice: action.payload.invoice,
         success: action.payload.success,
         serverMessage: action.payload.msg,
       }
@@ -69,7 +69,7 @@ export default (state,action)=>{
       return {
         ...state,
         invoices: [...state.invoices, action.payload.invoice],
-        invoice: [action.payload.invoice],
+        invoice: action.payload.invoice,
         success: action.payload.success,
         serverMessage: action.payload.msg,
       }

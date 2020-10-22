@@ -5,13 +5,7 @@ import InvoiceContext from '../../context/InvoiceContext/InvoiceContext'
  const Invoice = () => {
   const { invoice } = useContext(InvoiceContext);
 
-  
-
-const data = invoice[0] || []
-
-const invoiceItem = data.products || []
-
-const invoiceAccount =data
+  const invoiceItem = invoice.products || []
 
 
   const BalanceArray = invoiceItem.map(function(product) {
@@ -25,7 +19,7 @@ const invoiceAccount =data
 
     return (
     <div>
-      <InvoiceComponent  invoiceItem={invoiceItem}  invoiceAccount={invoiceAccount}  totalPrice={totalPrice} />
+      <InvoiceComponent  invoiceItem={invoiceItem}  invoiceAccount={invoice}  totalPrice={totalPrice} />
 
     </div>
     )

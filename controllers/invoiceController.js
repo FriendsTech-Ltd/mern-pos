@@ -20,6 +20,18 @@ export const getInvoices = asyncHandler(async (req, res) => {
   res.status(200).json({ success: true, invoices, msg: 'All product fetched' });
 });
 
+// @desc    Get single Invoice
+// @route   GET /api/invoice/:id
+// @access  Private
+export const getInvoice = asyncHandler(async (req, res) => {
+  const invoice = await InvoiceModel.findOne({ user: req.user.id, _id: req.params.id })
+    .populate({ path: 'customer', model: 'customer', select: 'name due address phone' });
+
+  if (!invoice) throw new NotFound('No invoice found');
+
+  res.status(200).json({ success: true, invoice, msg: 'Single invoice fetched' });
+});
+
 // @desc    Add Invoice
 // @route   POST /api/invoice/
 // @access  Private

@@ -26,7 +26,7 @@ import EditIcon from '@material-ui/icons/Edit';
 import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
 import IconButton from '@material-ui/core/IconButton';
 import CustomerContext from '../../context/CustomerContext/CustomerContext'
-
+import InvoiceContext from '../../context/InvoiceContext/InvoiceContext'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -69,7 +69,8 @@ const useStyles = makeStyles((theme) => ({
     }
   }))
  const CustomerDetails = (props) => {
-  const { getCustomer, customer,getInvoice } = useContext(CustomerContext);
+  const { getCustomer, customer } = useContext(CustomerContext);
+  const {getInvoice} =useContext(InvoiceContext)
    const totalSell = customer.totalSell || []
 
     const classes = useStyles()
