@@ -107,11 +107,11 @@ try {
   }
 
   //pay due amount
-const payDue= async(id,amount)=>{
+const payDue= async(data)=>{
   const config={ header:{'Content-Type':'application/json'}}
  
 try {
-  const res=await axios.put(`/api/customer/${id}`,amount,config)
+  const res=await axios.put('/api/customer/due/pay',data,config)
       dispatch({ type: PAY_DUE, payload:res.data });
       clearSuccess();
   } catch (err) {

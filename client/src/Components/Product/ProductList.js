@@ -18,9 +18,8 @@ import {
   Grid,
 } from '@devexpress/dx-react-grid-material-ui';
 
-import { Button,Paper,makeStyles} from '@material-ui/core';
+import { Button,Paper,makeStyles,Typography} from '@material-ui/core';
 import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
-import Alert from '@material-ui/lab/Alert'
 
 import AddIcon from '@material-ui/icons/Add';
 
@@ -137,7 +136,7 @@ const useStyles = makeStyles((theme) => ({
           /></div>),
         price: c.price,
         sellingPrice: c.sellingPrice,
-        stock:(c.stock >= 0 ? c.stock : <Alert severity="warning">Stock Out</Alert> ),
+        stock:(c.stock > 0 ? c.stock : <Typography color="error">Stock Out</Typography> ),
         unit: c.unit,
         description: c.description,
         createdAt:(moment( c.createdAt).format("MMMM Do YYYY")),
