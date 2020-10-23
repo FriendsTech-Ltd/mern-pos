@@ -20,7 +20,7 @@ router.route('/')
   .get(protect, getCustomers);
 
 router.route('/count').get(protect, getTotalCustomerCount);
-router.route('/due/pay').post(protect, payDue);
+router.route('/due/pay').put(protect, payDue);
 router.route('/details/:id').get(protect, getCustomer);
 router.route('/:id').put(protect, handleValidations(validators.customerValidation), updateCustomer).delete(protect, deleteCustomer);
 

@@ -237,8 +237,9 @@ const inv = invoice[0] || []
   } = useAutocomplete({
     id: 'customized-hook-demo',
     multiple: true,
-    options: products,
+    options: products.filter((product)=>product.stock > 0 ),
     getOptionLabel: (option) => option.name,
+     
   });
 
 
@@ -355,8 +356,9 @@ if (!invoiceObj.customerId || !invoiceObj.products.length) {
                 <div>
 
                 {product.quantity  > 1 ? ( <button onClick={()=>decrement(product._id)}>-</button>) : (<button disable>-</button>) }
-                    <span>{ product.quantity}</span>
-                <button onClick={()=>increment(product._id)}>+</button>
+                {/* <span> { product.stock > 0 ? product.quantity : <span>Stock Out</span> } </span> */}<span>{product.quantity }</span>
+                {product.quantity  < product.stock ? ( <button onClick={()=>increment(product._id)}>+</button>) : (<button disable>+</button>) }
+                {/* <button onClick={()=>increment(product._id)}>+</button> */}
                
                 </div>
                  </TableCell>

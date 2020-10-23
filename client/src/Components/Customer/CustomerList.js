@@ -19,11 +19,10 @@ import {
   CircularProgress, 
   Button,
   Paper,
-  makeStyles
+  makeStyles,
+  Typography
   } from '@material-ui/core';
-import Alert from '@material-ui/lab/Alert'
 import AddIcon from '@material-ui/icons/Add';
-
 import DeleteIcon from '@material-ui/icons/Delete';
 import EditIcon from '@material-ui/icons/Edit';
 import IconButton from '@material-ui/core/IconButton';
@@ -65,6 +64,12 @@ const useStyles = makeStyles((theme) => ({
   spinner: {
       textAlign: 'center',
       marginTop:'17%'
+    },
+    greenColor:{
+      color:'green'
+    },
+    orangeColor:{
+      color:'orange'
     },
     deleteContent:{
       border: '1px solid',
@@ -133,9 +138,9 @@ const useStyles = makeStyles((theme) => ({
         sl: index+1,
         name: c.name,
         phone: c.phone,
-        email:(c.email? c.email : <Alert severity="warning">no Email</Alert> ),
+        email:(c.email? c.email : <Typography className={classes.orangeColor}>no Email</Typography> ),
         address: c.address,
-        due: (c.due > 0? <Alert severity="error">{c.due}</Alert> : <Alert severity="info">No Due</Alert> ),
+        due: (c.due > 0? <Typography color="error">৳{c.due}</Typography> : <Typography className={classes.greenColor}>No Due</Typography> ),
         createdAt:(moment( c.createdAt).format("MMMM Do YYYY")),
         view:( <Link className={classes.linkStyle} to={`/dashboard/customer/${c._id}`}><Button variant="contained" size="small" color="primary">
           View
@@ -157,10 +162,10 @@ const useStyles = makeStyles((theme) => ({
     const [defaultColumnWidths] = useState([
       { columnName: 'sl', width: 50 },
       { columnName: 'name', width: 150  },
-      { columnName: 'phone', width: 100 },
+      { columnName: 'phone', width: 140 },
       { columnName: 'email', width: 150 },
       { columnName: 'address', width: 160 },
-      { columnName: 'due', width: 160  },
+      { columnName: 'due', width: 120  },
       { columnName: 'createdAt', width: 150  },
       { columnName: 'view', width: 70  },
       { columnName: 'action', width: 120 },

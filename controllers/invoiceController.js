@@ -46,6 +46,13 @@ export const createInvoice = asyncHandler(async (req, res, next) => {
     discount,
   } = req.body;
 
+  products.map(async (product) => {
+    if (product.quantity <= 0) throw new NotFound('You send negative or 0 value for quantity');
+    const result = await ProductModel.findById(product._id);
+    if (!result) throw new NotFound('No product found');
+    if (product.quantity > result.stock) throw new NotFound('Your selected product has been stock out');
+  });
+
   const newInvoice = {
     user: req.user.id,
     customer: customerId,
@@ -63,7 +70,6 @@ export const createInvoice = asyncHandler(async (req, res, next) => {
 
   await Promise.all(products.map(async (product) => {
     const result = await ProductModel.findById(product._id);
-    // if (!result) throw new NotFound('No product found');
     newInvoice.products.push({
       name: result.name,
       price: result.price,

@@ -63,6 +63,7 @@ export default (state,action)=>{
             return{
             ...state,
             customers :state.customers.map(customer=>customer._id === action.payload.customer._id ? action.payload.customer:customer),
+            customer: action.payload.customer,
             success:action.payload.success,
             serverMessage: action.payload.msg,
             }

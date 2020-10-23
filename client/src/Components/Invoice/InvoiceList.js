@@ -16,7 +16,7 @@ import {
 } from '@devexpress/dx-react-grid-material-ui';
 
 import { makeStyles } from '@material-ui/core/styles';
-import Paper from '@material-ui/core/Paper';
+import { Paper, Typography } from '@material-ui/core';
 import Button from '@material-ui/core/Button';
 import AddIcon from '@material-ui/icons/Add';
 import DeleteIcon from '@material-ui/icons/Delete';
@@ -38,6 +38,9 @@ const useStyles = makeStyles((theme) => ({
   addButton:{
     padding:5,
     marginLeft: 'auto',
+    },
+    greenColor:{
+      color:'green'
     },
   backButton:{
       padding:5,
@@ -88,18 +91,18 @@ const useStyles = makeStyles((theme) => ({
       { name: 'totalAmount', title: 'Total Amount' },
       { name: 'payAmount', title: 'Pay Amount' },
       { name: 'due', title: 'Due' },
-      { name: 'view', title: 'View' },
+      { name: 'view', title: 'View', columnFilteringEnabled: false},
       { name: 'action', title: 'Action', columnFilteringEnabled: false },
     ]);
-  
+   
     const data = invoices.map((invoice,index) => {
       return {
         sl: index+1,
-        date: moment(invoice.createdAt).format("MMMM Do YYYY"),
+        date: moment(invoice.createdAt).format("MMMM D YYYY"),
         customerName:invoice.customer.name,
-        totalAmount: invoice.totalAmountAfterDiscount,
-        payAmount:invoice.payAmount,
-        due:invoice.due,
+        totalAmount: <Typography color='primary'>৳{invoice.totalAmountAfterDiscount}</Typography>,
+        payAmount:<Typography className={classes.greenColor}>৳{invoice.payAmount}</Typography>,
+        due: (invoice.due > 0? <Typography color="error">৳{invoice.due}</Typography> : <Typography className={classes.greenColor}>Paid</Typography> ),
         view:( <Link onClick={()=>getInvoice(invoice._id)} to={'/dashboard/invoice/single'}className={classes.linkStyle}><Button variant="contained" size="small" color="primary">
           View
         </Button> </Link>),
@@ -112,16 +115,16 @@ const useStyles = makeStyles((theme) => ({
       }
     })
   
-    const [defaultColumnWidths] = useState([
-      { columnName: 'sl', width: 100 },
-      { columnName: 'date', width: 220  },
-      { columnName: 'customerName', width: 200  },
-      { columnName: 'totalAmount', width: 100  },
-      { columnName: 'payAmount', width: 100  },
-      { columnName: 'due', width: 100  },
-      { columnName: 'view', width: 150  },
-      { columnName: 'action', width: 100 },
-    ]);
+    // const [defaultColumnWidths] = useState([
+    //   { columnName: 'sl', width: 100 },
+    //   { columnName: 'date', width: 220  },
+    //   { columnName: 'customerName', width: 200  },
+    //   { columnName: 'totalAmount', width: 100  },
+    //   { columnName: 'payAmount', width: 100  },
+    //   { columnName: 'due', width: 100  },
+    //   { columnName: 'view', width: 150  },
+    //   { columnName: 'action', width: 100 },
+    // ]);
 
 
     return (
@@ -159,7 +162,7 @@ const useStyles = makeStyles((theme) => ({
               <Table />
               <VirtualTable height="auto"/>
               
-              <TableColumnResizing defaultColumnWidths={defaultColumnWidths} />
+              {/* <TableColumnResizing defaultColumnWidths={defaultColumnWidths} /> */}
               <TableHeaderRow />
               <TableFilterRow />
           
