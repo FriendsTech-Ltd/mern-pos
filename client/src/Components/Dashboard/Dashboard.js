@@ -1,4 +1,5 @@
 import React,{useContext} from 'react';
+import moment from 'moment';
 import { Link } from 'react-router-dom'
 import clsx from 'clsx';
 import { makeStyles } from '@material-ui/core/styles';
@@ -110,10 +111,9 @@ const useStyles = makeStyles((theme) => ({
 
 }));
 
-
 export default function Dashboard(props) {
   const url = props.match
-  const { logout } = useContext(AuthContext)
+  const { user,logout } = useContext(AuthContext)
   const classes = useStyles();
   const [open, setOpen] = React.useState(true);
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -167,9 +167,13 @@ export default function Dashboard(props) {
           <Typography component="h1" variant="h6" color="inherit" noWrap className={classes.title}>
             Dashboard
           </Typography>
+          <Typography component="h3" color="inherit" noWrap className={classes.title}>{moment().format("dddd, MMMM Do YYYY")}</Typography>
+          <Typography component="h3" color="inherit" noWrap className={classes.title}>
+            {user.companyName}
+          </Typography>
     
           <IconButton color="inherit">
-            <Badge badgeContent={4} color="secondary">
+            <Badge badgeContent={0} color="secondary">
               <NotificationsIcon />
             </Badge>
           </IconButton>

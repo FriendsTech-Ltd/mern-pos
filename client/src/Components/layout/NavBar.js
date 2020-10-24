@@ -40,7 +40,7 @@ export default function NavBar() {
             <Link style={linkStyle} to='/'>MERN POS system</Link>
           </Typography>
 
-          <Link style={linkStyle} to='/login'><Button color="inherit">Sing In</Button></Link>
+          <Link style={linkStyle} to='/'><Button color="inherit">Sing In</Button></Link>
           <Link style={linkStyle} to='/register'><Button color="inherit">Sing Up</Button></Link>
 
         </Toolbar>

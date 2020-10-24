@@ -20,7 +20,7 @@ export default (state,action)=>{
                 return{
                 ...state,
                 customers: action.payload.customer,
-                success:action.payload.success,
+                // success:action.payload.success,
                 // serverMessage: action.payload.msg,
             }
             case GET_CUSTOMER:
