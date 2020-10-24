@@ -81,7 +81,7 @@ const defaultValue = 0
             color="textPrimary"
             variant="caption"
           >
-           Product type in stock {totalProductType ? totalProductType : defaultValue}
+           Product type {totalProductType ? totalProductType : defaultValue}
           </Typography>
         </Box>
       

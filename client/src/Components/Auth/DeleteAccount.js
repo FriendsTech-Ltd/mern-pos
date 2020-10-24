@@ -1,5 +1,6 @@
 import React,{useContext,useState} from 'react'
 import {Link} from 'react-router-dom'
+import Notification from '../common/Notification'
 import AuthContext from '../../context/AuthContext/AuthContext'
 
 import { Button,Paper,makeStyles,Typography, Grid,TextField,Box,Divider,Container} from '@material-ui/core';
@@ -45,13 +46,14 @@ const useStyles = makeStyles((theme) => ({
 
 
   const classes = useStyles()
-  const {deleteUser} = useContext(AuthContext)
+  const {deleteUser, serverMessage} = useContext(AuthContext)
   const [password,setPassword]= useState('')
   const onDelete = ()=>{
   deleteUser({password})
 }
     return (
         <div>
+            {serverMessage && <Notification severity='error' message={serverMessage}/> }
           <Paper variant="outlined" square  className={classes.tittle}> 
                   <div className={classes.backButton}>
                   <Link to ='/dashboard/me' className={classes.linkStyle}>

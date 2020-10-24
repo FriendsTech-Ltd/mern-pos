@@ -18,14 +18,14 @@ export default (state,action)=>{
                 ...state,
                 products: action.payload.products,
                 success:action.payload.success,
-                serverMessage: action.payload.msg,
+                // serverMessage: action.payload.msg,
             }
             case GET_PRODUCT_INFO:
                 return{
                 ...state,
                 productInfo: action.payload.productInfo,
                 success:action.payload.success,
-                serverMessage: action.payload.msg,
+                // serverMessage: action.payload.msg,
             }
             case UPLOAD_PRODUCT:
                 return{

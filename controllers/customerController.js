@@ -1,6 +1,8 @@
 import mongoose from 'mongoose';
 import asyncHandler from '../middleware/async';
 import CustomerModel from '../models/CustomerModel';
+import InvoiceModel from '../models/InvoiceModel';
+import ProductModel from '../models/ProductModel';
 import { NotFound } from '../utils/error';
 
 // @desc    Get All Customer
@@ -56,10 +58,23 @@ export const updateCustomer = asyncHandler(async (req, res) => {
 // @route   DELETE /api/customer/:id
 // @access  Private
 export const deleteCustomer = asyncHandler(async (req, res) => {
-  const deletedCustomer = await CustomerModel.findByIdAndDelete(req.params.id);
-  if (!deletedCustomer) throw new NotFound('Customer not found');
+  const { id } = req.params;
+  const invoices = await InvoiceModel.find({ customer: id });
 
-  return res.status(200).json({ success: true, customer: deletedCustomer, msg: 'Customer deleted successfully' });
+  await Promise.all(invoices.map(async (invoice) => {
+    await Promise.all(invoice.products.map(async (product) => {
+      const result = await ProductModel.findById(product.productId);
+
+      result.stock += product.quantity;
+      await result.save();
+    }));
+  }));
+
+  await InvoiceModel.deleteMany({ customer: id });
+
+  const deletedCustomer = await CustomerModel.findByIdAndDelete(req.params.id);
+
+  return res.status(200).json({ success: true, customer: deletedCustomer._id, msg: 'Customer deleted successfully' });
 });
 
 // @desc    Get total customer count

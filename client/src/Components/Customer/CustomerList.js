@@ -191,10 +191,7 @@ const useStyles = makeStyles((theme) => ({
                 </div>
            </Paper > 
 
-      {!customers.length ? (<div className={classes.spinner}>
-        <CircularProgress size={80} />
-        </div>)
-         : (<div>
+     <div>
        
            <Paper variant="outlined" elevation={5} className={classes.content}>
            <h1>All customer here</h1>
@@ -236,8 +233,7 @@ const useStyles = makeStyles((theme) => ({
           </Paper> 
           </div>
 
-         )
-        }
+    
       
         </div>
     )

@@ -23,7 +23,7 @@ const useStyles = makeStyles((theme) => ({
       textAlign:'center'
     },
     payHistoryStyle:{
-      height:'210',
+      height:210,
       width:'200',
       overflow:'scroll'
     },
@@ -53,6 +53,7 @@ const useStyles = makeStyles((theme) => ({
       marginTop:'17%'
     
     },
+   
  
   }))
  const CustomerDetails = (props) => {
@@ -113,11 +114,14 @@ const useStyles = makeStyles((theme) => ({
             </Grid>
 
               <Grid item lg={6} xl={6} className={classes.payHistoryStyle}>
-               {!DuePayHistory.length ? (
+             
+                {!DuePayHistory.length ? (
                 <Typography>No Pay History</Typography>
               ) : (
                 <PayHistory payHistory={DuePayHistory}/>
                ) }
+             
+             
               </Grid>
           
       </Grid>

@@ -62,7 +62,7 @@ export default (state,action)=>{
         ...state,
         invoice: action.payload.invoice,
         success: action.payload.success,
-        serverMessage: action.payload.msg,
+        // serverMessage: action.payload.msg,
       }
 
     case CREATE_INVOICE:

@@ -58,7 +58,7 @@ const  AddCustomer = (props) => {
 
 const onChange=e=>{setFormData({...formData,[e.target.name]:e.target.value});}
 const { name,phone, address } = formData;
-const email = formData.email === "" ? null : email.email;
+const email = formData.email === "" ? null : formData.email;
 
 useEffect(() => {
   if(success){

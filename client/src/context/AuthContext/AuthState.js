@@ -43,6 +43,7 @@ const register = async user => {
     type: REGISTER_VERIFICATION,
     payload: res.data
     })
+    clearSuccess();
   }catch (err) {  
     dispatch({ type: ERROR, payload: err.response.data })
     clearError();
@@ -62,6 +63,7 @@ const verifyUser = async (registerToken) => {
     payload:res.data
     });
     loadUser();
+    clearSuccess();
   }catch (err) {  
     dispatch({ type: ERROR, payload: err.response.data })
   clearError();
@@ -77,7 +79,8 @@ const login = async data=>{
 try{
   const res = await axios.post('/api/auth/login', data, config)
   dispatch({ type: SUCCESS_LOGIN, payload: res.data });
-  loadUser();    
+  loadUser();  
+  clearSuccess(); 
 }catch (err){
   dispatch({ type: ERROR, payload: err.response.data })
   clearError();
@@ -91,6 +94,7 @@ const loadUser = async () => {
       try {
         const res = await axios.get('/api/auth/me');
         dispatch({ type: LOAD_USER, payload: res.data })
+        clearSuccess();
       } catch (err) {
         dispatch({ type: ERROR, payload: err.response.data })
         clearError();
@@ -104,6 +108,7 @@ const deleteUser = async (password)=>{
 try{
     const res=await axios.delete('/api/auth/delete',password)
     dispatch({ type:DELETE_USER, payload:res.data.data })
+    clearSuccess();
 }catch (err){  
     dispatch({ type: ERROR, payload: err.response.data })
     clearError();
@@ -114,7 +119,7 @@ try{
 const updateUser = async(user)=>{
 const config={ header:{'Content-Type':'application/json' }}
 const res=await axios.put(`/api/auth/update/${user._id}`,user,config)
-clearSuccess()
+clearSuccess();
   try {  
       dispatch({ type:UPDATE_USER, payload:res.data }) 
   } catch (err) {
@@ -129,6 +134,7 @@ const changePassword = async data=>{
 try{
     const res=await axios.put('/api/auth/change-password',data,config)
     dispatch({type:CHANGE_PASSWORD,payload:res.data})  
+    clearSuccess();
 }catch (err){ 
   dispatch({ type: ERROR, payload: err.response.data })
   clearError(); 
@@ -141,7 +147,8 @@ const forgoRequest = async (data) =>{
   const config={ header:{'Content-Type':'application/json' }}
   try{
       const res=await axios.post('/api/auth/forgot',data,config)
-      dispatch({ type: FORGOT_REQUEST, payload:res.data })          
+      dispatch({ type: FORGOT_REQUEST, payload:res.data })   
+      clearSuccess();       
   }catch (err){ 
     dispatch({ type: ERROR, payload: err.response.data })
     clearError(); 
@@ -158,7 +165,8 @@ const resetPassword = async (data,token)=>{
       dispatch({
       type: RESET_PASSWORD,
       payload:res.data,
-      })          
+      })  
+      clearSuccess();        
   }catch (err){ 
     dispatch({ type: ERROR, payload: err.response.data })
     clearError(); 

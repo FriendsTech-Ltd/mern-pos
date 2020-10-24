@@ -38,6 +38,7 @@ const useStyles = makeStyles((theme) => ({
     display:'flex'
   },
   title: {
+    padding:'5',
     textAlign:'center'
   },
 
@@ -265,7 +266,7 @@ const [discount,setDiscount]=useState(0)
 const [payAmount,setPay]=useState(0)
 const [due,setDue]=useState(0)
 
-const totalProductAmount = (totalPrice - (discount/100)*totalPrice)
+const totalProductAmount = Math.round((totalPrice - (discount/100)*totalPrice))
 
 const payCalculate=(e)=>{
   setDue(totalProductAmount-payAmount)

@@ -5,8 +5,10 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 import { Button, Typography} from '@material-ui/core';
 import DeleteIcon from '@material-ui/icons/Delete';
 import IconButton from '@material-ui/core/IconButton';
-import Alert from '@material-ui/lab/Alert'
-import moment from 'moment'
+import Popper from '@material-ui/core/Popper';
+import Fade from '@material-ui/core/Fade';
+
+import moment from 'moment';
 import {
     FilteringState,
     IntegratedFiltering,
@@ -19,6 +21,7 @@ import {
     TableColumnResizing,
     Grid,
   } from '@devexpress/dx-react-grid-material-ui';
+  import Notification from '../common/Notification';
   import InvoiceContext from '../../context/InvoiceContext/InvoiceContext'
   const useStyles = makeStyles((theme) => ({
     linkStyle:{
@@ -30,12 +33,25 @@ import {
 
 const InvoiceTable = ({totalSell}) => {
     const classes = useStyles()
-  const {getInvoice} =useContext(InvoiceContext)
+  const {getInvoice,deleteInvoice,serverMessage} =useContext(InvoiceContext)
 
-  
-    const handleDelete= (_id) => {
-        console.log(_id)
-      }
+ 
+  const [anchorEl, setAnchorEl] = React.useState(null);
+  const [deleteId, setDeleteId] = React.useState(null);
+
+  const handleClick = (_id,event) => {
+    setAnchorEl(anchorEl ? null : event.currentTarget);
+    setDeleteId(_id);
+  };
+
+  const open = Boolean(anchorEl);
+  const id = open ? 'transitions-popper' : undefined;
+
+
+  const handleDelete= () => {
+    deleteInvoice(deleteId)
+    handleClick()
+  }
     
       const [filteringStateColumnExtensions] = useState([
         { columnName: 'action', filteringEnabled: false },
@@ -63,7 +79,7 @@ const InvoiceTable = ({totalSell}) => {
           View
         </Button> </Link>),
           action: (<div>
-            <IconButton onClick={() => handleDelete(invoice._id)} aria-label="delete">
+            <IconButton aria-describedby={id} type="button" onClick={(event)=>handleClick(invoice._id,event)} aria-label="delete">
               <DeleteIcon />
             </IconButton>
           </div>)
@@ -82,6 +98,27 @@ const InvoiceTable = ({totalSell}) => {
   
     return (
         <div>
+             {serverMessage && <Notification severity='error' message={serverMessage}/> }
+           <Popper id={id} open={open} anchorEl={anchorEl} transition>
+        {({ TransitionProps }) => (
+          <Fade {...TransitionProps} timeout={350}>
+            <div className={classes.deleteContent}>
+              are you want to delete?
+              <div className={classes.deleteContentMiddle}>
+            <div className={classes.deleteContentSpace}>  <Button  size="small" aria-describedby={id} onClick={handleClick} variant="contained" color="primary">
+                    No
+                      </Button>
+                </div>
+                <div>  <Button size="small" aria-describedby={id} variant="contained" onClick={() => handleDelete()} color="primary">
+                    Yes
+                      </Button>
+                </div>
+                </div>
+            </div>
+           
+          </Fade>
+        )}
+      </Popper>
               <Grid
               rows={data}
               columns={columns}

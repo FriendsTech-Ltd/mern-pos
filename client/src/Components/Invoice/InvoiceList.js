@@ -14,7 +14,7 @@ import {
   TableColumnResizing,
   Grid,
 } from '@devexpress/dx-react-grid-material-ui';
-
+ 
 import { makeStyles } from '@material-ui/core/styles';
 import { Paper, Typography } from '@material-ui/core';
 import Button from '@material-ui/core/Button';
@@ -22,6 +22,7 @@ import AddIcon from '@material-ui/icons/Add';
 import DeleteIcon from '@material-ui/icons/Delete';
 import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
 import IconButton from '@material-ui/core/IconButton';
+import Notification from '../common/Notification'
 import InvoiceContext from '../../context/InvoiceContext/InvoiceContext'
 
 const useStyles = makeStyles((theme) => ({
@@ -61,11 +62,12 @@ const useStyles = makeStyles((theme) => ({
       textAlign: 'center',
       marginTop:'17%'
     },
+  
 
   }))
  const InvoiceList = () => {
 
-  const { invoices, getInvoices,getInvoice } = useContext(InvoiceContext);
+  const { invoices, getInvoices,getInvoice, } = useContext(InvoiceContext);
 
     const classes = useStyles()
 
@@ -76,9 +78,7 @@ const useStyles = makeStyles((theme) => ({
   
 
 
-     const handleDelete= (_id) => {
-      console.log(_id)
-    }
+  
   
     const [filteringStateColumnExtensions] = useState([
       { columnName: 'action', filteringEnabled: false },
@@ -92,7 +92,6 @@ const useStyles = makeStyles((theme) => ({
       { name: 'payAmount', title: 'Pay Amount' },
       { name: 'due', title: 'Due' },
       { name: 'view', title: 'View', columnFilteringEnabled: false},
-      { name: 'action', title: 'Action', columnFilteringEnabled: false },
     ]);
    
     const data = invoices.map((invoice,index) => {
@@ -107,24 +106,9 @@ const useStyles = makeStyles((theme) => ({
           View
         </Button> </Link>),
   
-        action: (<div>
-          <IconButton onClick={() => handleDelete(invoice._id)} aria-label="delete">
-            <DeleteIcon />
-          </IconButton>
-        </div>)
       }
     })
-  
-    // const [defaultColumnWidths] = useState([
-    //   { columnName: 'sl', width: 100 },
-    //   { columnName: 'date', width: 220  },
-    //   { columnName: 'customerName', width: 200  },
-    //   { columnName: 'totalAmount', width: 100  },
-    //   { columnName: 'payAmount', width: 100  },
-    //   { columnName: 'due', width: 100  },
-    //   { columnName: 'view', width: 150  },
-    //   { columnName: 'action', width: 100 },
-    // ]);
+
 
 
     return (
@@ -144,12 +128,11 @@ const useStyles = makeStyles((theme) => ({
                       </Button>
                 </Link>
                 </div>
+                
            </Paper> 
+      
 
-      {!invoices.length ? (<div className={classes.spinner}>
-        <CircularProgress size={80} />
-        </div>)
-         : (<div className={classes.middle}>
+     <div className={classes.middle}>
        
            <Paper variant="outlined" elevation={5} className={classes.content}>
            <h1>All Invoice here</h1>
@@ -161,7 +144,7 @@ const useStyles = makeStyles((theme) => ({
               <IntegratedFiltering />
               <Table />
               <VirtualTable height="auto"/>
-              
+          
               {/* <TableColumnResizing defaultColumnWidths={defaultColumnWidths} /> */}
               <TableHeaderRow />
               <TableFilterRow />
@@ -169,9 +152,6 @@ const useStyles = makeStyles((theme) => ({
             </Grid>
           </Paper> 
           </div>
-
-         )
-        }
       
         </div>
     )
