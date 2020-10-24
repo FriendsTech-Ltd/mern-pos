@@ -88,6 +88,8 @@ export const deleteUser = asyncHandler(async (req, res) => {
   const { id } = req.user;
   const { password } = req.body;
 
+  console.log(req.body);
+
   const match = await bcrypt.compare(password, req.user.password);
 
   if (!match) {

@@ -47,9 +47,9 @@ const useStyles = makeStyles((theme) => ({
 
   const classes = useStyles()
   const {deleteUser, serverMessage} = useContext(AuthContext)
-  const [password,setPassword]= useState('')
+  const [password,setPassword]= useState('naser')
   const onDelete = ()=>{
-  deleteUser({password})
+  deleteUser({ "password": password })
 }
     return (
         <div>

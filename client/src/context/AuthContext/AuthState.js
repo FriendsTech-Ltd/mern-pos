@@ -103,10 +103,14 @@ const loadUser = async () => {
 }
 
 // delete user
-const deleteUser = async (password)=>{
+const deleteUser = async (data) =>{
+  const config = {
+    header:{ 'Content-Type':'application/json' }
+}
+console.log(data)
 
 try{
-    const res=await axios.delete('/api/auth/delete',password)
+    const res=await axios.delete('/api/auth/delete', data, config)
     dispatch({ type:DELETE_USER, payload:res.data.data })
     clearSuccess();
 }catch (err){  
