@@ -121,7 +121,8 @@ export const deleteInvoice = asyncHandler(async (req, res) => {
     await result.save();
   }));
 
-  await CustomerModel.findByIdAndUpdate(invoice.customer, { $inc: { due: -invoice.due }, $pull: { totalSell: ObjectId(invoice._id) } });
+  await CustomerModel.findByIdAndUpdate(invoice.customer,
+    { $inc: { due: -invoice.due }, $pull: { totalSell: ObjectId(invoice._id) } });
 
   const deletedInvoice = await InvoiceModel.findByIdAndDelete(id);
   if (!deletedInvoice) {
