@@ -106,6 +106,16 @@ export const createInvoice = asyncHandler(async (req, res, next) => {
 // @route   DELETE /api/invoice/:id
 // @access  Private
 export const deleteInvoice = asyncHandler(async (req, res) => {
+  const { id } = req.params;
+  const invoice = await InvoiceModel.findOne({ _id: id, user: req.user.id });
+
+  await Promise.all(invoice.products.map(async (product) => {
+    const result = await ProductModel.findById(product._id);
+
+    result.stock += product.quantity;
+    await result.save();
+  }));
+
   const deletedInvoice = await InvoiceModel.findByIdAndDelete(req.params.id);
   if (!deletedInvoice) {
     throw new NotFound('Invoice not found');

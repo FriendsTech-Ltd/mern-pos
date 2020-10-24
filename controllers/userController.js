@@ -82,8 +82,15 @@ export const getUser = asyncHandler(async (req, res) => {
 });
 
 // delete User
-export const deleteUser = asyncHandler(async (req, res, next) => {
+export const deleteUser = asyncHandler(async (req, res) => {
   const { id } = req.user;
+  const { password } = req.body;
+
+  const match = await bcrypt.compare(password, req.user.password);
+
+  if (!match) {
+    return res.status(400).json({ success: false, msg: 'Invalid credentials for deleting account' });
+  }
 
   await CustomerModel.deleteMany({ user: id });
   await InvoiceModel.deleteMany({ user: id });
@@ -92,7 +99,7 @@ export const deleteUser = asyncHandler(async (req, res, next) => {
 
   products.map(async (product) => {
     const productImage = await ProductModel.findOne({ _id: product._id }).select('image');
-    fs.unlink(`${productImage.image}`, async (err) => {
+    fs.unlink(`${productImage.image}`, async () => {
       await ProductModel.findByIdAndRemove(req.params.id);
     });
   });
@@ -162,10 +169,14 @@ export const forgotPassword = asyncHandler(async (req, res) => {
 // reset  password
 export const resetPassword = asyncHandler(async (req, res) => {
   const { newPassword } = req.body;
-  const user = await UserModel.findOne({
-    resetPasswordToken: req.params.token, resetPasswordExpires: { $gt: Date.now() } });
+  const user = await UserModel.findOne(
+    {
+      resetPasswordToken: req.params.token,
+      resetPasswordExpires: { $gt: Date.now() },
+    },
+  );
   if (!user) {
-    return res.status(400).json({ success: false, msg: 'Try again session expried' });
+    return res.status(400).json({ success: false, msg: 'Try again session expired' });
   }
   const hash = await bcrypt.hash(newPassword, 11);
   const update = new UserModel({
