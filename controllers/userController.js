@@ -1,8 +1,12 @@
 import bcrypt from 'bcryptjs';
+import fs from 'fs';
 import crypto from 'crypto';
 import jwt from 'jsonwebtoken';
 import asyncHandler from '../middleware/async';
 import UserModel from '../models/UserModel';
+import CustomerModel from '../models/CustomerModel';
+import ProductModel from '../models/ProductModel';
+import InvoiceModel from '../models/InvoiceModel';
 import { NotFound, BadRequest } from '../utils/error';
 import sendEmail from '../utils/sendEmail';
 
@@ -78,15 +82,32 @@ export const getUser = asyncHandler(async (req, res) => {
 });
 
 // delete User
-export const deleteUser = asyncHandler(async (req, res, next) => {
-  const { id } = req.params;
-  const user = await UserModel.findById(id);
-  if (!user) {
-    throw new NotFound(`User not found by the is:${id}`);
+export const deleteUser = asyncHandler(async (req, res) => {
+  const { id } = req.user;
+  const { password } = req.body;
+
+  const match = await bcrypt.compare(password, req.user.password);
+
+  if (!match) {
+    return res.status(400).json({ success: false, msg: 'Invalid credentials for deleting account' });
   }
+
+  await CustomerModel.deleteMany({ user: id });
+  await InvoiceModel.deleteMany({ user: id });
+
+  const products = await ProductModel.findById({ user: id });
+
+  products.map(async (product) => {
+    const productImage = await ProductModel.findOne({ _id: product._id }).select('image');
+    fs.unlink(`${productImage.image}`, async () => {
+      await ProductModel.findByIdAndRemove(req.params.id);
+    });
+  });
+
   const result = await UserModel.findByIdAndDelete(id);
+
   if (!result) throw new NotFound('No user found');
-  return res.status(200).json({ success: true, msg: 'Delete success', data: user });
+  return res.status(200).json({ success: true, msg: 'Delete success', data: result });
 });
 
 // update user
@@ -148,10 +169,14 @@ export const forgotPassword = asyncHandler(async (req, res) => {
 // reset  password
 export const resetPassword = asyncHandler(async (req, res) => {
   const { newPassword } = req.body;
-  const user = await UserModel.findOne({
-    resetPasswordToken: req.params.token, resetPasswordExpires: { $gt: Date.now() } });
+  const user = await UserModel.findOne(
+    {
+      resetPasswordToken: req.params.token,
+      resetPasswordExpires: { $gt: Date.now() },
+    },
+  );
   if (!user) {
-    return res.status(400).json({ success: false, msg: 'Try again session expried' });
+    return res.status(400).json({ success: false, msg: 'Try again session expired' });
   }
   const hash = await bcrypt.hash(newPassword, 11);
   const update = new UserModel({
