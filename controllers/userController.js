@@ -1,4 +1,5 @@
 import bcrypt from 'bcryptjs';
+import mongoose from 'mongoose';
 import fs from 'fs';
 import crypto from 'crypto';
 import jwt from 'jsonwebtoken';
@@ -83,6 +84,7 @@ export const getUser = asyncHandler(async (req, res) => {
 
 // delete User
 export const deleteUser = asyncHandler(async (req, res) => {
+  const { ObjectId } = mongoose.Types;
   const { id } = req.user;
   const { password } = req.body;
 
@@ -95,12 +97,12 @@ export const deleteUser = asyncHandler(async (req, res) => {
   await CustomerModel.deleteMany({ user: id });
   await InvoiceModel.deleteMany({ user: id });
 
-  const products = await ProductModel.findById({ user: id });
+  const products = await ProductModel.find({ user: ObjectId(id) });
 
   products.map(async (product) => {
     const productImage = await ProductModel.findOne({ _id: product._id }).select('image');
     fs.unlink(`${productImage.image}`, async () => {
-      await ProductModel.findByIdAndRemove(req.params.id);
+      await ProductModel.findByIdAndRemove(product._id);
     });
   });
 

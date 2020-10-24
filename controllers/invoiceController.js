@@ -56,6 +56,7 @@ export const createInvoice = asyncHandler(async (req, res, next) => {
   const newInvoice = {
     user: req.user.id,
     customer: customerId,
+    productId: {},
     products: [],
     totalAmountAfterDiscount: totalProductAmount,
     discount,
@@ -71,6 +72,7 @@ export const createInvoice = asyncHandler(async (req, res, next) => {
   await Promise.all(products.map(async (product) => {
     const result = await ProductModel.findById(product._id);
     newInvoice.products.push({
+      productId: result._id,
       name: result.name,
       price: result.price,
       sellingPrice: result.sellingPrice,
@@ -107,16 +109,22 @@ export const createInvoice = asyncHandler(async (req, res, next) => {
 // @access  Private
 export const deleteInvoice = asyncHandler(async (req, res) => {
   const { id } = req.params;
+  const { ObjectId } = mongoose.Types;
   const invoice = await InvoiceModel.findOne({ _id: id, user: req.user.id });
 
   await Promise.all(invoice.products.map(async (product) => {
-    const result = await ProductModel.findById(product._id);
+    const result = await ProductModel.findById(product.productId);
+
+    console.log(result);
 
     result.stock += product.quantity;
     await result.save();
   }));
 
-  const deletedInvoice = await InvoiceModel.findByIdAndDelete(req.params.id);
+  await CustomerModel.findByIdAndUpdate(invoice.customer,
+    { $inc: { due: -invoice.due }, $pull: { totalSell: ObjectId(invoice._id) } });
+
+  const deletedInvoice = await InvoiceModel.findByIdAndDelete(id);
   if (!deletedInvoice) {
     throw new NotFound('Invoice not found');
   }
