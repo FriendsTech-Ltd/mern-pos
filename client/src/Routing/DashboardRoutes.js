@@ -2,6 +2,7 @@ import React from 'react'
 import { Switch ,Route } from 'react-router-dom';
 import DashboardInfo from '../Components/Dashboard/DashboardInfo';
 import Profile from '../Components/Auth/Profile'
+import ProfileView from '../Components/Auth/account/AccountView/index'
 import EditProfile from '../Components/Auth/EditProfile'
 import ChangePassword from '../Components/Auth/ChangePassword';
 import ProductList from '../Components/Product/ProductList';
@@ -16,7 +17,8 @@ import InvoiceList from '../Components/Invoice/InvoiceList';
 import CreateInvoice from '../Components/Invoice/CreateInvoice';
 import Invoice from '../Components/Invoice/InvoicePrint';
 import UpCoaming from '../Components/common/UpCoaming';
-import Calculator from '../Components/common/Calculator'
+import Calculator from '../Components/common/Calculator';
+import DeleteAccount from '../Components/Auth/DeleteAccount'
 const DashboardRoutes = () => {
     return (
         <Switch>
@@ -28,7 +30,7 @@ const DashboardRoutes = () => {
          <Route
           exact
           path="/dashboard/me"
-          component={Profile}
+          component={ProfileView}
         />
          <Route
           exact
@@ -120,6 +122,11 @@ const DashboardRoutes = () => {
           exact
           path="/dashboard/calculator"
           component={Calculator}
+        />
+        <Route
+          exact
+          path="/dashboard/delete-account"
+          component={DeleteAccount}
         />
           <Route
           exact

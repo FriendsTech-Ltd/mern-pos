@@ -8,6 +8,7 @@ import {
     LOGOUT,
     REGISTER_VERIFICATION,
     CLEAR_ERROR,
+    CLEAR_SUCCESS,
     ERROR,
     EDIT_FORM,
     CLEAR_EDIT_FORM,
@@ -68,7 +69,12 @@ export default (state,action)=>{
             ...state,
             editForm:action.payload          
              }
-    
+    case CLEAR_SUCCESS:
+              return{
+              ...state,
+              success:false,
+              serverMessage:null,
+                      }
     case CLEAR_EDIT_FORM:
             return{
             ...state,

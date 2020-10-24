@@ -13,6 +13,7 @@ import {
   LOGOUT,
   REGISTER_VERIFICATION,
   CLEAR_ERROR,
+  CLEAR_SUCCESS,
   ERROR,
   EDIT_FORM,
   CLEAR_EDIT_FORM,
@@ -98,10 +99,10 @@ const loadUser = async () => {
 }
 
 // delete user
-const deleteUser = async (id)=>{
+const deleteUser = async (password)=>{
 
 try{
-    const res=await axios.delete(`/api/auth/${id}`)
+    const res=await axios.delete('/api/auth/delete',password)
     dispatch({ type:DELETE_USER, payload:res.data.data })
 }catch (err){  
     dispatch({ type: ERROR, payload: err.response.data })
@@ -113,6 +114,7 @@ try{
 const updateUser = async(user)=>{
 const config={ header:{'Content-Type':'application/json' }}
 const res=await axios.put(`/api/auth/update/${user._id}`,user,config)
+clearSuccess()
   try {  
       dispatch({ type:UPDATE_USER, payload:res.data }) 
   } catch (err) {
@@ -176,6 +178,14 @@ const logout=()=>{
         type:CLEAR_ERROR,
       })
     }, 6000);
+  }
+
+  const clearSuccess = () =>{
+    setTimeout(() => { 
+      dispatch({
+        type:CLEAR_SUCCESS,
+      })
+    }, 3000);
   }
 
     //edit user role form

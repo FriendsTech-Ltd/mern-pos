@@ -77,6 +77,10 @@ const useStyles = makeStyles((theme) => ({
                 <Link to='/dashboard/change-password' className={classes.linkStyle}>
                   <Button variant="outlined" color="secondary">Change Password</Button>
                 </Link>
+
+                <Link to='/dashboard/delete-account' className={classes.linkStyle}>
+                  <Button variant="outlined" color="secondary">Delete Account</Button>
+                </Link>
              </Grid>
            </Paper> 
         </div>
