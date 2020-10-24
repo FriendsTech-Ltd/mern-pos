@@ -23,7 +23,7 @@ router.route('/change-password').put(protect, changePassword);
 router.route('/me').get(protect, getUser);
 
 router.route('/update/:id').put(protect, updateUser);
-router.route('/delete/:id').delete(protect, deleteUser);
+router.route('/delete/').delete(protect, deleteUser);
 
 router.route('/verify/:registerToken').get(verifyUser);
 

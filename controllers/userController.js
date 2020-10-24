@@ -1,8 +1,12 @@
 import bcrypt from 'bcryptjs';
+import fs from 'fs';
 import crypto from 'crypto';
 import jwt from 'jsonwebtoken';
 import asyncHandler from '../middleware/async';
 import UserModel from '../models/UserModel';
+import CustomerModel from '../models/CustomerModel';
+import ProductModel from '../models/ProductModel';
+import InvoiceModel from '../models/InvoiceModel';
 import { NotFound, BadRequest } from '../utils/error';
 import sendEmail from '../utils/sendEmail';
 
@@ -79,14 +83,24 @@ export const getUser = asyncHandler(async (req, res) => {
 
 // delete User
 export const deleteUser = asyncHandler(async (req, res, next) => {
-  const { id } = req.params;
-  const user = await UserModel.findById(id);
-  if (!user) {
-    throw new NotFound(`User not found by the is:${id}`);
-  }
+  const { id } = req.user;
+
+  await CustomerModel.deleteMany({ user: id });
+  await InvoiceModel.deleteMany({ user: id });
+
+  const products = await ProductModel.findById({ user: id });
+
+  products.map(async (product) => {
+    const productImage = await ProductModel.findOne({ _id: product._id }).select('image');
+    fs.unlink(`${productImage.image}`, async (err) => {
+      await ProductModel.findByIdAndRemove(req.params.id);
+    });
+  });
+
   const result = await UserModel.findByIdAndDelete(id);
+
   if (!result) throw new NotFound('No user found');
-  return res.status(200).json({ success: true, msg: 'Delete success', data: user });
+  return res.status(200).json({ success: true, msg: 'Delete success', data: result });
 });
 
 // update user
