@@ -1,9 +1,8 @@
-import React, { useContext, useEffect, useState } from 'react'
-import CircularProgress from '@material-ui/core/CircularProgress';
+import React, { useContext, useEffect, useState } from 'react';
 import Popper from '@material-ui/core/Popper';
 import Fade from '@material-ui/core/Fade';
-import moment from 'moment'
-import {Link} from 'react-router-dom'
+import moment from 'moment';
+import {Link} from 'react-router-dom';
 
 import {
   FilteringState,
@@ -26,8 +25,8 @@ import AddIcon from '@material-ui/icons/Add';
 import DeleteIcon from '@material-ui/icons/Delete';
 import EditIcon from '@material-ui/icons/Edit';
 import IconButton from '@material-ui/core/IconButton';
-import Notification from '../common/Notification'
-import ProductContext from '../../context/ProductContext/ProductContext'
+import Notification from '../common/Notification';
+import ProductContext from '../../context/ProductContext/ProductContext';
 
 const useStyles = makeStyles((theme) => ({
     root: {

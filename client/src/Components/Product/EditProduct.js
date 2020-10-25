@@ -65,10 +65,9 @@ const  EditProduct = (props) => {
 });
 
 const onChange=e=>{setFormData({...formData,[e.target.name]:e.target.value});} 
-const upHandler=e=>{setFormData({...formData,[e.target.name]:e.target.files[0]})}
+// const upHandler=e=>{setFormData({...formData,[e.target.name]:e.target.files[0]})}
 
-const { _id,name, price, sellingPrice, unit, stock, description,image } = formData;
-
+const { _id,name, price, sellingPrice, unit, stock, description } = formData;
 
 useEffect(() => {
   if(success){
@@ -118,7 +117,7 @@ return (
              
            </Paper >
     <Container component="main" maxWidth="md">
-    {serverMessage && <Notification severity='error' message={serverMessage}/> }
+    {serverMessage && <Notification severity="success" message={serverMessage}/> }
       <Paper elevation={5} >
       <CssBaseline />
       <div className={classes.paper}>

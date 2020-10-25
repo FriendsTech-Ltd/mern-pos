@@ -15,7 +15,6 @@ import {
   MenuItem,
   Select,
   InputLabel,
-  FormControlLabel,
   FormControl,
 } from '@material-ui/core';
 
@@ -27,7 +26,7 @@ const useStyles = makeStyles(() => ({
 const ProfileDetails = ({user}) => {
   const classes = useStyles();
 
-  const { updateUser, serverMessage, success } = useContext(AuthContext);
+  const { updateUser, serverMessage } = useContext(AuthContext);
   const [formData, setFormData]=useState({
     _id: user._id,
     companyName: user.companyName,
@@ -42,13 +41,6 @@ const ProfileDetails = ({user}) => {
 
 const {_id, companyName, companyOwner, email,phone,address, companyType, description} = formData;
 
-
-// useEffect(() => {
-//   if(success){
-//     props.history.push('/info');
-//   }
-//   // eslint-disable-next-line
-// },[success])
 
 const onSubmit = e => {
   e.preventDefault();

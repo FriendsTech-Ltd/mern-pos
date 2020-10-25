@@ -18,7 +18,7 @@ const useStyles = makeStyles((theme) => ({
   },
   spinner: {
     textAlign: 'center',
-    marginTop:'10%'
+    padding:10
   
   }
 }));

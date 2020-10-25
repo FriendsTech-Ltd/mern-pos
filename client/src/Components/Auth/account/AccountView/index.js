@@ -2,30 +2,17 @@ import React,{useContext} from 'react';
 import {
   Container,
   Grid,
-  makeStyles
 } from '@material-ui/core';
-// import Page from 'src/components/Page';
 import Profile from './Profile';
 import ProfileDetails from './ProfileDetails';
 import AuthContext from '../../../../context/AuthContext/AuthContext'
 
-const useStyles = makeStyles((theme) => ({
-  root: {
-    backgroundColor: theme.palette.background.dark,
-    minHeight: '100%',
-    paddingBottom: theme.spacing(3),
-    paddingTop: theme.spacing(3)
-  }
-}));
 
 const Account = () => {
-  const classes = useStyles();
-  const {user,editFormFun} =useContext(AuthContext)
+ 
+  const {user} =useContext(AuthContext)
   return (
-    // <Page
-    //   className={classes.root}
-    //   title="Account"
-    // >
+   
       <Container maxWidth="lg">
         <Grid
           container
@@ -49,7 +36,7 @@ const Account = () => {
           </Grid>
         </Grid>
       </Container>
-    // </Page>
+   
   );
 };
 

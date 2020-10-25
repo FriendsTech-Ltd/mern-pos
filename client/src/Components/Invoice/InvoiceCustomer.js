@@ -11,9 +11,6 @@ const useStyles = makeStyles((theme) => ({
       flexGrow: 1,
       padding:5,
     
-      // width: theme.spacing(16),
-      // height: theme.spacing(16),
-  
     },
     tittle:{
       textAlign: 'center',
@@ -154,7 +151,6 @@ const Listbox = styled('ul')`
     const {getInvoiceCustomer} = useContext(InvoiceContext)
     const {
         getRootProps,
-        getInputLabelProps,
         getInputProps,
         getListboxProps,
         getOptionProps,
@@ -169,6 +165,7 @@ const Listbox = styled('ul')`
 
       useEffect(()=>{
         getInvoiceCustomer(value)
+        //eslint-disable-next-line
       },[value])
     return (
         <div>

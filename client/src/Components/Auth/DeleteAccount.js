@@ -3,7 +3,7 @@ import {Link} from 'react-router-dom'
 import Notification from '../common/Notification'
 import AuthContext from '../../context/AuthContext/AuthContext'
 
-import { Button,Paper,makeStyles,Typography, Grid,TextField,Box,Divider,Container} from '@material-ui/core';
+import { Button,Paper,makeStyles,Typography, Grid,TextField,Box,Container} from '@material-ui/core';
 import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
 
 

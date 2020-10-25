@@ -48,7 +48,7 @@ export default (state,action)=>{
                 case DELETE_CUSTOMER:
                 return {
                 ...state,
-                customers: state.customers.filter(customer => customer._id !==  action.payload.customer._id),
+                customers: state.customers.filter(customer => customer._id !==  action.payload.customer),
                 success:action.payload.success,
                 serverMessage: action.payload.msg,
                 }
@@ -65,7 +65,7 @@ export default (state,action)=>{
             ...state,
             customers :state.customers.map(customer=>customer._id === action.payload.customer._id ? action.payload.customer:customer),
             customer: action.payload.customer,
-            success:action.payload.success,
+            // success:action.payload.success,
             serverMessage: action.payload.msg,
             }
   

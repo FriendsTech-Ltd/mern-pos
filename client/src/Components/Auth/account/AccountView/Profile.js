@@ -49,7 +49,7 @@ const Profile = ({ user }) => {
           <Typography
             color="textPrimary"
             gutterBottom
-            variant="h3"
+            variant="h5"
           >
             {user.companyName}
           </Typography>

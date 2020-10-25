@@ -1,9 +1,8 @@
 import React from 'react'
-import Skeleton from '@material-ui/lab/Skeleton';
 import Calculator from '@pie-framework/material-ui-calculator';
 import {Link} from 'react-router-dom'
 
-import { Button,Paper,makeStyles,Typography,Container} from '@material-ui/core';
+import { Button,Paper,makeStyles,Container} from '@material-ui/core';
 import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
 
 

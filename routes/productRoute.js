@@ -1,5 +1,6 @@
 import express from 'express';
 import protect from '../middleware/auth';
+import Authorized from '../middleware/Authorized';
 import validators from '../models/validation/index';
 import { handleValidations } from '../middleware/handleValidations';
 import uploadImage from '../middleware/uploadMiddleware';
@@ -19,6 +20,6 @@ router.route('/')
   .get(protect, getProducts);
 
 router.route('/info').get(protect, getAllProductInfo);
-router.route('/:id').put(protect, handleValidations(validators.productValidation), updateProduct).delete(protect, deleteProduct);
+router.route('/:id').put(protect, handleValidations(validators.productValidation), updateProduct).delete(protect, Authorized, deleteProduct);
 
 export default router;

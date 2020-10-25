@@ -16,7 +16,6 @@ import {
   Grid,
 } from '@devexpress/dx-react-grid-material-ui';
 import {
-  CircularProgress, 
   Button,
   Paper,
   makeStyles,

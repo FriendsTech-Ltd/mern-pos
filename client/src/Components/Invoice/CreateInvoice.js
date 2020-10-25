@@ -214,14 +214,15 @@ const Listbox = styled('ul')`
 
  const CreateInvoice = (props) => {
   const classes = useStyles();
-  const {getProducts,products} = useContext(ProductContext)
-  const {getInvoiceProducts,card,invoiceCustomer,increment,decrement,createInvoice,success,invoice} = useContext(InvoiceContext)
-  const {getCustomers,customers} = useContext(CustomerContext)
-const inv = invoice[0] || []
+  const {getProducts,products} = useContext(ProductContext);
+  const {getInvoiceProducts,card,invoiceCustomer,increment,decrement,createInvoice,success} = useContext(InvoiceContext);
+  const {getCustomers,customers} = useContext(CustomerContext);
   useEffect(() => {
     if(success){
+      //eslint-disable-next-line
       props.history.push(`/dashboard/invoice/single`);
     }
+    //eslint-disable-next-line
   },[success])
 
   
@@ -250,6 +251,7 @@ useEffect(()=>{
   getProducts();
   getCustomers();
   getInvoiceProducts(value);
+  //eslint-disable-next-line
 },[value])
 
 

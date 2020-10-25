@@ -19,6 +19,7 @@ const Notification = ({ severity, message}) => {
 
   return (
     <div>
+      
       <Snackbar
         anchorOrigin={{ vertical, horizontal }}
         open={open}
@@ -26,6 +27,7 @@ const Notification = ({ severity, message}) => {
       >
         <Alert severity={severity}>
           {message}
+        
         </Alert>
       </Snackbar>
     </div>

@@ -209,7 +209,7 @@ return (
           <MenuItem value='mobile'>Mobile</MenuItem>
           <MenuItem value='grocery'>Grocery</MenuItem>
           <MenuItem value='hardware'>Hardware</MenuItem>
-          <MenuItem value='pharmacy'>Pharmacy</MenuItem>
+    
         </Select>
       </FormControl>
         </Grid>

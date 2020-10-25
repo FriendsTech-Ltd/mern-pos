@@ -1,7 +1,6 @@
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useContext,useState } from 'react'
 import {Link} from 'react-router-dom'
 import { makeStyles } from '@material-ui/core/styles';
-import CircularProgress from '@material-ui/core/CircularProgress';
 import { Button, Typography} from '@material-ui/core';
 import DeleteIcon from '@material-ui/icons/Delete';
 import IconButton from '@material-ui/core/IconButton';
@@ -18,7 +17,6 @@ import {
     TableHeaderRow,
     TableFilterRow,
     VirtualTable,
-    TableColumnResizing,
     Grid,
   } from '@devexpress/dx-react-grid-material-ui';
   import Notification from '../common/Notification';
