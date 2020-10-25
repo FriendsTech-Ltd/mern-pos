@@ -9,6 +9,7 @@ import {
     CLEAR_ERROR,
     ERROR,
     CLEAR_SUCCESS,
+    CLEAR_APPLICATION_STATE
 } from '../type'
 
 export default (state,action)=>{
@@ -24,7 +25,7 @@ export default (state,action)=>{
                 return{
                 ...state,
                 productInfo: action.payload.productInfo,
-                success:action.payload.success,
+                // success:action.payload.success,
                 // serverMessage: action.payload.msg,
             }
             case UPLOAD_PRODUCT:
@@ -73,7 +74,7 @@ export default (state,action)=>{
             case ERROR:
                  return{
                 ...state,
-                 success: action.payload.success,
+                //  success: action.payload.success,
                  serverMessage:action.payload.msg
                          }
            case CLEAR_ERROR:
@@ -82,9 +83,16 @@ export default (state,action)=>{
                   success: false,
                   serverMessage: null
                   }
+            case CLEAR_APPLICATION_STATE:
+            return{
+                products: [],
+                productInfo:[],
+                editForm:{},
+                invoiceProducts:[],
+                serverMessage: null,
+                success: false,
+            }
 
-   
- 
         default:
             return state
     }
