@@ -123,7 +123,7 @@ const useStyles = makeStyles((theme) => ({
   
     const [columns] = useState([
       { name: 'sl', title: 'Sl' },
-      { name: 'name', title: 'Product name' },
+      { name: 'name', title: 'Customer name' },
       { name: 'phone', title: 'Phone' },
       { name: 'email', title: 'Email' },
       { name: 'address', title: 'Address' },

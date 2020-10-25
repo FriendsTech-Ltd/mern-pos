@@ -104,6 +104,7 @@ const useStyles = makeStyles((theme) => ({
           <Grid item lg={3} xl={3}>
           <Typography>Name: {customer.name}</Typography>
            <Typography>Phone: {customer.phone}</Typography>
+           <Typography>Address: {customer.email}</Typography>
             <Typography>Address: {customer.address}</Typography>
           </Grid>
 

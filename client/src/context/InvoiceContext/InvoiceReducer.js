@@ -14,6 +14,7 @@ import {
     GET_INVOICE_CUSTOMER,
     INCREMENT,
     DECREMENT,
+    CLEAR_APPLICATION_STATE,
 } from '../type'
 
 export default (state,action)=>{
@@ -123,6 +124,20 @@ export default (state,action)=>{
           ...state,
           card:action.payload
                             
+          }
+
+    case CLEAR_APPLICATION_STATE:
+          return{
+            invoices: [],
+            invoice:{},
+            saleInfo:[],
+            todaySale:[],
+            recentSaleByDay:{},
+            recentSale:[],
+            serverMessage: null,
+            success: false,
+            card:[],
+            invoiceCustomer:{}
           }
     default:
       return state

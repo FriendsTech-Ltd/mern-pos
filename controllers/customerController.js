@@ -9,7 +9,8 @@ import { NotFound } from '../utils/error';
 // @route   GET /api/customer/
 // @access  Private
 export const getCustomers = asyncHandler(async (req, res) => {
-  const customer = await CustomerModel.find({ user: req.user.id });
+  const customer = await CustomerModel.find({ user: req.user.id })
+    .select('name email phone address due createdAt');
 
   if (!customer.length) throw new NotFound('No customer found');
 

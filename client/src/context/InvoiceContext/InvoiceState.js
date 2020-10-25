@@ -19,6 +19,7 @@ import {
   GET_INVOICE_CUSTOMER,
   DECREMENT,
   INCREMENT,
+  CLEAR_APPLICATION_STATE
 } from '../type'
 
 const InvoiceState = (props) => {
@@ -119,18 +120,7 @@ const getInvoice = async (id) => {
       clearError();
     }}
 
-  // Get single invoice
-  // const getInvoice = async (id) => {
-   
-  //   try{
-    
-  //       dispatch({ type: GET_INVOICE, payload: id })
-  //       clearSuccess()
-  //   }catch (err) { 
-  //     console.log(err) 
-  //       // dispatch({ type: ERROR, payload: err.response.data })
-  //       clearError();
-  //     }}
+ 
 
 // Delete Invoice
 const deleteInvoice = async (id)=>{
@@ -166,7 +156,14 @@ try{
   const getInvoiceCustomer = (value) =>{
     dispatch({ type:GET_INVOICE_CUSTOMER, payload:value }) ;
   }
+  
 
+    // clear invoice state
+    const clearInvoiceState = ()=>{
+      dispatch({
+        type: CLEAR_APPLICATION_STATE
+      })
+    }
 
   const increment=(id)=>{
     let tempCart = state.card;
@@ -217,7 +214,8 @@ try{
           getInvoiceProducts,
           getInvoiceCustomer,
           decrement,
-          increment
+          increment,
+          clearInvoiceState
     }}>
       {props.children}
     </InvoiceContext.Provider >

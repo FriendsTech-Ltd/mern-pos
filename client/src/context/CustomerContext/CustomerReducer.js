@@ -11,7 +11,8 @@ import {
     EDIT_FORM,
     CLEAR_EDIT_FORM,
     GET_INVOICE,
-    PAY_DUE
+    PAY_DUE,
+    CLEAR_APPLICATION_STATE
 } from '../type'
 
 export default (state,action)=>{
@@ -27,14 +28,14 @@ export default (state,action)=>{
                 return{
                 ...state,
                 customer: action.payload.customer,
-                success:action.payload.success,
+                // success:action.payload.success,
                 // serverMessage: action.payload.msg,
             }
             case GET_TOTAL_CUSTOMER:
                 return{
                   ...state,
                   totalCustomer: action.payload.customerCount,
-                  success: action.payload.success,
+                //   success: action.payload.success,
                 //   serverMessage: action.payload.msg,
                 }
             case CREATE_CUSTOMER:
@@ -91,7 +92,7 @@ export default (state,action)=>{
             case ERROR:
                  return{
                 ...state,
-                 success: action.payload.success,
+                //  success: action.payload.success,
                  serverMessage:action.payload.msg
                          }
            case CLEAR_ERROR:
@@ -105,6 +106,18 @@ export default (state,action)=>{
                     ...state,
                     invoice: state.customer.totalSell.filter(invoice=> invoice._id === action.payload)
                     }
+
+          case CLEAR_APPLICATION_STATE:
+                return{
+                    customers: [],
+                    customer:{},
+                    totalCustomer:[],
+                    invoice:{},
+                    editForm:{},
+                    serverMessage: null,
+                    success: false,
+                }
+        
  
         default:
             return state

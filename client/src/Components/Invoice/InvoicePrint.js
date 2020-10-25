@@ -58,7 +58,7 @@ const InvoicePrint = () => {
     <div >
         <Paper variant="outlined" square  className={classes.buttonBar}> 
                   <div>
-                  <Link to ='/dashboard' className={classes.linkStyle}>
+                  <Link to ='/dashboard/invoice/invoice-list' className={classes.linkStyle}>
                       <Button variant="contained" color="primary">
                     <ArrowBackIosIcon/>
                       </Button>
