@@ -49,10 +49,11 @@ const DemoLogIn = (props) =>  {
 
   const [formData,setFormData]=useState({
     email:"shohedul2524@gmail.com",
-    password:"123456",
+    password:"******",
   });
-const {email,password}=formData
 
+const {email}=formData
+const password  = 'naser&emon'
 useEffect(() => {
   loadUser();
   if(isAuthenticated){
