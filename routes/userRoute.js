@@ -19,15 +19,15 @@ const router = express.Router();
 
 router.route('/register').post(handleValidations(validators.userValidation), registerUser);
 router.route('/login').post(handleValidations(validators.loginValidation), loginUser);
-router.route('/change-password').put(protect, changePassword);
+router.route('/change-password').put(protect, handleValidations(validators.changePasswordValidation), changePassword);
 router.route('/me').get(protect, getUser);
 
-router.route('/update/:id').put(protect, updateUser);
+router.route('/update/:id').put(protect, handleValidations(validators.userValidation), updateUser);
 router.route('/delete').post(protect, deleteUser);
 
 router.route('/verify/:registerToken').get(verifyUser);
 
 router.route('/forgot').post(forgotPassword);
-router.route('/reset/:token').post(resetPassword);
+router.route('/reset/:token').post(handleValidations(validators.resetPasswordValidation), resetPassword);
 
 export default router;

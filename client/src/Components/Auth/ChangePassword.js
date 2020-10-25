@@ -71,19 +71,17 @@ const useStyles = makeStyles((theme) => ({
   const [formData,setFormData]=useState({
    oldPassword:"",
    newPassword:"",
-   confirmNewPassword:""
+   confirmPassword:""
   });
-const {oldPassword,newPassword,confirmNewPassword}=formData
+const {oldPassword,newPassword,confirmPassword}=formData
 
 
 const onChange = e => { setFormData({ ...formData,[e.target.name]:e.target.value }); }
 
 const onSubmit = e =>{
   e.preventDefault();
-  if(newPassword !== confirmNewPassword){
-   return alert('confirm Password not match')
-  }
-  changePassword({oldPassword, newPassword});
+  
+  changePassword({oldPassword, newPassword,confirmPassword});
 }
 
     return (
@@ -144,8 +142,8 @@ const onSubmit = e =>{
             required
             fullWidth
             label="Confirm New Password"
-            name="confirmNewPassword"
-            value={confirmNewPassword}
+            name="confirmPassword"
+            value={confirmPassword}
             onChange={e=> onChange(e)}
           />
           <Button

@@ -78,7 +78,7 @@ export const loginUser = asyncHandler(async (req, res) => {
 
 // get user
 export const getUser = asyncHandler(async (req, res) => {
-  const user = await UserModel.findById(req.user.id).select('-password');
+  const user = await UserModel.findById(req.user.id).select('-password -resetPasswordExpires -resetPasswordToken');
   res.status(200).json({ success: true, data: user });
 });
 
@@ -170,21 +170,23 @@ export const forgotPassword = asyncHandler(async (req, res) => {
 // reset  password
 export const resetPassword = asyncHandler(async (req, res) => {
   const { newPassword } = req.body;
-  const user = await UserModel.findOne(
+  const hash = await bcrypt.hash(newPassword, 11);
+
+  const user = await UserModel.findOneAndUpdate(
     {
       resetPasswordToken: req.params.token,
       resetPasswordExpires: { $gt: Date.now() },
     },
+    {
+      password: hash,
+      resetToken: undefined,
+      expireToken: undefined,
+    },
+    { new: true },
   );
   if (!user) {
     return res.status(400).json({ success: false, msg: 'Try again session expired' });
   }
-  const hash = await bcrypt.hash(newPassword, 11);
-  const update = new UserModel({
-    password: hash,
-    resetToken: undefined,
-    expireToken: undefined,
-  });
-  update.save();
-  return sendTokenResponse(update, 200, res);
+
+  return sendTokenResponse(user, 200, res);
 });

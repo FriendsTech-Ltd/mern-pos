@@ -15,17 +15,14 @@ import {
   CLEAR_ERROR,
   CLEAR_SUCCESS,
   ERROR,
-  EDIT_FORM,
-  CLEAR_EDIT_FORM,
   FORGOT_REQUEST,
-  RESET_PASSWORD
+  RESET_PASSWORD,
 } from '../type'
 
 const AuthState=(props)=> {
 const initialState={
   isAuthenticated: false,
   user: {},
-  editForm:{},
   serverMessage: null,
   success: false,
 }
@@ -34,9 +31,7 @@ const [state,dispatch]=useReducer(AuthReducer,initialState)
 
 //  register user
 const register = async user => {
-  const config={
-    header:{ 'Content-Type':'application/json' }
-  }
+const config={ header:{ 'Content-Type':'application/json' }}
   try{
   const res = await axios.post('/api/auth/register', user, config)
     dispatch({
@@ -50,32 +45,39 @@ const register = async user => {
   }
 }
 
+// load user
+const loadUser = async () => {
+  if(localStorage.token){
+    setAuthToken(localStorage.token);
+    try {
+      const res = await axios.get('/api/auth/me');
+      dispatch({ type: LOAD_USER, payload: res.data })
+      clearSuccess();
+    } catch (err) {
+      dispatch({ type: ERROR, payload: err.response.data })
+      clearError();
+  }
+}
+}
 //  verify user
 const verifyUser = async (registerToken) => {
 
-  const config={
-    header:{ 'Content-Type':'application/json' }
-  }
+const config={ header:{ 'Content-Type':'application/json' }}
   try{
   const res=await axios.get(`/api/auth/verify/${registerToken}`, config)
-    dispatch({
-    type: SUCCESS_REGISTER,
-    payload:res.data
-    });
+    dispatch({ type: SUCCESS_REGISTER, payload:res.data });
     loadUser();
     clearSuccess();
   }catch (err) {  
     dispatch({ type: ERROR, payload: err.response.data })
-  clearError();
+    clearError();
   }
 }
 
 
 //Login   
 const login = async data=>{
-  const config = {
-      header:{ 'Content-Type':'application/json' }
-  }
+const config = { header:{ 'Content-Type':'application/json' } }
 try{
   const res = await axios.post('/api/auth/login', data, config)
   dispatch({ type: SUCCESS_LOGIN, payload: res.data });
@@ -87,20 +89,7 @@ try{
 }
 
 }
-// load user
-const loadUser = async () => {
-    if(localStorage.token){
-      setAuthToken(localStorage.token);
-      try {
-        const res = await axios.get('/api/auth/me');
-        dispatch({ type: LOAD_USER, payload: res.data })
-        clearSuccess();
-      } catch (err) {
-        dispatch({ type: ERROR, payload: err.response.data })
-        clearError();
-    }
-  }
-}
+
 
 // delete user
 
@@ -161,14 +150,15 @@ const forgoRequest = async (data) =>{
 
 
 //reset password
-const resetPassword = async (data,token)=>{
+const resetPassword = async (data)=>{
   const config={ header:{'Content-Type':'application/json' }}
   try{
-      const res=await axios.post(`/api/auth/reset/${token}`,data,config)
+      const res=await axios.post(`/api/auth/reset/${data.token}`,{newPassword:data.newPassword,confirmPassword: data.confirmPassword },config)
       dispatch({
       type: RESET_PASSWORD,
       payload:res.data,
       })  
+      loadUser()
       clearSuccess();        
   }catch (err){ 
     dispatch({ type: ERROR, payload: err.response.data })
@@ -188,7 +178,7 @@ const logout=()=>{
       dispatch({
         type:CLEAR_ERROR,
       })
-    }, 6000);
+    }, 4000);
   }
 
   const clearSuccess = () =>{
@@ -196,28 +186,14 @@ const logout=()=>{
       dispatch({
         type:CLEAR_SUCCESS,
       })
-    }, 3000);
+    }, 4000);
   }
 
-    //edit user role form
-    const editFormFun=(user)=>{
-      dispatch({ type:EDIT_FORM, payload:user })  
-  }
-  
-  //clear edit form
-  const clearEditForm=()=>{
-      dispatch({
-          type:CLEAR_EDIT_FORM,
-          
-      }) 
-  }
-  
 
     return (
         <AuthContext.Provider value={{
-            isAuthenticated: state.isAuthenticated,
+          isAuthenticated: state.isAuthenticated,
             user: state.user,
-            editForm: state.editForm,
             serverMessage: state.serverMessage,
             success: state.success,
             register,
@@ -230,8 +206,6 @@ const logout=()=>{
             resetPassword,
             logout,
             verifyUser,
-            editFormFun,
-            clearEditForm
     }}>
       {props.children}
     </AuthContext.Provider >

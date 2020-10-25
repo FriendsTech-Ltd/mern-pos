@@ -77,16 +77,14 @@ const useStyles = makeStyles((theme) => ({
   },[isAuthenticated])
 
 
-const [password,setPassword]=useState('');
+const [newPassword,setPassword]=useState('');
 const [confirmPassword,setConfirmPassword]=useState('');
 
 
  const onSubmit = e =>{
    e.preventDefault();
-   if (password !== confirmPassword)  {
-    return  alert('confirm password no match')
-   }
-   resetPassword({password},token)
+ 
+   resetPassword({newPassword,confirmPassword,token})
  } 
     return (
         <div>
@@ -122,9 +120,9 @@ const [confirmPassword,setConfirmPassword]=useState('');
             margin="normal"
             required
             fullWidth
-            label="Password"
-            name="password"
-            value={password}
+            label="New Password"
+            name="newPassword"
+            value={newPassword}
             onChange={(e)=>{setPassword(e.target.value)}}
           />
             <TextField
