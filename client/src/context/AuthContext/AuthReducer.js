@@ -51,7 +51,7 @@ export default (state,action)=>{
     
       case LOGOUT:
       case CHANGE_PASSWORD:
-      case DELETE_USER:
+      
            localStorage.removeItem('token')
             return{
               isAuthentication: false,
@@ -86,6 +86,14 @@ export default (state,action)=>{
               serverMessage: action.payload.msg,
               success: action.payload.success
               } 
+       case DELETE_USER:{
+        return{
+          ...state,
+          isAuthentication: false,
+          serverMessage: action.payload.msg,
+          success: action.payload.success
+          } 
+       }
       default:
           return state
     }

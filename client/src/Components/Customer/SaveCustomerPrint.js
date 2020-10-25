@@ -5,7 +5,7 @@ import { Button, Paper } from '@material-ui/core';
 import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
 import PrintIcon from '@material-ui/icons/Print';
 import { useReactToPrint } from 'react-to-print';
-import InvoiceComponent from './InvoiceComponent'
+import CustomerInvoice from './CustomerInvoice'
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
@@ -36,7 +36,7 @@ class ComponentToPrint extends React.Component {
     return (
         <div>
          
-            <InvoiceComponent/>
+            <CustomerInvoice/>
          
      
         </div>

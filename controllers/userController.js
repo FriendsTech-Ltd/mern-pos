@@ -87,9 +87,6 @@ export const deleteUser = asyncHandler(async (req, res) => {
   const { ObjectId } = mongoose.Types;
   const { id } = req.user;
   const { password } = req.body;
-
-  console.log(req.body);
-
   const match = await bcrypt.compare(password, req.user.password);
 
   if (!match) {

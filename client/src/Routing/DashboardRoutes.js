@@ -12,7 +12,7 @@ import CustomerList from '../Components/Customer/CustomerList';
 import AddCustomer from '../Components/Customer/AddCustomer';
 import EditCustomer from '../Components/Customer/EditCustomer'
 import CustomerDetails from '../Components/Customer/CustomerDetails';
-import CustomerInvoice from '../Components/Customer/CustomerInvoice';
+import SaveCustomerPrint from '../Components/Customer/SaveCustomerPrint';
 import InvoiceList from '../Components/Invoice/InvoiceList';
 import CreateInvoice from '../Components/Invoice/CreateInvoice';
 import Invoice from '../Components/Invoice/InvoicePrint';
@@ -76,7 +76,7 @@ const DashboardRoutes = () => {
           <Route
           exact
           path="/dashboard/customer/invoice"
-          component={CustomerInvoice}
+          component={SaveCustomerPrint}
         />
           <Route
           exact

@@ -41,7 +41,6 @@ const useStyles = makeStyles(() => ({
 }));
 
 const Profile = ({ user }) => {
-  console.log(user)
   const classes = useStyles();
   
 

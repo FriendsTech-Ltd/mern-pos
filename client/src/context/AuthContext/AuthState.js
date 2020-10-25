@@ -103,28 +103,27 @@ const loadUser = async () => {
 }
 
 // delete user
-const deleteUser = async (data) =>{
-  const config = {
-    header:{ 'Content-Type':'application/json' }
-}
-console.log(data)
 
-try{
-    const res=await axios.delete('/api/auth/delete', data, config)
-    dispatch({ type:DELETE_USER, payload:res.data.data })
-    clearSuccess();
-}catch (err){  
-    dispatch({ type: ERROR, payload: err.response.data })
-    clearError();
-}
-}
+const deleteUser = async (data)=>{
+  const config={ header:{'Content-Type':'application/json' }} 
+
+  try{
+        const res=await axios.post('/api/auth/delete',data,config)
+        dispatch({ type:DELETE_USER, payload:res.data });
+        clearSuccess()
+  }catch (err){  
+        dispatch({ type: ERROR, payload: err.response.data })
+        clearError();
+    }}
+
 
 //update user
 const updateUser = async(user)=>{
 const config={ header:{'Content-Type':'application/json' }}
-const res=await axios.put(`/api/auth/update/${user._id}`,user,config)
-clearSuccess();
+
   try {  
+    const res=await axios.put(`/api/auth/update/${user._id}`,user,config)
+      clearSuccess();
       dispatch({ type:UPDATE_USER, payload:res.data }) 
   } catch (err) {
     dispatch({ type: ERROR, payload: err.response.data })

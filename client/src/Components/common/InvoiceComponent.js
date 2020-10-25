@@ -1,4 +1,4 @@
-import React, { useContext,useEffect } from 'react'
+import React, { useContext} from 'react'
 import CircularProgress from '@material-ui/core/CircularProgress';
 import moment from 'moment'
 import { makeStyles } from '@material-ui/core/styles';
@@ -10,9 +10,6 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
-import {Link} from 'react-router-dom'
-import { Button} from '@material-ui/core';
-import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
 import AuthContext from '../../context/AuthContext/AuthContext'
 
 const useStyles = makeStyles((theme) => ({
@@ -26,16 +23,15 @@ main:{
   header:{
   textAlign:'center',
   height:60,
-  padding:15
+  paddingTop:8,
+  paddingBottom:20
 },
   tittle: {
   height: 60,
   padding:0,
   margin:0
 },
-backButton:{
-  padding:5,
-},
+
 details:{
   textAlign:'center',
   padding:8
@@ -44,10 +40,7 @@ details:{
   padding:15,
   direction: 'rtl',
 },
-linkStyle:{
-  textDecoration: 'none',
-  color: 'white'
-},
+
 spinner: {
   textAlign: 'center',
   marginTop:'17%'
@@ -67,15 +60,7 @@ table: {
   
     return (
         <div>
-        <Paper variant="outlined" square  className={classes.tittle}> 
-                        <div className={classes.backButton}>
-                        <Link to ='/dashboard' className={classes.linkStyle}>
-                            <Button variant="contained" color="primary">
-                          <ArrowBackIosIcon/>Back
-                            </Button>
-                      </Link>
-                      </div> 
-          </Paper > 
+       
       
             {!invoiceItem.length ? (<div className={classes.spinner}>
               <CircularProgress size={80} />
@@ -99,7 +84,8 @@ table: {
                   <Grid container spacing={3}>
                       <Grid item xs={6}>
                       <Typography>From: </Typography>
-                      <Typography>{user.companyName} </Typography>
+                    
+                      <Typography><b>{user.companyName}</b> </Typography>
                       <Typography>Owner:  {user.companyOwner} </Typography>
                       <Typography>Address: {user.address}</Typography>
                      <Typography>Email: {user.email}</Typography> 
@@ -108,10 +94,11 @@ table: {
         
                       <Grid item xs={6}>
                       <Typography>To: </Typography>
-                      <Typography>Customer Name :{customer.name} </Typography>
-                      <Typography>Address:{customer.address} </Typography>
-                      <Typography>Email: </Typography> 
-                      <Typography>Phone:{customer.phone} </Typography>
+                    
+                      <Typography><b>{customer.name}</b> </Typography>
+                      <Typography>Address: {customer.address} </Typography>
+                      <Typography>Email: {customer.email}</Typography> 
+                      <Typography>Phone: {customer.phone} </Typography>
                       {customer.due > 0 ? (<Typography color='error'>Due: ৳{customer.due} </Typography>) : (<Typography color='primary'>No Due </Typography>)}
                       
                       </Grid>
