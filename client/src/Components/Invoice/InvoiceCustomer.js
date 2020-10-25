@@ -177,7 +177,7 @@ const Listbox = styled('ul')`
       <div {...getRootProps()} className={classes.searchIcon}>
       <AddBoxIcon className={classes.iconSize}/>
       <InputWrapper>
-        <input className={classes.input} {...getInputProps()} />
+        <input className={classes.input} {...getInputProps()} placeholder="Search Customer"/>
       </InputWrapper>
       </div>
       {groupedOptions.length > 0 ? (

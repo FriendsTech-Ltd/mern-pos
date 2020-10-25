@@ -17,7 +17,7 @@ export default (state,action)=>{
                 return{
                 ...state,
                 products: action.payload.products,
-                success:action.payload.success,
+                // success:action.payload.success,
                 // serverMessage: action.payload.msg,
             }
             case GET_PRODUCT_INFO:

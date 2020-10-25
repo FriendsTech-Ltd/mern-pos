@@ -1,9 +1,7 @@
 import React from 'react'
 import { Switch ,Route } from 'react-router-dom';
 import DashboardInfo from '../Components/Dashboard/DashboardInfo';
-import Profile from '../Components/Auth/Profile'
 import ProfileView from '../Components/Auth/account/AccountView/index'
-import EditProfile from '../Components/Auth/EditProfile'
 import ChangePassword from '../Components/Auth/ChangePassword';
 import ProductList from '../Components/Product/ProductList';
 import AddProduct from '../Components/Product/AddProduct';
@@ -32,11 +30,7 @@ const DashboardRoutes = () => {
           path="/dashboard/me"
           component={ProfileView}
         />
-         <Route
-          exact
-          path="/dashboard/edit-profile"
-          component={EditProfile}
-        />
+        
          <Route
           exact
           path="/dashboard/change-password"

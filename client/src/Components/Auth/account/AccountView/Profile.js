@@ -1,7 +1,5 @@
 import React from 'react';
 import {Link} from 'react-router-dom'
-import PropTypes from 'prop-types';
-import clsx from 'clsx';
 import moment from 'moment';
 import {
   Avatar,
@@ -15,14 +13,6 @@ import {
   makeStyles
 } from '@material-ui/core';
 
-// const user = {
-//   avatar: '/static/images/avatars/avatar_6.png',
-//   city: 'Los Angeles',
-//   country: 'USA',
-//   jobTitle: 'Senior Developer',
-//   name: 'Katarina Smith',
-//   timezone: 'GTM-7'
-// };
 
 const useStyles = makeStyles(() => ({
   root: {},
@@ -45,10 +35,7 @@ const Profile = ({ user }) => {
   
 
   return (
-    <Card
-      // className={clsx(classes.root, className)}
-      // {...rest}
-    >
+    <Card>
       <CardContent>
         <Box
           alignItems="center"
@@ -57,7 +44,6 @@ const Profile = ({ user }) => {
         >
           <Avatar
             className={classes.avatar}
-            // src="/public/uploads/default.jpg"
             src={`/public/${user.companyLogo}`}
           />
           <Typography
@@ -97,7 +83,7 @@ const Profile = ({ user }) => {
             color="textSecondary"
             variant="body1"
           >
-           Member since: {moment(user.createdAt).format("dddd, MMMM Do YYYY")}
+           Member since: {moment(user.createdAt).format("dddd, MMMM  YYYY")}
           </Typography>
         </Box>
       </CardContent>
@@ -126,9 +112,6 @@ const Profile = ({ user }) => {
   );
 };
 
-// Profile.propTypes = {
-//   className: PropTypes.string
-// };
 
 export default Profile;
 
