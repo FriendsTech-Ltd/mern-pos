@@ -1,6 +1,5 @@
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useContext, useEffect } from 'react'
 import CircularProgress from '@material-ui/core/CircularProgress';
-import moment from 'moment'
 import {Link} from 'react-router-dom'
 import { makeStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
@@ -23,7 +22,7 @@ const useStyles = makeStyles((theme) => ({
       textAlign:'center'
     },
     payHistoryStyle:{
-      height:'210',
+      height:210,
       width:'200',
       overflow:'scroll'
     },
@@ -53,6 +52,7 @@ const useStyles = makeStyles((theme) => ({
       marginTop:'17%'
     
     },
+   
  
   }))
  const CustomerDetails = (props) => {
@@ -103,6 +103,7 @@ const useStyles = makeStyles((theme) => ({
           <Grid item lg={3} xl={3}>
           <Typography>Name: {customer.name}</Typography>
            <Typography>Phone: {customer.phone}</Typography>
+           <Typography>Address: {customer.email}</Typography>
             <Typography>Address: {customer.address}</Typography>
           </Grid>
 
@@ -113,11 +114,14 @@ const useStyles = makeStyles((theme) => ({
             </Grid>
 
               <Grid item lg={6} xl={6} className={classes.payHistoryStyle}>
-               {!DuePayHistory.length ? (
+             
+                {!DuePayHistory.length ? (
                 <Typography>No Pay History</Typography>
               ) : (
                 <PayHistory payHistory={DuePayHistory}/>
                ) }
+             
+             
               </Grid>
           
       </Grid>

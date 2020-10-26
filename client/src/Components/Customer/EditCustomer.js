@@ -86,7 +86,7 @@ return (
                 </div> 
     </Paper > 
     <Container component="main" maxWidth="md">
-    {serverMessage && <Notification severity='error' message={serverMessage}/> }
+    {serverMessage && <Notification severity="success" message={serverMessage}/> }
       <Paper elevation={5} >
       <CssBaseline />
     

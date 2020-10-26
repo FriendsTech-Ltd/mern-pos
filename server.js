@@ -28,7 +28,7 @@ app.use('/public', express.static('public'));
 express.urlencoded({ extended: true });
 // Dev logging middleware
 if (process.env.NODE_ENV === 'development') {
-  app.use(morgan('combined'));
+  app.use(morgan('dev'));
 }
 
 // Mount routers

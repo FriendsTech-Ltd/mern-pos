@@ -19,6 +19,7 @@ import {
   GET_INVOICE_CUSTOMER,
   DECREMENT,
   INCREMENT,
+  CLEAR_APPLICATION_STATE
 } from '../type'
 
 const InvoiceState = (props) => {
@@ -42,7 +43,7 @@ const [state,dispatch]=useReducer(InvoiceReducer,initialState)
     try{
       const res = await axios.get('/api/invoice/sale-info')
         dispatch({ type: GET_SALE_INFO, payload: res.data })
-     
+        clearSuccess()
     }catch (err) {  
         dispatch({ type: ERROR, payload: err.response.data })
         clearError();
@@ -54,7 +55,7 @@ const [state,dispatch]=useReducer(InvoiceReducer,initialState)
       try{
         const res = await axios.get('/api/invoice/sale/recent')
           dispatch({ type: GET_RECENT_SALE, payload: res.data })
-         
+          clearSuccess()
       }catch (err) {  
           dispatch({ type: ERROR, payload: err.response.data })
           clearError();
@@ -66,7 +67,7 @@ const [state,dispatch]=useReducer(InvoiceReducer,initialState)
       try{
         const res = await axios.get(`/api/invoice/sale/day?day=${day}`)
           dispatch({ type: GET_SALE_INFO_BY_DAY, payload: res.data })
-         
+          clearSuccess()
       }catch (err) {  
         dispatch({ type: ERROR, payload: err.response.data })
         clearError();
@@ -77,7 +78,7 @@ const [state,dispatch]=useReducer(InvoiceReducer,initialState)
       try{
         const res = await axios.get('/api/invoice/sale/today')
           dispatch({ type: GET_TODAY_SALE, payload: res.data })
-         
+          clearSuccess()
       }catch (err) {  
         dispatch({ type: ERROR, payload: err.response.data })
         clearError();;
@@ -119,24 +120,14 @@ const getInvoice = async (id) => {
       clearError();
     }}
 
-  // Get single invoice
-  // const getInvoice = async (id) => {
-   
-  //   try{
-    
-  //       dispatch({ type: GET_INVOICE, payload: id })
-  //       clearSuccess()
-  //   }catch (err) { 
-  //     console.log(err) 
-  //       // dispatch({ type: ERROR, payload: err.response.data })
-  //       clearError();
-  //     }}
+ 
 
 // Delete Invoice
 const deleteInvoice = async (id)=>{
 try{
     const res=await axios.delete(`/api/invoice/${id}`)
     dispatch({ type:DELETE_INVOICE, payload:res.data });
+    clearSuccess()
 }catch (err){  
     dispatch({ type: ERROR, payload: err.response.data })
     clearError();
@@ -165,7 +156,14 @@ try{
   const getInvoiceCustomer = (value) =>{
     dispatch({ type:GET_INVOICE_CUSTOMER, payload:value }) ;
   }
+  
 
+    // clear invoice state
+    const clearInvoiceState = ()=>{
+      dispatch({
+        type: CLEAR_APPLICATION_STATE
+      })
+    }
 
   const increment=(id)=>{
     let tempCart = state.card;
@@ -216,7 +214,8 @@ try{
           getInvoiceProducts,
           getInvoiceCustomer,
           decrement,
-          increment
+          increment,
+          clearInvoiceState
     }}>
       {props.children}
     </InvoiceContext.Provider >

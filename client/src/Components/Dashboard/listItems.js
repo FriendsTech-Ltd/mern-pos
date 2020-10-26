@@ -10,6 +10,7 @@ import ReceiptIcon from '@material-ui/icons/Receipt';
 import PersonIcon from '@material-ui/icons/Person';
 import BarChartIcon from '@material-ui/icons/BarChart';
 import LayersIcon from '@material-ui/icons/Layers';
+import FeaturedPlayListIcon from '@material-ui/icons/FeaturedPlayList';
 import AssignmentIcon from '@material-ui/icons/Assignment';
 const linkStyle = {
   textDecoration: 'none',
@@ -50,42 +51,60 @@ export const mainListItems = (
       <ListItemText primary="Invoice" />
     </ListItem>
     </Link>
-  
+    <Link to ='/dashboard/reports' style={linkStyle}>
     <ListItem button>
       <ListItemIcon>
         <BarChartIcon />
       </ListItemIcon>
       <ListItemText primary="Reports" />
     </ListItem>
+    </Link>
+    <Link to ='/dashboard/e-commerce' style={linkStyle}>
     <ListItem button>
       <ListItemIcon>
         <LayersIcon />
       </ListItemIcon>
-      <ListItemText primary="Integrations" />
+      <ListItemText primary="E-Commerce" />
     </ListItem>
+    </Link>
   </div>
 );
 
 export const secondaryListItems = (
   <div>
     <ListSubheader inset>Saved reports</ListSubheader>
+    <Link to ='/dashboard/current-month' style={linkStyle}>
     <ListItem button>
       <ListItemIcon>
         <AssignmentIcon />
       </ListItemIcon>
       <ListItemText primary="Current month" />
     </ListItem>
+    </Link>
+    <Link to ='/dashboard/last-quarter' style={linkStyle}>
     <ListItem button>
       <ListItemIcon>
         <AssignmentIcon />
       </ListItemIcon>
       <ListItemText primary="Last quarter" />
     </ListItem>
+    </Link>
+    <Link to ='/dashboard/year-end' style={linkStyle}>
     <ListItem button>
       <ListItemIcon>
         <AssignmentIcon />
       </ListItemIcon>
       <ListItemText primary="Year-end sale" />
     </ListItem>
+    </Link>
+
+    <Link to ='/dashboard/calculator' style={linkStyle}>
+    <ListItem button>
+      <ListItemIcon>
+        <FeaturedPlayListIcon />
+      </ListItemIcon>
+      <ListItemText primary="Calculator" />
+    </ListItem>
+    </Link>
   </div>
 );

@@ -9,6 +9,7 @@ import {
     CLEAR_ERROR,
     ERROR,
     CLEAR_SUCCESS,
+    CLEAR_APPLICATION_STATE
 } from '../type'
 
 export default (state,action)=>{
@@ -17,15 +18,15 @@ export default (state,action)=>{
                 return{
                 ...state,
                 products: action.payload.products,
-                success:action.payload.success,
-                serverMessage: action.payload.msg,
+                // success:action.payload.success,
+                // serverMessage: action.payload.msg,
             }
             case GET_PRODUCT_INFO:
                 return{
                 ...state,
                 productInfo: action.payload.productInfo,
-                success:action.payload.success,
-                serverMessage: action.payload.msg,
+                // success:action.payload.success,
+                // serverMessage: action.payload.msg,
             }
             case UPLOAD_PRODUCT:
                 return{
@@ -38,7 +39,7 @@ export default (state,action)=>{
                 return {
                 ...state,
                 products: state.products.filter(product => product._id !==  action.payload.product._id),
-                success:action.payload.success,
+                // success:action.payload.success,
                 serverMessage: action.payload.msg,
                 }
 
@@ -73,7 +74,7 @@ export default (state,action)=>{
             case ERROR:
                  return{
                 ...state,
-                 success: action.payload.success,
+                //  success: action.payload.success,
                  serverMessage:action.payload.msg
                          }
            case CLEAR_ERROR:
@@ -82,9 +83,16 @@ export default (state,action)=>{
                   success: false,
                   serverMessage: null
                   }
+            case CLEAR_APPLICATION_STATE:
+            return{
+                products: [],
+                productInfo:[],
+                editForm:{},
+                invoiceProducts:[],
+                serverMessage: null,
+                success: false,
+            }
 
-   
- 
         default:
             return state
     }

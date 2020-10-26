@@ -14,6 +14,7 @@ import {
   CLEAR_SUCCESS,
   EDIT_FORM,
   CLEAR_EDIT_FORM,
+  CLEAR_APPLICATION_STATE
 
 } from '../type'
 
@@ -115,7 +116,14 @@ const clearEditForm=()=>{
       dispatch({
         type:CLEAR_SUCCESS,
       })
-    }, 6000);
+    }, 3000);
+  }
+
+  const clearProductState = () =>{
+      dispatch({
+        type:CLEAR_APPLICATION_STATE,
+      })
+  
   }
 
 
@@ -134,6 +142,7 @@ const clearEditForm=()=>{
           editFormFun,
           clearEditForm,
           deleteProduct,
+          clearProductState
        
     }}>
       {props.children}

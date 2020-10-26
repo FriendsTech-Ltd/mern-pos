@@ -57,19 +57,28 @@ const  AddCustomer = (props) => {
 });
 
 const onChange=e=>{setFormData({...formData,[e.target.name]:e.target.value});}
-const { name,phone, address } = formData;
-const email = formData.email === "" ? null : email.email;
+const { name,phone, address, email} = formData;
 
 useEffect(() => {
   if(success){
     clearEditForm()
+    //eslint-disable-next-line
     props.history.push('/dashboard/customer');
   }
+  //eslint-disable-next-line
 },[success])
 
 
 const onSubmit = e => {
   e.preventDefault();
+
+  if(email === ""){
+    return  createCustomer({ 
+      name,
+      phone,
+      address,
+      });
+  }
   createCustomer({ 
   name,
   phone,
@@ -90,7 +99,7 @@ return (
                 </div> 
     </Paper > 
     <Container component="main" maxWidth="md">
-    {serverMessage && <Notification severity='error' message={serverMessage}/> }
+    {serverMessage && <Notification severity="success" message={serverMessage}/> }
       <Paper elevation={5} >
       <CssBaseline />
     

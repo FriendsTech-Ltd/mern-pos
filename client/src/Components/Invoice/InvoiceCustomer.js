@@ -11,9 +11,6 @@ const useStyles = makeStyles((theme) => ({
       flexGrow: 1,
       padding:5,
     
-      // width: theme.spacing(16),
-      // height: theme.spacing(16),
-  
     },
     tittle:{
       textAlign: 'center',
@@ -154,7 +151,6 @@ const Listbox = styled('ul')`
     const {getInvoiceCustomer} = useContext(InvoiceContext)
     const {
         getRootProps,
-        getInputLabelProps,
         getInputProps,
         getListboxProps,
         getOptionProps,
@@ -169,6 +165,7 @@ const Listbox = styled('ul')`
 
       useEffect(()=>{
         getInvoiceCustomer(value)
+        //eslint-disable-next-line
       },[value])
     return (
         <div>
@@ -177,7 +174,7 @@ const Listbox = styled('ul')`
       <div {...getRootProps()} className={classes.searchIcon}>
       <AddBoxIcon className={classes.iconSize}/>
       <InputWrapper>
-        <input className={classes.input} {...getInputProps()} />
+        <input className={classes.input} {...getInputProps()} placeholder="Search Customer"/>
       </InputWrapper>
       </div>
       {groupedOptions.length > 0 ? (
@@ -190,11 +187,11 @@ const Listbox = styled('ul')`
     </div>
         </Paper>
 
-        <Paper elevation={5}className={classes.customerDetails}>
+        <Paper elevation={5} className={classes.customerDetails}>
            <p>Name: {value? value.name : null} </p> 
            <p>Phone: {value? value.phone : null}</p>
            <p> address: {value? value.address : null}</p>
-           <p>due: {value? value.due : null} </p>
+           <p>Old due: {value? value.due : null} </p>
         </Paper>
             
         </div>

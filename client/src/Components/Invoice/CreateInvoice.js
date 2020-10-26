@@ -38,6 +38,7 @@ const useStyles = makeStyles((theme) => ({
     display:'flex'
   },
   title: {
+    padding: 8,
     textAlign:'center'
   },
 
@@ -213,14 +214,15 @@ const Listbox = styled('ul')`
 
  const CreateInvoice = (props) => {
   const classes = useStyles();
-  const {getProducts,products} = useContext(ProductContext)
-  const {getInvoiceProducts,card,invoiceCustomer,increment,decrement,createInvoice,success,invoice} = useContext(InvoiceContext)
-  const {getCustomers,customers} = useContext(CustomerContext)
-const inv = invoice[0] || []
+  const {getProducts,products} = useContext(ProductContext);
+  const {getInvoiceProducts,card,invoiceCustomer,increment,decrement,createInvoice,success} = useContext(InvoiceContext);
+  const {getCustomers,customers} = useContext(CustomerContext);
   useEffect(() => {
     if(success){
+      //eslint-disable-next-line
       props.history.push(`/dashboard/invoice/single`);
     }
+    //eslint-disable-next-line
   },[success])
 
   
@@ -249,6 +251,7 @@ useEffect(()=>{
   getProducts();
   getCustomers();
   getInvoiceProducts(value);
+  //eslint-disable-next-line
 },[value])
 
 
@@ -265,7 +268,7 @@ const [discount,setDiscount]=useState(0)
 const [payAmount,setPay]=useState(0)
 const [due,setDue]=useState(0)
 
-const totalProductAmount = (totalPrice - (discount/100)*totalPrice)
+const totalProductAmount = Math.round((totalPrice - (discount/100)*totalPrice))
 
 const payCalculate=(e)=>{
   setDue(totalProductAmount-payAmount)
@@ -315,7 +318,7 @@ if (!invoiceObj.customerId || !invoiceObj.products.length) {
                     <Tag label={option.name} {...getTagProps({ index })} />
                   ))}
 
-                 <input {...getInputProps()} />
+                 <input {...getInputProps()} placeholder="Search Product"/>
                 </InputWrapper>
               </div>
               {groupedOptions.length > 0 ? (
@@ -339,6 +342,7 @@ if (!invoiceObj.customerId || !invoiceObj.products.length) {
             <TableRow>
               <TableCell>Sl</TableCell>
               <TableCell align="right">Product Name</TableCell>
+              <TableCell align="right">Unit</TableCell>
               <TableCell align="right">Price</TableCell>
                 <TableCell align="right">Quantity</TableCell>
                 <TableCell align="right">Total Price</TableCell> 
@@ -351,14 +355,15 @@ if (!invoiceObj.customerId || !invoiceObj.products.length) {
                   {index+1}
                 </TableCell>
                 <TableCell align="right">{product.name}</TableCell>
+                <TableCell align="right">{product.unit}</TableCell>
                 <TableCell align="right">৳{product.sellingPrice}</TableCell>
                 <TableCell align="right">
                 <div>
 
                 {product.quantity  > 1 ? ( <button onClick={()=>decrement(product._id)}>-</button>) : (<button disable>-</button>) }
-                {/* <span> { product.stock > 0 ? product.quantity : <span>Stock Out</span> } </span> */}<span>{product.quantity }</span>
+                <span>{product.quantity }</span>
                 {product.quantity  < product.stock ? ( <button onClick={()=>increment(product._id)}>+</button>) : (<button disable>+</button>) }
-                {/* <button onClick={()=>increment(product._id)}>+</button> */}
+               
                
                 </div>
                  </TableCell>

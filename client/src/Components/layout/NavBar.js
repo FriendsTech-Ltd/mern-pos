@@ -33,14 +33,12 @@ export default function NavBar() {
     <div>
       <AppBar position="static">
         <Toolbar>
-          {/* <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu">
-            <MenuIcon />
-          </IconButton> */}
+    
           <Typography variant="h6" className={classes.title}>
-            <Link style={linkStyle} to='/'>MERN POS system</Link>
+            <Link style={linkStyle} to='/'>POS system</Link>
           </Typography>
 
-          <Link style={linkStyle} to='/login'><Button color="inherit">Sing In</Button></Link>
+          <Link style={linkStyle} to='/'><Button color="inherit">Sing In</Button></Link>
           <Link style={linkStyle} to='/register'><Button color="inherit">Sing Up</Button></Link>
 
         </Toolbar>

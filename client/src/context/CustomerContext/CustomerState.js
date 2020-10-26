@@ -16,7 +16,8 @@ import {
   CLEAR_SUCCESS,
   EDIT_FORM,
   CLEAR_EDIT_FORM,
-  PAY_DUE
+  PAY_DUE,
+  CLEAR_APPLICATION_STATE
 } from '../type'
 
 const CustomerState=(props)=> {
@@ -152,6 +153,13 @@ const clearEditForm=()=>{
       type: GET_INVOICE, payload: id
     })
   }
+  // customer state clear
+  const clearCustomerState = ()=>{
+    dispatch({
+      type: CLEAR_APPLICATION_STATE
+    })
+  }
+
 
     return (
         <CustomerContext.Provider value={{
@@ -171,7 +179,8 @@ const clearEditForm=()=>{
           clearEditForm,
           deleteCustomer,
           getInvoice,
-          payDue
+          payDue,
+          clearCustomerState
     }}>
       {props.children}
     </CustomerContext.Provider >

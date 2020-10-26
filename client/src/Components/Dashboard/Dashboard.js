@@ -1,4 +1,5 @@
 import React,{useContext} from 'react';
+import moment from 'moment';
 import { Link } from 'react-router-dom'
 import clsx from 'clsx';
 import { makeStyles } from '@material-ui/core/styles';
@@ -17,10 +18,13 @@ import MenuItem from '@material-ui/core/MenuItem';
 import Menu from '@material-ui/core/Menu';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import NotificationsIcon from '@material-ui/icons/Notifications';
-import AccountCircle from '@material-ui/icons/AccountCircle';
+import Avatar from '@material-ui/core/Avatar';
 import { mainListItems, secondaryListItems } from './listItems';
-import DashboardRoutes from '../../Routing/DashboardRoutes'
-import AuthContext from '../../context/AuthContext/AuthContext'
+import DashboardRoutes from '../../Routing/DashboardRoutes';
+import AuthContext from '../../context/AuthContext/AuthContext';
+import CustomerContext from '../../context/CustomerContext/CustomerContext';
+import ProductContext from '../../context/ProductContext/ProductContext';
+import InvoiceContext from '../../context/InvoiceContext/InvoiceContext'
 
 const drawerWidth = 240;
 
@@ -37,6 +41,10 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: 'flex-end',
     padding: '0 8px',
     ...theme.mixins.toolbar,
+  },
+  small: {
+    width: theme.spacing(3),
+    height: theme.spacing(3),
   },
   appBar: {
     zIndex: theme.zIndex.drawer + 1,
@@ -110,14 +118,20 @@ const useStyles = makeStyles((theme) => ({
 
 }));
 
-
 export default function Dashboard(props) {
-  const url = props.match
-  const { logout } = useContext(AuthContext)
   const classes = useStyles();
+  const url = props.match
+
+  const { user,logout } = useContext(AuthContext);
+  const {clearCustomerState} = useContext(CustomerContext);
+  const {clearProductState} = useContext(ProductContext);
+  const {clearInvoiceState} = useContext(InvoiceContext);
+
   const [open, setOpen] = React.useState(true);
   const [anchorEl, setAnchorEl] = React.useState(null);
   const isMenuOpen = Boolean(anchorEl);
+
+
   const handleDrawerOpen = () => {
     setOpen(true);
   };
@@ -131,7 +145,12 @@ export default function Dashboard(props) {
     setAnchorEl(null);
    
   };
-
+const handleLogOut =()=>{
+  clearInvoiceState();
+  clearProductState();
+  clearCustomerState();
+  logout()
+}
   const menuId = 'primary-search-account-menu';
   const renderMenu = (
     <Menu
@@ -147,7 +166,7 @@ export default function Dashboard(props) {
       <MenuItem>Profile</MenuItem>
       </Link>
       <MenuItem>My account</MenuItem>
-      <MenuItem onClick={logout}>Log out</MenuItem>
+      <MenuItem onClick={handleLogOut}>Log out</MenuItem>
     </Menu>
   );
   return (
@@ -167,9 +186,13 @@ export default function Dashboard(props) {
           <Typography component="h1" variant="h6" color="inherit" noWrap className={classes.title}>
             Dashboard
           </Typography>
+          <Typography component="h3" color="inherit" noWrap className={classes.title}>{moment().format("dddd, MMMM Do YYYY")}</Typography>
+          <Typography component="h3" color="inherit" noWrap className={classes.title}>
+            {user.companyName}
+          </Typography>
     
           <IconButton color="inherit">
-            <Badge badgeContent={4} color="secondary">
+            <Badge badgeContent={0} color="secondary">
               <NotificationsIcon />
             </Badge>
           </IconButton>
@@ -181,7 +204,7 @@ export default function Dashboard(props) {
               onClick={handleProfileMenuOpen}
               color="inherit"
             >
-              <AccountCircle />
+             <Avatar alt="S" className={classes.small} src={`/public/${user.companyLogo}`} />
             </IconButton>   
             {renderMenu}
         </Toolbar>

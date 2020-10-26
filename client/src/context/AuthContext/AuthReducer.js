@@ -8,11 +8,10 @@ import {
     LOGOUT,
     REGISTER_VERIFICATION,
     CLEAR_ERROR,
+    CLEAR_SUCCESS,
     ERROR,
-    EDIT_FORM,
-    CLEAR_EDIT_FORM,
     FORGOT_REQUEST,
-    RESET_PASSWORD
+    RESET_PASSWORD,
 } from '../type'
 
 export default (state,action)=>{
@@ -20,12 +19,14 @@ export default (state,action)=>{
     case ERROR:
       return {
         ...state,
+        success: false,
         serverMessage: action.payload.msg
       }
       case CLEAR_ERROR:
           return {
               ...state,
-              serverMessage: action.payload
+              serverMessage: null,
+              success: null
           }
       case REGISTER_VERIFICATION:
           return {
@@ -39,7 +40,7 @@ export default (state,action)=>{
            localStorage.setItem('token',action.payload.token)
            return{
               ...state,
-              isAuthenticate:true,
+              isAuthenticated:true,
             }
       case LOAD_USER:
             return{
@@ -48,12 +49,12 @@ export default (state,action)=>{
               user: action.payload.data,
           }
     
-      case LOGOUT:
-      case CHANGE_PASSWORD:
-      case DELETE_USER:
+       case LOGOUT:
+       case CHANGE_PASSWORD:
+       case DELETE_USER:
            localStorage.removeItem('token')
             return{
-              isAuthentication: false,
+              isAuthenticated: false,
               user:{},
             }
       case  UPDATE_USER:
@@ -63,17 +64,14 @@ export default (state,action)=>{
             success:action.payload.success,
             serverMessage: action.payload.msg,
             }
-      case EDIT_FORM:
-             return{
-            ...state,
-            editForm:action.payload          
-             }
-    
-    case CLEAR_EDIT_FORM:
-            return{
-            ...state,
-            editForm:{}
-            } 
+     
+    case CLEAR_SUCCESS:
+              return{
+              ...state,
+              success:false,
+              serverMessage:null,
+                      }
+  
    case FORGOT_REQUEST:
               return{
               ...state,

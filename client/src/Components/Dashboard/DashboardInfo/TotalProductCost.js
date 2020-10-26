@@ -9,7 +9,7 @@ import {
   colors,
   makeStyles
 } from '@material-ui/core';
-import MoneyIcon from '@material-ui/icons/Money';
+import IndeterminateCheckBoxIcon from '@material-ui/icons/IndeterminateCheckBox';
 import  NumberWithComma from '../../../utils/NumberWithComma'
 
 const useStyles = makeStyles((theme) => ({
@@ -60,7 +60,7 @@ const defaultValue = 0
           </Grid>
           <Grid item>
             <Avatar className={classes.avatar}>
-              <MoneyIcon />
+              <IndeterminateCheckBoxIcon />
             </Avatar>
           </Grid>
         </Grid>
@@ -81,7 +81,7 @@ const defaultValue = 0
             color="textPrimary"
             variant="caption"
           >
-           Product type in stock {totalProductType ? totalProductType : defaultValue}
+           Product type {totalProductType ? totalProductType : defaultValue}
           </Typography>
         </Box>
       

@@ -55,7 +55,8 @@ export default function InteractiveList() {
   const [day, setDay] = React.useState(0);
   
   useEffect(()=>{
-    getSaleInfoByDay(day)
+    getSaleInfoByDay(day);
+    //eslint-disable-next-line
   },[day]);
   
   const handleClick = (e) => {

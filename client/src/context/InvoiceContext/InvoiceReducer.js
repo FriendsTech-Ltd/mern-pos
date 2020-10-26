@@ -14,6 +14,7 @@ import {
     GET_INVOICE_CUSTOMER,
     INCREMENT,
     DECREMENT,
+    CLEAR_APPLICATION_STATE,
 } from '../type'
 
 export default (state,action)=>{
@@ -23,7 +24,7 @@ export default (state,action)=>{
       ...state,
       invoices: action.payload.invoices,
       // success: action.payload.success,
-      serverMessage: action.payload.msg,
+      // serverMessage: action.payload.msg,
     }
 
     case GET_SALE_INFO:
@@ -61,8 +62,8 @@ export default (state,action)=>{
       return{
         ...state,
         invoice: action.payload.invoice,
-        success: action.payload.success,
-        serverMessage: action.payload.msg,
+        // success: action.payload.success,
+        // serverMessage: action.payload.msg,
       }
 
     case CREATE_INVOICE:
@@ -78,7 +79,7 @@ export default (state,action)=>{
       return {
         ...state,
         invoices: state.invoices.filter(invoice => invoice._id !==  action.payload.invoice._id),
-        success: action.payload.success,
+        // success: action.payload.success,
         serverMessage: action.payload.msg,
       }
 
@@ -91,7 +92,7 @@ export default (state,action)=>{
     case ERROR:
       return {
         ...state,
-        success: action.payload.success,
+        // success: action.payload.success,
         serverMessage:action.payload.msg
       }
 
@@ -123,6 +124,20 @@ export default (state,action)=>{
           ...state,
           card:action.payload
                             
+          }
+
+    case CLEAR_APPLICATION_STATE:
+          return{
+            invoices: [],
+            invoice:{},
+            saleInfo:[],
+            todaySale:[],
+            recentSaleByDay:{},
+            recentSale:[],
+            serverMessage: null,
+            success: false,
+            card:[],
+            invoiceCustomer:{}
           }
     default:
       return state

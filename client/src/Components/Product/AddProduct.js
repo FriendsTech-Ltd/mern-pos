@@ -80,8 +80,10 @@ useEffect(() => {
         description:null,
         image:null
     })
+    //eslint-disable-next-line
     props.history.push('/dashboard/product');
   }
+  //eslint-disable-next-line
 },[success])
 
 const onSubmit = e => {
@@ -112,7 +114,7 @@ return (
              
            </Paper >
     <Container component="main" maxWidth="md">
-    {serverMessage && <Notification severity='error' message={serverMessage}/> }
+    {serverMessage && <Notification severity="success" message={serverMessage}/> }
       <Paper elevation={5} >
       <CssBaseline />
       <div className={classes.paper}>

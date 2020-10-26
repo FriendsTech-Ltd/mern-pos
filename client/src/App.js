@@ -1,9 +1,9 @@
 
 import React from 'react';
 import {BrowserRouter, Route, Switch } from 'react-router-dom'
-import Home from './Pages/Home'
 import Footer from './Components/layout/Footer'
 import SignIn from './Components/Auth/SignIn'
+import DemoLogIn from './Components/Auth/DemoLogIn'
 import SignUp from './Components/Auth/SignUp'
 import ForgotPassword from './Components/Auth/ForgotPassword'
 import ResetPassword from './Components/Auth/ResetPassword'
@@ -29,8 +29,8 @@ function App() {
             <BrowserRouter>
               <div className='App'>
                 <Switch>
-                  <Route exact path = '/' component={Home}/>
-                  <Route exact  path="/login" component={SignIn}/>
+                  <Route exact  path="/" component={SignIn}/>
+                  <Route exact  path="/demo-login" component={DemoLogIn}/>
                   <Route exact  path="/register" component={SignUp}/>
                   <Route exact  path="/forgot" component={ForgotPassword}/>
                   <Route exact  path="/verify/:token" component={RegisterVerify}/>

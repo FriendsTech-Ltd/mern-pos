@@ -16,7 +16,6 @@ import {
   Grid,
 } from '@devexpress/dx-react-grid-material-ui';
 import {
-  CircularProgress, 
   Button,
   Paper,
   makeStyles,
@@ -123,7 +122,7 @@ const useStyles = makeStyles((theme) => ({
   
     const [columns] = useState([
       { name: 'sl', title: 'Sl' },
-      { name: 'name', title: 'Product name' },
+      { name: 'name', title: 'Customer name' },
       { name: 'phone', title: 'Phone' },
       { name: 'email', title: 'Email' },
       { name: 'address', title: 'Address' },
@@ -191,14 +190,11 @@ const useStyles = makeStyles((theme) => ({
                 </div>
            </Paper > 
 
-      {!customers.length ? (<div className={classes.spinner}>
-        <CircularProgress size={80} />
-        </div>)
-         : (<div>
+     <div>
        
            <Paper variant="outlined" elevation={5} className={classes.content}>
            <h1>All customer here</h1>
-           {serverMessage && <Notification severity='error' message={serverMessage}/> }
+           {serverMessage && <Notification severity='success' message={serverMessage}/> }
            <Popper id={id} open={open} anchorEl={anchorEl} transition>
         {({ TransitionProps }) => (
           <Fade {...TransitionProps} timeout={350}>
@@ -236,8 +232,7 @@ const useStyles = makeStyles((theme) => ({
           </Paper> 
           </div>
 
-         )
-        }
+    
       
         </div>
     )

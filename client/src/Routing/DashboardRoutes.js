@@ -1,8 +1,7 @@
 import React from 'react'
 import { Switch ,Route } from 'react-router-dom';
 import DashboardInfo from '../Components/Dashboard/DashboardInfo';
-import Profile from '../Components/Auth/Profile'
-import EditProfile from '../Components/Auth/EditProfile'
+import ProfileView from '../Components/Auth/account/AccountView/index'
 import ChangePassword from '../Components/Auth/ChangePassword';
 import ProductList from '../Components/Product/ProductList';
 import AddProduct from '../Components/Product/AddProduct';
@@ -11,10 +10,13 @@ import CustomerList from '../Components/Customer/CustomerList';
 import AddCustomer from '../Components/Customer/AddCustomer';
 import EditCustomer from '../Components/Customer/EditCustomer'
 import CustomerDetails from '../Components/Customer/CustomerDetails';
-import CustomerInvoice from '../Components/Customer/CustomerInvoice';
+import SaveCustomerPrint from '../Components/Customer/SaveCustomerPrint';
 import InvoiceList from '../Components/Invoice/InvoiceList';
-import CreateInvoice from '../Components/Invoice/CreateInvoice'
-import Invoice from '../Components/Invoice/InvoicePrint'
+import CreateInvoice from '../Components/Invoice/CreateInvoice';
+import Invoice from '../Components/Invoice/InvoicePrint';
+import UpCoaming from '../Components/common/UpCoaming';
+import Calculator from '../Components/common/Calculator';
+import DeleteAccount from '../Components/Auth/DeleteAccount'
 const DashboardRoutes = () => {
     return (
         <Switch>
@@ -26,13 +28,9 @@ const DashboardRoutes = () => {
          <Route
           exact
           path="/dashboard/me"
-          component={Profile}
+          component={ProfileView}
         />
-         <Route
-          exact
-          path="/dashboard/edit-profile"
-          component={EditProfile}
-        />
+        
          <Route
           exact
           path="/dashboard/change-password"
@@ -72,7 +70,7 @@ const DashboardRoutes = () => {
           <Route
           exact
           path="/dashboard/customer/invoice"
-          component={CustomerInvoice}
+          component={SaveCustomerPrint}
         />
           <Route
           exact
@@ -86,14 +84,50 @@ const DashboardRoutes = () => {
         />
           <Route
           exact
-          path="/dashboard/customer/:id"
-          component={CustomerDetails}
-        />
-          <Route
-          exact
           path="/dashboard/invoice/single"
           component={Invoice}
         />
+         <Route
+          exact
+          path="/dashboard/reports"
+          component={UpCoaming}
+        />
+          <Route
+          exact
+          path="/dashboard/e-commerce"
+          component={UpCoaming}
+        />
+         <Route
+          exact
+          path="/dashboard/current-month"
+          component={UpCoaming}
+        />
+          <Route
+          exact
+          path="/dashboard/last-quarter"
+          component={UpCoaming}
+        />
+         <Route
+          exact
+          path="/dashboard/year-end"
+          component={UpCoaming}
+        />
+         <Route
+          exact
+          path="/dashboard/calculator"
+          component={Calculator}
+        />
+        <Route
+          exact
+          path="/dashboard/delete-account"
+          component={DeleteAccount}
+        />
+          <Route
+          exact
+          path="/dashboard/customer/:id"
+          component={CustomerDetails}
+        />
+        
 
         </Switch>
     )
