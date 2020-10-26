@@ -169,7 +169,7 @@ const useStyles = makeStyles((theme) => ({
         <div>
           <Paper variant="outlined" square  className={classes.tittle}> 
                   <div className={classes.backButton}>
-                  <Link to ='/dashboard/product' className={classes.linkStyle}>
+                  <Link to ='/dashboard' className={classes.linkStyle}>
                       <Button variant="contained" color="primary">
                     <ArrowBackIosIcon/>Back
                       </Button>
@@ -188,7 +188,7 @@ const useStyles = makeStyles((theme) => ({
        
            <Paper variant="outlined" elevation={5} className={classes.content}>
            <h1>All product here</h1>
-           {serverMessage && <Notification severity='error' message={serverMessage}/> }
+           {serverMessage && <Notification severity='success' message={serverMessage}/> }
            <Popper id={id} open={open} anchorEl={anchorEl} transition>
         {({ TransitionProps }) => (
           <Fade {...TransitionProps} timeout={350}>

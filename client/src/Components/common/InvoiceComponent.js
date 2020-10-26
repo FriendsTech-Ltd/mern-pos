@@ -49,6 +49,10 @@ spinner: {
 table: {
     minWidth: 650,
   },
+  signature:{
+    textAlign:'center',
+    paddingTop:'5%'
+  }
 }))
 
 
@@ -109,11 +113,11 @@ table: {
               <TableHead>
                 <TableRow>
                   <TableCell>Sl</TableCell>
-                  <TableCell align="right">Product Name</TableCell>
-                  <TableCell align="right">Unit</TableCell>
-                  <TableCell align="right">Price</TableCell>
-                  <TableCell align="right">Quantity</TableCell>
-                  <TableCell align="right">Total Price</TableCell>
+                  <TableCell>Product Name</TableCell>
+                  <TableCell>Unit</TableCell>
+                  <TableCell>Price</TableCell>
+                  <TableCell>Quantity</TableCell>
+                  <TableCell>Total Price</TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
@@ -122,11 +126,11 @@ table: {
                     <TableCell component="th" scope="row">
                       {index+1}
                     </TableCell>
-                    <TableCell align="right">{product.name}</TableCell>
-                    <TableCell align="right">{product.quantity}</TableCell>
-                    <TableCell align="right">৳{product.sellingPrice}</TableCell>
-                    <TableCell align="right">{product.quantity}</TableCell>
-                    <TableCell align="right">৳{product.sellingPrice*product.quantity}</TableCell>
+                    <TableCell>{product.name}</TableCell>
+                    <TableCell>{product.unit}</TableCell>
+                    <TableCell>৳{product.sellingPrice}</TableCell>
+                    <TableCell>{product.quantity}</TableCell>
+                    <TableCell>৳{product.sellingPrice*product.quantity}</TableCell>
                   </TableRow>
                 ))}
               </TableBody>
@@ -135,9 +139,12 @@ table: {
           <Paper variant="outlined" elevation={3} className={classes.account} >
                 <Typography>Sub total : ৳{totalPrice}</Typography>
                 <Typography>Total amount after {invoiceAccount.discount}% discount : ৳{invoiceAccount.totalAmountAfterDiscount}</Typography>
-                <Typography>Pay amount : ৳{invoiceAccount.payAmount} </Typography>
+                <Typography>Paid : ৳{invoiceAccount.payAmount} </Typography>
                 {invoiceAccount.due > 0 ? (<Typography color='error'>Due: ৳{invoiceAccount.due} </Typography>) : (<Typography color='primary'>Paid</Typography>)}
           </Paper>
+          <Grid className={classes.signature}>
+            <Typography>**This is computer generated invoice,no signature required**</Typography>
+          </Grid>
                 </div>
       
                )

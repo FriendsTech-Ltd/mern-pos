@@ -191,7 +191,7 @@ const Listbox = styled('ul')`
            <p>Name: {value? value.name : null} </p> 
            <p>Phone: {value? value.phone : null}</p>
            <p> address: {value? value.address : null}</p>
-           <p>due: {value? value.due : null} </p>
+           <p>Old due: {value? value.due : null} </p>
         </Paper>
             
         </div>

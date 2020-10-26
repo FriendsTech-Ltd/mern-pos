@@ -75,6 +75,7 @@ export const createInvoice = asyncHandler(async (req, res, next) => {
     newInvoice.products.push({
       productId: result._id,
       name: result.name,
+      unit: result.unit,
       price: result.price,
       sellingPrice: result.sellingPrice,
       quantity: product.quantity,
