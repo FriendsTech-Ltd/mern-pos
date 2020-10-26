@@ -194,7 +194,7 @@ const useStyles = makeStyles((theme) => ({
        
            <Paper variant="outlined" elevation={5} className={classes.content}>
            <h1>All customer here</h1>
-           {serverMessage && <Notification severity='error' message={serverMessage}/> }
+           {serverMessage && <Notification severity='success' message={serverMessage}/> }
            <Popper id={id} open={open} anchorEl={anchorEl} transition>
         {({ TransitionProps }) => (
           <Fade {...TransitionProps} timeout={350}>

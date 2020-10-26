@@ -39,7 +39,7 @@ export default (state,action)=>{
                 return {
                 ...state,
                 products: state.products.filter(product => product._id !==  action.payload.product._id),
-                success:action.payload.success,
+                // success:action.payload.success,
                 serverMessage: action.payload.msg,
                 }
 

@@ -24,7 +24,7 @@ export default (state,action)=>{
       ...state,
       invoices: action.payload.invoices,
       // success: action.payload.success,
-      serverMessage: action.payload.msg,
+      // serverMessage: action.payload.msg,
     }
 
     case GET_SALE_INFO:
@@ -62,7 +62,7 @@ export default (state,action)=>{
       return{
         ...state,
         invoice: action.payload.invoice,
-        success: action.payload.success,
+        // success: action.payload.success,
         // serverMessage: action.payload.msg,
       }
 
@@ -79,7 +79,7 @@ export default (state,action)=>{
       return {
         ...state,
         invoices: state.invoices.filter(invoice => invoice._id !==  action.payload.invoice._id),
-        success: action.payload.success,
+        // success: action.payload.success,
         serverMessage: action.payload.msg,
       }
 
@@ -92,7 +92,7 @@ export default (state,action)=>{
     case ERROR:
       return {
         ...state,
-        success: action.payload.success,
+        // success: action.payload.success,
         serverMessage:action.payload.msg
       }
 

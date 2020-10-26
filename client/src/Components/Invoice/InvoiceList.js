@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react';
 import moment from 'moment'
 import {Link} from 'react-router-dom'
 import {
@@ -72,9 +72,6 @@ const useStyles = makeStyles((theme) => ({
     }, []);
   
 
-
-  
-  
     const [filteringStateColumnExtensions] = useState([
       { columnName: 'action', filteringEnabled: false },
     ]);
@@ -103,8 +100,6 @@ const useStyles = makeStyles((theme) => ({
   
       }
     })
-
-
 
     return (
         <div>
