@@ -1,4 +1,5 @@
 import mongoose from 'mongoose';
+import cloudinary from 'cloudinary';
 import fs from 'fs';
 import asyncHandler from '../middleware/async';
 
@@ -19,13 +20,27 @@ export const getProducts = asyncHandler(async (req, res) => {
 // @desc    Add Product
 // @route   POST /api/product/
 // @access  Private
-export const addProduct = asyncHandler(async (req, res, next) => {
+export const addProduct = asyncHandler(async (req, res) => {
   req.body.user = req.user.id;
-  req.body.image = req.file.path;
+
+  const imageUpload = cloudinary.v2;
+
+  imageUpload.config({
+    cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+    api_key: process.env.API_KEY,
+    api_secret: process.env.API_SECRET,
+  });
+
+  // Uploading image to cloudinary
+  const result = await imageUpload.uploader.upload(req.file.path);
+
+  if (!result) throw NotFound('Failed to save image');
+  req.body.image = result.secure_url;
+  req.body.cloudinary_id = result.public_id;
 
   const product = await ProductModel.create(req.body);
 
-  if (product instanceof Error) return next(product, req, res);
+  if (!product) throw NotFound('Failed add product');
 
   res.status(201).json({ success: true, product, msg: 'Product addded successfully' });
 });

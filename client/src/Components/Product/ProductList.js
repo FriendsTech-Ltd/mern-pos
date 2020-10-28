@@ -128,7 +128,7 @@ const useStyles = makeStyles((theme) => ({
         sl: index+1,
         name: c.name,
         image: (<div> <img
-          src={`/${c.image}`}
+          src={`${c.image}`}
           style={{width:"2rem",height:"2rem"}}
           className="img-fluid"
           alt="product"

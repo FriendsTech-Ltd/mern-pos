@@ -3,7 +3,7 @@ import protect from '../middleware/auth';
 import Authorized from '../middleware/Authorized';
 import validators from '../models/validation/index';
 import { handleValidations } from '../middleware/handleValidations';
-import uploadImage from '../middleware/uploadMiddleware';
+import multerUpload from '../middleware/multer_cloudinary';
 import {
   getProducts,
   addProduct,
@@ -16,7 +16,7 @@ import {
 const router = express.Router();
 
 router.route('/')
-  .post(protect, uploadImage.single('image'), handleValidations(validators.productValidation), addProduct)
+  .post(protect, multerUpload.single('image'), handleValidations(validators.productValidation), addProduct)
   .get(protect, getProducts);
 
 router.route('/info').get(protect, getAllProductInfo);
