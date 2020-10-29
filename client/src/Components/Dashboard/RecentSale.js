@@ -9,6 +9,7 @@ import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Title from './Title';
+import { Typography } from '@material-ui/core';
 
 
 
@@ -18,7 +19,7 @@ const useStyles = makeStyles((theme) => ({
   },
   spinner: {
     textAlign: 'center',
-    padding:10
+    padding:100
 
   }
 }));
@@ -29,7 +30,7 @@ const RecentSale=({recentSale})=>{
     <React.Fragment>
 
 {!recentSale.length ? (<div className={classes.spinner}>
-        <CircularProgress size={40} />
+        <Typography>No recent sale</Typography>
         </div>)
          : (<div>
 
