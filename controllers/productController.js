@@ -1,6 +1,5 @@
 import mongoose from 'mongoose';
 import cloudinary from 'cloudinary';
-import fs from 'fs';
 import asyncHandler from '../middleware/async';
 
 import ProductModel from '../models/ProductModel';
@@ -12,7 +11,7 @@ import { NotFound } from '../utils/error';
 export const getProducts = asyncHandler(async (req, res) => {
   const products = await ProductModel.find({ user: req.user.id });
 
-  if (!products.length) throw new NotFound('Invoice not found');
+  if (!products.length) throw new NotFound('Product not found');
 
   res.status(200).json({ success: true, products, msg: 'All product fetched' });
 });
@@ -62,18 +61,27 @@ export const updateProduct = asyncHandler(async (req, res) => {
 // @desc    Delete Product
 // @route   DELETE /api/product/:id
 // @access  Private
-export const deleteProduct = asyncHandler(async (req, res, next) => {
-  const productImage = await ProductModel.findOne({ _id: req.params.id }).select('image');
+export const deleteProduct = asyncHandler(async (req, res) => {
+  const productImage = await ProductModel.findOne({ _id: req.params.id }).select('cloudinary_id');
 
   if (!productImage) {
     throw new NotFound(`User not found by the is:${req.params.id}`);
   }
-  fs.unlink(`${productImage.image}`, async (err) => {
-    if (err instanceof Error) return next(err, req, res);
+  // Deleting image from cloudinary
+  // We're putting cloudinary config here because
+  // cloudinary don't have access to process.env outside of controller
+  const imageUpload = cloudinary.v2;
 
-    const result = await ProductModel.findByIdAndRemove(req.params.id);
-    return res.status(200).json({ success: true, msg: 'Product deleted successfully', product: result });
+  imageUpload.config({
+    cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+    api_key: process.env.API_KEY,
+    api_secret: process.env.API_SECRET,
   });
+
+  // Deleting image from cloudinary
+  await imageUpload.uploader.destroy(productImage.cloudinary_id);
+  const result = await ProductModel.findByIdAndRemove(req.params.id);
+  return res.status(200).json({ success: true, msg: 'Product deleted successfully', product: result });
 });
 
 // @desc    Get All product information

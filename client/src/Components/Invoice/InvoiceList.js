@@ -133,10 +133,10 @@ const useStyles = makeStyles((theme) => ({
               <FilteringState columnExtensions={filteringStateColumnExtensions}/>
               <IntegratedFiltering />
               <Table />
-              <VirtualTable height="auto"/>
+              <VirtualTable  height="auto"/>
           
               {/* <TableColumnResizing defaultColumnWidths={defaultColumnWidths} /> */}
-              <TableHeaderRow />
+              <TableHeaderRow headerStyle={ {position: 'fixed'} } />
               <TableFilterRow />
           
             </Grid>

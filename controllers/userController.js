@@ -1,6 +1,6 @@
 import bcrypt from 'bcryptjs';
+import cloudinary from 'cloudinary';
 import mongoose from 'mongoose';
-import fs from 'fs';
 import crypto from 'crypto';
 import jwt from 'jsonwebtoken';
 import asyncHandler from '../middleware/async';
@@ -96,13 +96,23 @@ export const deleteUser = asyncHandler(async (req, res) => {
   await CustomerModel.deleteMany({ user: id });
   await InvoiceModel.deleteMany({ user: id });
 
+  // Deleting image from cloudinary
+  // We're putting cloudinary config here because
+  // cloudinary don't have access to process.env outside of controller
+  const imageUpload = cloudinary.v2;
+
+  imageUpload.config({
+    cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+    api_key: process.env.API_KEY,
+    api_secret: process.env.API_SECRET,
+  });
+
   const products = await ProductModel.find({ user: ObjectId(id) });
 
   products.map(async (product) => {
-    const productImage = await ProductModel.findOne({ _id: product._id }).select('image');
-    fs.unlink(`${productImage.image}`, async () => {
-      await ProductModel.findByIdAndRemove(product._id);
-    });
+    // const productImage = await ProductModel.findOne({ _id: product._id }).select('image');
+    await imageUpload.uploader.destroy(product.cloudinary_id);
+    await ProductModel.findByIdAndRemove(product._id);
   });
 
   const result = await UserModel.findByIdAndDelete(id);
