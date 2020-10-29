@@ -14,7 +14,8 @@ import {
   Select,
   InputLabel,
   FormControl,
-  TextareaAutosize
+  TextareaAutosize,
+  LinearProgress,
 } from '@material-ui/core';
 
 import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
@@ -63,14 +64,17 @@ const  AddProduct = (props) => {
     image:null
 });
 
-const onChange=e=>{setFormData({...formData,[e.target.name]:e.target.value});} 
+const onChange = e => {setFormData({...formData,[e.target.name]:e.target.value});} 
 const upHandler=e=>{setFormData({...formData,[e.target.name]:e.target.files[0]})}
+
+const [uploadProgress, setUploadProgress] = useState(false)
 
 const { name, price, sellingPrice, unit, stock, description,image } = formData;
 
 
 useEffect(() => {
   if(success){
+    setUploadProgress(false);
     setFormData({
         name:null,
         price: 0,
@@ -88,6 +92,8 @@ useEffect(() => {
 
 const onSubmit = e => {
   e.preventDefault();
+  setUploadProgress(true);
+
 
   uploadProduct({ 
     name,
@@ -230,11 +236,13 @@ return (
             </Grid>
   
           </Grid>
+          {uploadProgress && <LinearProgress color="secondary" />}
           <Button
             type="submit"
             fullWidth
             variant="contained"
             color="primary"
+            disabled={uploadProgress}
             className={classes.submit}
           >
           upload Product
