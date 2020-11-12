@@ -1,6 +1,7 @@
 import express from 'express';
 import dotenv from 'dotenv';
 import morgan from 'morgan';
+import cors from 'cors';
 import path from 'path';
 
 import connectDB from './config/db';
@@ -8,6 +9,9 @@ import { handleErrors } from './middleware/handleError';
 
 // Routes files
 import userRoute from './routes/userRoute';
+import productRoute from './routes/productRoute';
+import customerRoute from './routes/customerRoute';
+import invoiceRoute from './routes/invoiceRoute';
 
 // Load env vars
 dotenv.config({ path: './config/config.env' });
@@ -19,14 +23,19 @@ const app = express();
 
 // Body parse
 app.use(express.json());
-
+app.use(cors());
+app.use('/public', express.static('public'));
+express.urlencoded({ extended: true });
 // Dev logging middleware
 if (process.env.NODE_ENV === 'development') {
-  app.use(morgan('combined'));
+  app.use(morgan('dev'));
 }
 
 // Mount routers
 app.use('/api/auth/', userRoute);
+app.use('/api/product/', productRoute);
+app.use('/api/customer/', customerRoute);
+app.use('/api/invoice/', invoiceRoute);
 
 const PORT = process.env.PORT || 5000;
 

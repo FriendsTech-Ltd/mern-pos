@@ -6,46 +6,79 @@ import {
     UPDATE_USER, 
     CHANGE_PASSWORD,
     LOGOUT,
-
+    REGISTER_VERIFICATION,
+    CLEAR_ERROR,
+    CLEAR_SUCCESS,
+    ERROR,
+    FORGOT_REQUEST,
+    RESET_PASSWORD,
 } from '../type'
 
 export default (state,action)=>{
-    switch(action.type){
-        case SUCCESS_LOGIN:
-            localStorage.setItem('token',action.payload.token)
-            return{
-                ...state,
-                isAuthenticate:true,
+  switch(action.type){
+    case ERROR:
+      return {
+        ...state,
+        success: false,
+        serverMessage: action.payload.msg
+      }
+      case CLEAR_ERROR:
+          return {
+              ...state,
+              serverMessage: null,
+              success: null
+          }
+      case REGISTER_VERIFICATION:
+          return {
+              ...state,
+              serverMessage: action.payload.data,
+              success: action.payload.success
+          }
+      case SUCCESS_LOGIN:
+      case SUCCESS_REGISTER:
+      case RESET_PASSWORD:
+           localStorage.setItem('token',action.payload.token)
+           return{
+              ...state,
+              isAuthenticated:true,
             }
-        case LOAD_USER:
+      case LOAD_USER:
             return{
-                ...state,
-                user: action.payload.data,
+              ...state,
+              isAuthenticated: true,
+              user: action.payload.data,
+          }
+    
+       case LOGOUT:
+       case CHANGE_PASSWORD:
+       case DELETE_USER:
+           localStorage.removeItem('token')
+            return{
+              isAuthenticated: false,
+              user:{},
             }
-        case SUCCESS_REGISTER:
-            localStorage.setItem('token',action.payload.token)
+      case  UPDATE_USER:
             return{
-                ...state,
-                isAuthenticate:true,
-            }  
-            
-        case LOGOUT:
-        case CHANGE_PASSWORD:
-        case DELETE_USER:
-            localStorage.removeItem('token')
+            ...state,
+            user: action.payload.user,
+            success:action.payload.success,
+            serverMessage: action.payload.msg,
+            }
+     
+    case CLEAR_SUCCESS:
               return{
-                isAuthentication: false,
-                user:{},
-              }
-         
-        case  UPDATE_USER:
-                return{
-                ...state,
-                user: action.payload.user,
-            
-                   }
-
-        default:
-            return state
+              ...state,
+              success:false,
+              serverMessage:null,
+                      }
+  
+   case FORGOT_REQUEST:
+              return{
+              ...state,
+              serverMessage: action.payload.msg,
+              success: action.payload.success
+              } 
+      default:
+          return state
     }
 }

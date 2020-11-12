@@ -1,7 +1,13 @@
 import bcrypt from 'bcryptjs';
+import cloudinary from 'cloudinary';
+import mongoose from 'mongoose';
+import crypto from 'crypto';
 import jwt from 'jsonwebtoken';
 import asyncHandler from '../middleware/async';
 import UserModel from '../models/UserModel';
+import CustomerModel from '../models/CustomerModel';
+import ProductModel from '../models/ProductModel';
+import InvoiceModel from '../models/InvoiceModel';
 import { NotFound, BadRequest } from '../utils/error';
 import sendEmail from '../utils/sendEmail';
 
@@ -30,7 +36,7 @@ export const registerUser = asyncHandler(async (req, res) => {
   });
 
   // Create reset URL
-  const verificationURL = `${req.protocol}://${req.get('host')}/api/auth/verify/${registerToken}`;
+  const verificationURL = `${req.protocol}://${req.headers.host}/verify/${registerToken}`;
 
   const message = `Please click the link below to complete your signup process on POS System: \n\n ${verificationURL} `;
 
@@ -72,22 +78,47 @@ export const loginUser = asyncHandler(async (req, res) => {
 
 // get user
 export const getUser = asyncHandler(async (req, res) => {
-  const user = await UserModel.findById(req.user.id);
+  const user = await UserModel.findById(req.user.id).select('-password -resetPasswordExpires -resetPasswordToken');
   res.status(200).json({ success: true, data: user });
 });
 
 // delete User
-export const deleteUser = asyncHandler(async (req, res, next) => {
-  const { id } = req.params;
-  const user = await UserModel.findById(id);
-  if (!user) {
-    throw new NotFound(`User not found by the is:${id}`);
+export const deleteUser = asyncHandler(async (req, res) => {
+  const { ObjectId } = mongoose.Types;
+  const { id } = req.user;
+  const { password } = req.body;
+  const match = await bcrypt.compare(password, req.user.password);
+
+  if (!match) {
+    return res.status(400).json({ success: false, msg: 'Invalid credentials for deleting account' });
   }
-  const result = await UserModel.deleteOne({ _id: id });
-  if (result instanceof Error) {
-    return next(result, req, res);
-  }
-  return res.status(200).json({ success: true, msg: 'Delete success', data: user });
+
+  await CustomerModel.deleteMany({ user: id });
+  await InvoiceModel.deleteMany({ user: id });
+
+  // Deleting image from cloudinary
+  // We're putting cloudinary config here because
+  // cloudinary don't have access to process.env outside of controller
+  const imageUpload = cloudinary.v2;
+
+  imageUpload.config({
+    cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+    api_key: process.env.API_KEY,
+    api_secret: process.env.API_SECRET,
+  });
+
+  const products = await ProductModel.find({ user: ObjectId(id) });
+
+  products.map(async (product) => {
+    // const productImage = await ProductModel.findOne({ _id: product._id }).select('image');
+    await imageUpload.uploader.destroy(product.cloudinary_id);
+    await ProductModel.findByIdAndRemove(product._id);
+  });
+
+  const result = await UserModel.findByIdAndDelete(id);
+
+  if (!result) throw new NotFound('No user found');
+  return res.status(200).json({ success: true, msg: 'Delete success', data: result });
 });
 
 // update user
@@ -96,14 +127,12 @@ export const updateUser = asyncHandler(async (req, res) => {
     new: true,
     runValidators: true,
   });
-  res.status(200).json({ success: true, data: updatedUser, msg: 'User updated successfully' });
+  res.status(200).json({ success: true, user: updatedUser, msg: 'User updated successfully' });
 });
 
 // change password
 export const changePassword = asyncHandler(async (req, res) => {
   const { oldPassword, newPassword } = req.body;
-  console.log(req.user)
-  const { _id } = req.user;
 
   const match = await bcrypt.compare(oldPassword, req.user.password);
 
@@ -121,11 +150,53 @@ export const changePassword = asyncHandler(async (req, res) => {
 });
 
 // forget password
-export const forgetPassword = asyncHandler(async (req, res) => {
-  res.status(200).json({ success: true, data: 'user route okay' });
+export const forgotPassword = asyncHandler(async (req, res) => {
+  const user = await UserModel.findOne({ email: req.body.email });
+  if (!user) {
+    throw new NotFound('User not found');
+  }
+  crypto.randomBytes(32, async (err, buffer) => {
+    const token = buffer.toString('hex');
+    user.resetPasswordToken = token;
+    user.resetPasswordExpires = Date.now() + 3600000; // 1 hour
+    await user.save();
+    // reset url
+    const resetUrl = `${req.protocol}://${req.headers.host}/reset/${token}`;
+
+    const message = `You are receiving this because you (or someone else) have requested the reset of the password for your account.\n\n
+     Please click on the following link to complete the process: \n\n ${resetUrl} \n\n
+     If you did not request this, please ignore this email and your password will remain unchanged.`;
+
+    await sendEmail({
+      email: user.email,
+      subject: 'Password Reset',
+      message,
+    });
+
+    res.status(200).json({ success: true, msg: `Please check your email ${user.email} to complete the process` });
+  });
 });
 
 // reset  password
 export const resetPassword = asyncHandler(async (req, res) => {
-  res.status(200).json({ success: true, data: 'user route okay' });
+  const { newPassword } = req.body;
+  const hash = await bcrypt.hash(newPassword, 11);
+
+  const user = await UserModel.findOneAndUpdate(
+    {
+      resetPasswordToken: req.params.token,
+      resetPasswordExpires: { $gt: Date.now() },
+    },
+    {
+      password: hash,
+      resetToken: undefined,
+      expireToken: undefined,
+    },
+    { new: true },
+  );
+  if (!user) {
+    return res.status(400).json({ success: false, msg: 'Try again session expired' });
+  }
+
+  return sendTokenResponse(user, 200, res);
 });

@@ -21,14 +21,19 @@
   },
   "homepage": "https://github.com/FriendsTech-Ltd/demo-project#readme",
   "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "cloudinary": "^1.23.0",
     "concurrently": "^5.3.0",
+    "cors": "^2.8.5",
+    "crypto": "^1.0.1",
     "dotenv": "^8.2.0",
     "esm": "^3.2.25",
-    "bcryptjs": "^2.4.3",
-    "jsonwebtoken": "^8.5.1",
     "express": "^4.17.1",
+    "joi": "^17.2.1",
+    "jsonwebtoken": "^8.5.1",
     "mongoose": "^5.10.2",
     "morgan": "^1.10.0",
+    "multer": "^1.4.2",
     "nodemailer": "^6.4.11"
   },
   "devDependencies": {

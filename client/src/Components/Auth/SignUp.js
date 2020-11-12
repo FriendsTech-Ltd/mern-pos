@@ -1,9 +1,30 @@
-import React, { useState } from 'react';
-import {Link} from 'react-router-dom'
+import React, { useState, useContext, useEffect } from 'react';
+import { withRouter, Link } from 'react-router-dom'
+import {
+  Grid,
+  Box,
+  Container,
+  Avatar,
+  Typography,
+  makeStyles,
+  Button,
+  CssBaseline,
+  TextField,
+  FormControlLabel,
+  Checkbox,
+  Paper,
+  MenuItem,
+  Select,
+  InputLabel,
+  FormControl,
+  TextareaAutosize
+} from '@material-ui/core';
 
-import {Grid,Box,Container, Avatar,Typography,makeStyles, Button,CssBaseline,TextField,FormControlLabel,Checkbox,Paper, MenuItem, Select, InputLabel, FormControl, TextareaAutosize} from '@material-ui/core';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
+import Navbar from '../layout/NavBar'
+import Notification from '../common/Notification'
 
+import AuthContext from '../../context/AuthContext/AuthContext'
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -26,29 +47,67 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function SignUp() {
+const  SignUp = (props) => {
+  const authContext = useContext(AuthContext);
+  const { register, serverMessage, success } = authContext;
+
   const classes = useStyles();
 
-  const [formData,setFormData]=useState({
+  const [formData, setFormData]=useState({
     companyName:"",
     companyOwner:"",
     email:"",
+    phone:"",
+    address:"",
     companyType:"",
     description:"",
     password:"",
     confirmPassword:""
 });
 
-const { companyName, companyOwner, email, companyType, description, password, confirmPassword} = formData
-const onSubmit=e=>{
+
+const { companyName, companyOwner, email,phone,address, companyType, description, password, confirmPassword} = formData;
+
+// useEffect(() => {
+//   loadUser()
+//   str = message.indexOf('complete')
+//   if(str > -1){
+//     props.history.push('/info');
+//   }
+//   // eslint-disable-next-line
+// },[])
+
+useEffect(() => {
+  if(success){
+    props.history.push('/info');
+  }
+  // eslint-disable-next-line
+},[success])
+
+const onSubmit = e => {
   e.preventDefault();
-  console.log({ companyName, companyOwner, email, companyType, description, password, confirmPassword})
+
+  register({ companyName,
+    companyOwner,
+    email,
+    phone,
+    address,
+    companyType,
+    description,
+    password,
+    confirmPassword
+    
+  });
   }
   
   const onChange=e=>{setFormData({...formData,[e.target.name]:e.target.value});} 
 
 return (
+  <div>
+    <Navbar/>
+
     <Container component="main" maxWidth="md">
+    {serverMessage && <Notification severity='error' message={serverMessage}/> }
       <Paper elevation={5} >
       <CssBaseline />
       <div className={classes.paper}>
@@ -100,6 +159,33 @@ return (
                 onChange={e=> onChange(e)}
               />
             </Grid>
+
+            <Grid item xs={12}>
+              <TextField
+                size="small"
+                type="number"
+                variant="outlined"
+                required
+                fullWidth
+                label="Phone"
+                name="phone"
+                value={phone}
+                onChange={e=> onChange(e)}
+              />
+            </Grid>
+
+            <Grid item xs={12}>
+              <TextField
+                size="small"
+                variant="outlined"
+                required
+                fullWidth
+                label="Address"
+                name="address"
+                value={address}
+                onChange={e=> onChange(e)}
+              />
+            </Grid>
           
 
   
@@ -116,14 +202,14 @@ return (
           required
           
         >
-          <MenuItem value="">
+          {/* <MenuItem value="">
             <em>None</em>
-          </MenuItem>
+          </MenuItem> */}
           <MenuItem value='electronic'>Electronic</MenuItem>
           <MenuItem value='mobile'>Mobile</MenuItem>
           <MenuItem value='grocery'>Grocery</MenuItem>
           <MenuItem value='hardware'>Hardware</MenuItem>
-          <MenuItem value='pharmacy'>Pharmacy</MenuItem>
+    
         </Select>
       </FormControl>
         </Grid>
@@ -181,7 +267,7 @@ return (
           </Button>
           <Grid container justify="flex-end">
             <Grid item>
-              <Link to="/login" variant="body2">
+              <Link to="/" variant="body2">
                 Already have an account? Sign in
               </Link>
             </Grid>
@@ -192,5 +278,8 @@ return (
       </Box>
       </Paper>
     </Container>
+    </div>
   );
 }
+
+export default withRouter(SignUp)

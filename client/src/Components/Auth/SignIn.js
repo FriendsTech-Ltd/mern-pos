@@ -1,12 +1,28 @@
-import React,{useState} from 'react';
-import {Link} from 'react-router-dom'
+import React,{ useContext, useState, useEffect } from 'react';
+import { withRouter, Link } from 'react-router-dom'
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
-import {Grid,Box,Container, Avatar,Typography,makeStyles, Button,CssBaseline,TextField,FormControlLabel,Checkbox,Paper} from '@material-ui/core';
+import Navbar from '../layout/NavBar'
+import {
+  Grid,
+  Box,
+  Container,
+  Avatar,
+  Typography,
+  makeStyles,
+  Button,
+  CssBaseline,
+  TextField,
+  FormControlLabel,
+  Checkbox,
+  Paper} from '@material-ui/core';
 
+import Notification from '../common/Notification';
+
+import AuthContext from '../../context/AuthContext/AuthContext';
 
 const useStyles = makeStyles((theme) => ({
   paper: {
-    marginTop: theme.spacing(8),
+    marginTop: theme.spacing(7),
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
@@ -25,29 +41,40 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function SignIn() {
+const SignIn = (props) =>  {
+  const authContext = useContext(AuthContext);
+  const { login, isAuthenticated,loadUser, serverMessage} = authContext;
+
   const classes = useStyles();
 
   const [formData,setFormData]=useState({
     email:"",
     password:"",
- 
-});
+  });
 const {email,password}=formData
 
-const onSubmit=e=>{
-e.preventDefault();
-console.log({email, password});
+useEffect(() => {
+  loadUser();
+  if(isAuthenticated){
+    props.history.push('/dashboard');
+  }
+  // eslint-disable-next-line
+},[isAuthenticated])
+
+const onSubmit = e =>{
+  e.preventDefault();
+  login({email, password});
 }
 
-
-const onChange=e=>{setFormData({...formData,[e.target.name]:e.target.value});}
+const onChange = e => { setFormData({ ...formData,[e.target.name]:e.target.value }); }
 
   return (
-
+    <div>
+    <Navbar/>
     <Container component="main" maxWidth="xs">
-     <Paper elevation={5}>
-     <CssBaseline />
+      { serverMessage && <Notification severity='error' message={serverMessage}/> }
+      <Paper elevation={5}>
+      <CssBaseline />
       <div className={classes.paper}>
         <Avatar className={classes.avatar}>
           <LockOutlinedIcon />
@@ -55,7 +82,7 @@ const onChange=e=>{setFormData({...formData,[e.target.name]:e.target.value});}
         <Typography component="h1" variant="h5">
           Sign in
         </Typography>
-        <form className={classes.form} onSubmit={e=>onSubmit(e)}>
+        <form className={classes.form} onSubmit={e => onSubmit(e)}>
           <TextField
             size="small"
             variant="outlined"
@@ -95,7 +122,7 @@ const onChange=e=>{setFormData({...formData,[e.target.name]:e.target.value});}
           </Button>
           <Grid container>
             <Grid item xs>
-              <Link href="#" variant="body2">
+              <Link to='/forgot' variant="body2">
                 Forgot password?
               </Link>
             </Grid>
@@ -109,7 +136,9 @@ const onChange=e=>{setFormData({...formData,[e.target.name]:e.target.value});}
       </div>
       <Box mt={8}>
       </Box>
-     </Paper>
+      </Paper>
     </Container>
+    </div>
   );
 }
+export default withRouter(SignIn);
