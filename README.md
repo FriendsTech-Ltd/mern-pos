@@ -115,3 +115,4 @@ mer-pos (root)
 - README.md
 - server
 
+ Copyright 2020, Developed by Abdulla naser,Shohedul Islam and Emran Nazer
