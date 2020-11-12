@@ -4,7 +4,7 @@ Guaranteed to save you time, increase the accuracy of your inventory, and help y
 ![alt text](https://mern-pos.netlify.app/static/media/features-split-image-01.babb68d1.png)
 
 
-### See live: http://mern-pos.herokuapp.com/
+### See live: http://mern-pos.herokuapp.com/demo-login
 ---
 
 ## Built With
@@ -34,8 +34,8 @@ Open config folder and create a file config.env <br>
 Open `mern-pos/config/config.env` then edit it. You will need:
 
 ```
-PORT = 5000
-NODE_ENV = DEVELOPMENT
+PORT = 
+NODE_ENV = 
 MONGO_URI =
 
 // JWT
@@ -43,20 +43,21 @@ JWT_SECRET =
 JWT_EXPIRE =
 
 // Node Mailer
-SMTP_HOST = gmail
+SMTP_HOST = <Your SMTP host>
 SMTP_EMAIL=
 SMTP_PASSWORD=
-FROM_EMAIL = pos-system@admin.com
+FROM_EMAIL = 
 FROM_NAME = POS system
-DEMO_USER_EMAIL = shohedul2524@gmail.com
+DEMO_USER_EMAIL =
 
 ```
-### Run the server
+### Run the server with nodemon
+    $ npm run server
+### Run the server 
     $ npm start
 ### Run the client
-    $ cd client
-    $ npm start
-### Run the project
+    $ npm run client
+### Run both frontend and backend
     $ npm run dev
 
 ## Contributing
@@ -115,4 +116,4 @@ mer-pos (root)
 - README.md
 - server
 
- Copyright 2020, Developed by Abdulla naser,Shohedul Islam and Emran Nazer
+ Copyright 2020, Developed by Abdulla Naser, Shohedul Islam and Emran Nazer.
